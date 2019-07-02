@@ -1,7 +1,12 @@
 import Vue from 'vue'
+import './plugins/fontawesome'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
+import { db } from './database/database-conf'
+Vue.prototype.$db  = db
+
 
 Vue.config.productionTip = false
 
