@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "zazen-firebase"
+  },
+  "targets": {
+    "zazen-firebase": {
+      "hosting": {
+        "v2": [
+          "gerenciadorzazen"
+        ]
+      }
+    }
+  }
+}

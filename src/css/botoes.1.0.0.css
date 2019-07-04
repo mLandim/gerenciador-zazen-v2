@@ -1,0 +1,113 @@
+/*********************************************************************
+    FORMATAÇÃO BASE PARA BOTÕES DE AÇÃO
+*********************************************************************/
+.dock-btn-right{
+    right: 10px;
+    text-align: right;
+}
+.dock-btn{
+    position: absolute;
+    display: block;
+    top:0;
+    background: transparent;
+    height: 40px;
+    width: auto;
+    padding: 0 5px;
+}
+.dock-btn-top-5{
+    position: absolute;
+    display: block;
+    top:5px;
+    background: transparent;
+    height: 40px;
+    width: auto;
+    padding: 0 5px;
+}
+.dock-btn-top-10{
+    position: absolute;
+    display: block;
+    top:10px;
+    background: transparent;
+    height: 40px;
+    width: auto;
+    padding: 0 5px;
+}
+    
+
+
+
+.dock-btn .btn{
+    position: relative;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    min-width: 40px;
+    border-radius: 50px;
+    text-align: center;
+    cursor:pointer;
+    margin: 0 6px;
+    transition: 0.5s;
+    transition-timing-function: ease-in;
+    
+}
+    .dock-btn .btn:hover {
+        padding: 0 10px;
+        
+    }
+    .dock-btn .btn:hover .btn-label{
+        height: 40px;
+        line-height: 40px;
+        width: auto;
+        margin: 0 10px 0 0;
+        display: inline-block;
+        vertical-align: top;
+        opacity: 1;
+        
+    }
+    .dock-btn .btn:hover .btn-ico{
+        transform: rotate(360deg)
+        
+    }
+
+.btn-label{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: 0.5s;
+    transition-timing-function: ease-in;
+}
+.btn-ico{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 40px;
+    line-height: 40px;
+    transition: 0.5s;
+}
+
+
+.btn-shw{
+    box-shadow:0 0 20px rgba(0,0,0,0.8);
+}
+
+.btn-green{
+    background-color: #00cc66;
+    color:#f1f1f1;
+}
+.btn-blue{
+    background-color: #0099cc;
+    color:#f1f1f1;
+}
+.btn-red{
+    background-color: #ff0000;
+    color:#f1f1f1;
+}
+.btn-desable{
+    background-color: #f2f2f2;
+    color:#cccccc;
+    cursor:auto;
+}
+

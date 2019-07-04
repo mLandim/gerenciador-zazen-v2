@@ -1,0 +1,98 @@
+.input-filter{
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    width: auto;
+    border-radius: 50px;
+    background-color: #ffffff;
+    color:#8c8c8c;
+    text-align: center;
+    border: 1px solid #c5cad3;
+    padding: 0 10px;
+}
+    .input-filter input{
+        display: block;
+        height: 23px;
+        width: 90%;
+        border:0;
+    }
+    .input-filter input:focus{
+        outline: none;
+        
+    }
+    
+
+    .input-ico{
+        display: block;
+        position: absolute;
+        height: 23px;
+        right: 7px;
+        top:0;
+
+    }
+
+
+.order-conteiner{
+    position: relative;
+    display: inline-block;
+    height: 26px;
+    margin: 0 10px 0 20px;
+}
+
+.order-conteiner > span{
+    display: inline-block;
+    position: relative;
+    width: auto;
+    height: 26px;
+    line-height: 26px;
+    color:#666666;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.order-item{
+    display: inline-block;
+    position: relative;
+    height: 26px;
+    line-height: 26px;
+    border-radius: 50px;
+    background-color: #ffffff;
+    color:#8c8c8c;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid #c5cad3;
+    padding: 0 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.order-item:hover{
+    background-color: #8c8c8c;
+    border: 1px solid #8c8c8c;
+    color: #f1f1f1;
+}
+
+.order-conteiner-min{
+    display: none;
+}
+
+
+@media screen and (max-width: 1000px){
+
+    .order-conteiner{
+        position: relative;
+        display: none;
+        height: 26px;
+        margin: 0 10px 0 20px;
+    }
+
+    .order-conteiner-min{
+        position: relative;
+        display: inline-block;
+        height: 26px;
+        margin: 0 10px;
+    }
+
+}

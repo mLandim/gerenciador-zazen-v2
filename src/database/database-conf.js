@@ -13,7 +13,7 @@ firebase.initializeApp( {
     projectId: "zazen-firebase",
     storageBucket: "zazen-firebase.appspot.com",
     messagingSenderId: "934896247928",
-    appId: "1:934896247928:web:0c44e23b26951744"
+    appId: "1:934896247928:web:b5ecea0c7584e7b9"
 })
 
 export const db =  firebase.firestore()

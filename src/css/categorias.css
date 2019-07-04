@@ -1,0 +1,55 @@
+
+
+/*********************************************************************
+    FORMATAÇÃO DE DESIGN ESTENDIDO - CATEGORIAS
+*********************************************************************/    
+    
+        .item-categoria{
+            position: relative;
+            display:inline-block;
+            height: 45px;
+            width: 80px;
+            border-radius: 5px;
+            margin-right: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+            .item-categoria .item-nome{
+                position: relative;
+                display: block;
+                width: 100%;
+                height: 25px;
+                line-height: 25px;
+                font-size: 16px;
+                font-weight: 700;
+                padding-left: 5px;
+                text-align: left;
+            }
+            .item-categoria .item-total{
+                position: relative;
+                display: block;
+                width: 100%;
+                height: 15px;
+                line-height: 15px;
+                font-size: 14px;
+                font-weight: 600;
+                padding-left: 6px;
+                text-align: left;
+            }
+
+        .yoga{
+            background-color:#cc0066;
+            color:#ffffff;
+        }    
+
+        .salas{
+            background-color:#6666ff;
+            color:#ffffff;
+        }
+
+        .loja{
+            background-color:#404040;
+            color:#ffffff;
+        }
+
+    

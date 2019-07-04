@@ -1,0 +1,94 @@
+/*********************************************************************
+    FORMATAÇÃO BASE PARA CARDS
+*********************************************************************/
+.cd-grid{
+    position: relative;
+    display: grid;
+    grid-template-rows: 40px auto;
+    grid-row-gap: 2px;
+    overflow: hidden;
+    
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+.cd-grid-20{
+    position: relative;
+    display: grid;
+    grid-template-rows: 20px auto;
+    grid-row-gap: 2px;
+    overflow: hidden;
+    
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+.cd-grid-30{
+    position: relative;
+    display: grid;
+    grid-template-rows: 30px auto;
+    grid-row-gap: 2px;
+    overflow: hidden;
+    
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+.cd-base{
+    position: relative;
+    display: block;
+    overflow: hidden;
+
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    border-radius: 10px;
+    
+    
+}   
+    .cd-grid-title{
+        display: block;
+        position: relative;
+        
+    }
+    .cd-grid-title span{
+        display: block;
+        position: relative;
+        text-align: left;
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+    .cd-grid-content{
+        display: block;
+        position: relative;
+        padding: 10px;
+    }
+
+    .cd-padding-10{
+        padding: 10px;
+    }
+
+    .cd-shw-0{
+        box-shadow:0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+    .cd-shw-1{
+        box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    }
+    .cd-shw-2{
+        box-shadow: 0 0 2px 1px #cccccc;
+    }
+
+    .cd-center{
+        text-align: center;
+    }
+    .cd-left{
+        text-align: left;
+    }
+    .cd-right{
+        text-align: right;
+    }
+

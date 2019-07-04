@@ -1,0 +1,49 @@
+.pagina{
+    display: grid;
+    grid-template-rows: 20px calc(100% - 30px);
+    grid-row-gap: 5px;
+}
+
+.arvore-acesso{
+    padding: 0 10px;
+    font-size: 12px;
+}
+
+.arvore-acesso a {
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    margin:0 5px 0 0;
+
+}
+.arvore-acesso span {
+    position: relative;
+    display: inline-block;
+    margin:0 5px 0 5px;
+}
+
+.info-conteudo{
+    display: grid;
+    grid-template-rows: 60px 40px calc(100vh - 190px);
+}
+.informacao{
+    padding: 0 10px;
+}
+.informacao-titulo{
+    font-size: 22px;
+    font-weight: 700;
+    color: #666666;
+
+}
+.lista-filter-order{
+    padding: 0 10px;
+}
+.lista-itens{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fill, 90px);
+    grid-gap: 8px;
+    overflow-y: auto;
+    padding: 5px 10px 0 10px;
+    border-top: 1px dashed #c5cad3;
+}
