@@ -1,10 +1,11 @@
 
 .item{
     background-color: #ffffff;
-    height: 80px;
+    height: 88px;
     padding: 5px;
     display: grid;
     grid-template-columns: 44px auto;
+    grid-template-rows: 70px auto;
     grid-column-gap: 2px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
@@ -41,7 +42,7 @@
     display: block;
     width: 92%;
     font-weight: 700;
-    color: #666666;
+    color: #34495e;;
     margin-top: 3px;
     
 }
@@ -51,6 +52,27 @@
     width: 100%;
     font-size: 10px;
     font-weight: 600;
-    color: #808080;
+    color: #3f5973;
     margin-top: 3px;
+}
+
+.item-bar{
+    grid-column-start: 1;
+    grid-column-end: -1;
+    
+    text-align: right;
+    font-size: 10px;
+    height:16px;
+    line-height: 16px;
+    padding-top: 2px;
+}
+
+.item-bar span{
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height:16px;
+    line-height: 16px;
+    margin-left: 5px;
+    color: #8c8c8c;
 }

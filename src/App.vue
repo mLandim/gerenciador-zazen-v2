@@ -106,6 +106,22 @@ export default {
 
 <style>
 
+/*********************************************************************
+    PALETA
+
+    #ffffff 
+    #f3f4f6 #f1f1f1 #f2f2f2 (background preferencial)
+
+    #e6e6e6 #f0f2f4 #e2e4e9 (bordas)
+
+    #808080 (fonte alternativa)
+
+    #486684 (fonte mais clara)
+    #34495e (fonte primaria)
+    #1b2631 (fonte mais escura)
+
+*********************************************************************/ 
+    
 
 /*********************************************************************
     IMPORTS BÁSICOS
@@ -127,35 +143,26 @@ export default {
         background-color: #f3f4f6;
         /*background-image: linear-gradient(270deg, #c5cad3 0%, #e2e4e9 35%, #f3f4f6 100%);*/
         font-family:  'Varela Round','Roboto','Avenir', Helvetica, Arial, sans-serif;
+        overflow: hidden;
     }
  
 
     #app {
         
         display: grid;
-        grid-template-areas: "g-menu   g-topo "
-                             "g-menu   g-conteudo";
-        
+        grid-template-areas: "g-menu   g-conteudo";
         grid-template-columns: 200px auto ;
-        grid-template-rows: 50px calc(100vh - 50px);
+        grid-template-rows: 100vh;
     }
 
-    .topo{
-      grid-area: g-topo;
-      background-color: #ffffff;
-      border-bottom:1px solid #e6e6e6;
-      padding: 6px;
-    }
-        .menu-pequeno{
-            display: none;
-        }
+    
 
     .menu{
       grid-area: g-menu;
       display: grid;
       grid-template-rows: 50px auto;
-      overflow: hidden;
-      
+     
+      background-color: #ffffff;
     }
 
         .logo{
@@ -163,14 +170,12 @@ export default {
             background-position: center;
             background-repeat: no-repeat;
             background-color: #ffffff;
-            
-            border-bottom:1px solid #e6e6e6;
             color:#ffffff;
             padding: 6px;
         }
         
         .menu-reponsivo{
-                
+            background-color: #ffffff;    
             color:#ffffff;
             padding: 6px;
                 
@@ -178,15 +183,29 @@ export default {
 
     .conteudo{
       grid-area: g-conteudo;
-      padding: 6px;
+      padding: 10px;
       overflow: hidden;
     }
+
+
+    .topo{
+      grid-area: g-topo;
+      background-color: #ffffff;
+      border-bottom:1px solid #e6e6e6;
+      padding: 6px;
+      display: none;
+    }
+        .menu-pequeno{
+            display: none;
+        }
 
     .footer{
       grid-area: g-footer;
       background-color: #e6e6e6;
       
     }
+
+
 
     .vazio{
         grid-column: 1 / -1;
@@ -205,6 +224,7 @@ export default {
 *********************************************************************/ 
 
     @import './css/paginas.css';
+    @import './css/formulario-detalhes.css';
     @import './css/elements.css';
     @import './css/itens.css';
 
@@ -226,6 +246,10 @@ export default {
        
         .menu{
             display: none;
+        }
+
+        .topo{
+            display:block;
         }
 
         .logo-p{

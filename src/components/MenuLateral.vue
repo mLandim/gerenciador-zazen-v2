@@ -9,7 +9,7 @@
             <router-link to="/inicio-logado"><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Início</router-link>
             <router-link to="/clientes"><font-awesome-icon :icon="['fas', 'smile']" size="lg" fixed-width /> Clientes</router-link> 
             <router-link to="/professoras"><font-awesome-icon :icon="['fas', 'chalkboard-teacher']" size="lg" fixed-width /> Professoras</router-link>
-            <router-link to="/contratos"><font-awesome-icon :icon="['far', 'handshake']" size="lg" fixed-width /> Contratos</router-link>
+            <router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Contratos</router-link>
             <router-link to="/turmas"><font-awesome-icon :icon="['fas', 'users']" size="lg" fixed-width /> Turmas YOGA</router-link>
             <router-link to="/agendamentos"><font-awesome-icon :icon="['far', 'calendar-alt']" size="lg" fixed-width /> Agendamentos SALA</router-link>
                         
@@ -119,14 +119,15 @@ export default {
         line-height: 36px;
         text-align: left;
         text-decoration: none;
-        color: #2c3e50;
+        color: #34495e;
         font-weight: 700;
         cursor: pointer;
-        padding-left: 8px;
+        padding-left: 6px;
     }
         #nav a:hover{
-            
+            border-radius: 10px;
             background-color: #f1f1f1;
+            z-index: 10;
         }
 
     #nav .menu-grupo{
@@ -137,10 +138,10 @@ export default {
         line-height: 36px;
         text-align: left;
         text-decoration: none;
-        color: #2c3e50;
+        color: #34495e;
         font-weight: 700;
         cursor: pointer;
-        padding-left: 8px;
+        padding-left: 6px;
     }    
         #nav .menu-grupo:hover{
             

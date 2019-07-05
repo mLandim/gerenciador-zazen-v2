@@ -1,0 +1,198 @@
+
+.mask{
+    display: block;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top:0;
+    left: 0;
+    background-color: #34495e;
+    z-index: 10; 
+    opacity: 0;
+    animation-duration: 1s;
+    animation-name: fadeInMask;
+    animation-fill-mode: forwards;
+}
+.mask-fechando{
+    display: block;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    top:0;
+    left: 0;
+    background-color: #34495e;
+    z-index: 10; 
+    opacity: 0.7;
+    animation-duration: 1s;
+    animation-name: fadeOutMask;
+    animation-fill-mode: forwards;
+}
+
+.formulario-detalhes{
+    display: grid;
+    grid-template-columns: 50px calc(100% - 50px);
+    position: absolute;
+    height: 100vh;
+    width: 60vw;
+    top:0;
+    left: 100vw;
+
+    background-color: #34495e;
+    z-index: 15;
+    animation-duration: 1s;
+    animation-name: slidein;
+    animation-fill-mode: forwards;
+}
+
+.formulario-detalhes-fechando{
+    display: grid;
+    grid-template-columns: 50px calc(100% - 50px);
+    position: absolute;
+    height: 100vh;
+    width: 60vw;
+    top:0;
+    left: 100vw;
+
+    background-color: #34495e;
+    z-index: 15;
+    animation-duration: 1s;
+    animation-name: slideout;
+    animation-fill-mode: forwards;
+}
+
+.formulario-menu{
+    display: block;
+    position: relative;
+    background-color: #243342;
+    padding-top:50px;
+}
+
+.formulario-menu-item{
+    display: block;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    text-align: center;
+    color: #0099ff;
+    cursor: pointer;
+}
+.menu-item-sel{
+    background-color: #34495e;
+    color: #33adff;
+}
+.formulario-menu-item:hover{
+    background-color: #34495e;
+    color: #33adff;
+}
+.ico-menu{
+    transition: transform 0.6s ease;
+}
+.formulario-menu-item:hover .ico-menu{
+    transform: scale(1.2)
+    
+}
+.text-menu{
+    display: block;
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    width: auto;
+    top:0;
+    left: 30px;
+    text-align: left;
+    color: #0099ff;
+    cursor: pointer;
+    font-weight: 700;
+    opacity: 0;
+    transition: 0.3s;
+}
+.formulario-menu-item:hover .text-menu{
+    
+    transform: translateX(16px);
+    opacity: 1;
+}
+
+
+
+
+
+@keyframes fadeInMask {
+    from {
+        opacity: 0;
+    }
+  
+    to {
+        opacity: 0.7;
+    }
+}
+@keyframes fadeOutMask {
+    from {
+        opacity: 0.7;
+        
+    }
+  
+    to {
+        opacity: 0;
+    }
+}
+@keyframes slidein {
+    from {
+        left: 100vw; 
+    }
+  
+    to {
+        left: 40vw;
+    }
+}
+@keyframes slideout {
+    from {
+        left: 40vw;
+         
+    }
+  
+    to {
+        left: 100vw;
+    }
+}
+
+@media screen and (max-width: 400px){
+
+    .formulario-detalhes{
+        
+        height: 100vh;
+        width: 100vw;
+        top:0;
+        left: 0;
+    
+    }
+    .formulario-detalhes-fechando{
+        
+        height: 100vh;
+        width: 100vw;
+        top:0;
+        left: 0;
+    
+    }
+
+    @keyframes slidein {
+        from {
+            left: 100vw; 
+        }
+      
+        to {
+            left: 0;
+        }
+    }
+    @keyframes slideout {
+        from {
+            left: 0;
+             
+        }
+      
+        to {
+            left: 100vw;
+        }
+    }
+
+}

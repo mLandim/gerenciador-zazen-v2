@@ -79,6 +79,35 @@
 }
 
 
+.form-ico-close{
+    position: absolute;
+    display:block;
+    top:8px;
+    right: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50px;
+    background-color: #ff0000;
+    color: #f1f1f1;
+    cursor: pointer;
+    text-align: center;
+
+}
+.ico-close{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 30px;
+    line-height: 30px;
+    transition: 0.5s;
+}
+.form-ico-close:hover .ico-close{
+    transform: rotate(360deg)
+    
+}
+
+
+
 @media screen and (max-width: 1000px){
 
     .order-conteiner{
