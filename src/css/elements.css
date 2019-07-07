@@ -2,7 +2,8 @@
     display: inline-block;
     position: relative;
     height: 26px;
-    width: auto;
+    line-height: 26px;
+    width: 250px;
     border-radius: 50px;
     background-color: #ffffff;
     color:#8c8c8c;
@@ -12,7 +13,9 @@
 }
     .input-filter input{
         display: block;
-        height: 23px;
+        height: 20px;
+        font-size: 11px;
+        margin-top: 2px;
         width: 90%;
         border:0;
     }

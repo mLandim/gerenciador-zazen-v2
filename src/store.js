@@ -264,6 +264,7 @@ export default new Vuex.Store({
                             situacao: (change.doc.data().ativo==true) ? 'ativo' : 'inativo',
                             telefone: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
 							contratos: change.doc.data().contratos.length,
+							contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
 							endereco: change.doc.data().endereco,
                             sel:false
                         }
@@ -320,7 +321,7 @@ export default new Vuex.Store({
             //self.totalizadores[0].quantidade = 0;
             //self.totalizadores[1].quantidade = 0;
             //self.totalizadores[2].quantidade = 0;
-			firebase.firestore().collection('produtos').orderBy("valor").onSnapshot(resposta =>{
+			firebase.firestore().collection('produtos').orderBy("modalidade").orderBy("valor").onSnapshot(resposta =>{
 
                 
                 const changes = resposta.docChanges()
@@ -338,6 +339,7 @@ export default new Vuex.Store({
                                     frequencia: (change.doc.data().frequencia == null) ? '' : change.doc.data().frequencia,
                                     horario: (change.doc.data().horario == null) ? '' : change.doc.data().horario,
                                     contratos: change.doc.data().contratos.length,
+                                    contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
                                     situacao: change.doc.data().situacao,
                                     valor: change.doc.data().valor,
                                     sel:false
@@ -422,7 +424,9 @@ export default new Vuex.Store({
 									id: change.doc.id,
 									categoria: '',
 									modalidade: '', 
-									plano: '', 
+                                    plano: '',
+                                    frequencia:'',
+                                    horario:'', 
 									data_inicio: dataInicio,
 									vencimento: '',
 									vencimento_pz: '',
@@ -436,7 +440,9 @@ export default new Vuex.Store({
 								
 								linha.categoria = resultado2.data().categoria
 								linha.modalidade = resultado2.data().modalidade
-								linha.plano = resultado2.data().plano
+                                linha.plano = resultado2.data().plano
+                                linha.frequencia = resultado2.data().frequencia
+                                linha.horario = resultado2.data().horario
 								linha.vencimento = utilitarios.dataVencimentoFormatada(change.doc.data().data_inicio.toDate(), resultado2.data().plano),
 								linha.vencimento_pz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano),
 

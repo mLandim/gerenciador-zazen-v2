@@ -12,10 +12,10 @@
             <div class="informacao">
                 <div class="informacao-titulo">Clientes</div>
                 <div class="informacao-quantidades" v-if="tabela.length===tabelafiltro.length">
-                    <div class="q-total">({{ tabela.length }})</div>
+                    <div class="q-total">({{ tabela.length }} cadastrados)</div>
                 </div>
                 <div class="informacao-quantidades" v-else>
-                    <div class="q-filtrada">{{ tabelafiltro.length}} </div><div class="q-total">/{{ tabela.length}}</div>
+                    <div class="q-filtrada"> exibindo {{ tabelafiltro.length}} </div><div class="q-total">/{{ tabela.length}} cadastrados</div>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                     <div class="item-bar">
                         <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone }}</span>
                         <span><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width />{{ item.data_nascimento }}</span>
-                        <span v-if="item.contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width />{{ item.contratos }}</span>
+                        <span v-if="item.contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos_text }} </span>
                     </div>
                 </div>
 

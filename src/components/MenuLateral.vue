@@ -7,12 +7,46 @@
             <!--<router-link to="/">Home</router-link> |-->
 
             <router-link to="/inicio-logado"><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Início</router-link>
-            <router-link to="/clientes"><font-awesome-icon :icon="['fas', 'smile']" size="lg" fixed-width /> Clientes</router-link> 
-            <router-link to="/professoras"><font-awesome-icon :icon="['fas', 'chalkboard-teacher']" size="lg" fixed-width /> Professoras</router-link>
-            <router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Contratos</router-link>
-            <router-link to="/turmas"><font-awesome-icon :icon="['fas', 'users']" size="lg" fixed-width /> Turmas YOGA</router-link>
-            <router-link to="/agendamentos"><font-awesome-icon :icon="['far', 'calendar-alt']" size="lg" fixed-width /> Agendamentos SALA</router-link>
-                        
+            <router-link to="/clientes"><font-awesome-icon :icon="['fas', 'user']" size="lg" fixed-width /> Clientes</router-link> 
+           
+            <router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Vendas</router-link>
+            
+            <template>
+                <div class="menu-grupo" @click="menuGrupoYoga">
+                    <font-awesome-icon :icon="['fas', 'running']" size="lg" fixed-width /> Yoga
+                    <font-awesome-icon :icon="['fas', 'chevron-up']" size="sm"  class="menu-grupo-ico-arrow" v-if="menuGrupo.yoga"/>
+                    <font-awesome-icon :icon="['fas', 'chevron-down']" size="sm"  class="menu-grupo-ico-arrow" v-else/>
+                </div>
+
+                <div class="menu-grupo-sub" v-if="menuGrupo.yoga">
+                    <router-link to="/yoga-produtos"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Produtos</router-link>
+                    <router-link to="/yoga-contratos"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Contratos</router-link>
+                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Turmas</router-link>
+                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Professoras</router-link>
+                    
+                </div>
+
+            </template>
+
+            <template>
+                <div class="menu-grupo" @click="menuGrupoSalas">
+                    <font-awesome-icon :icon="['fas', 'calendar-alt']" size="lg" fixed-width /> Salas
+                    <font-awesome-icon :icon="['fas', 'chevron-up']" size="sm"  class="menu-grupo-ico-arrow" v-if="menuGrupo.salas"/>
+                    <font-awesome-icon :icon="['fas', 'chevron-down']" size="sm"  class="menu-grupo-ico-arrow" v-else/>
+                </div>
+
+                <div class="menu-grupo-sub" v-if="menuGrupo.salas">
+                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Contratos</router-link>
+                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Agendamentos</router-link>
+                    
+                </div>
+
+            </template>
+
+            <!--<router-link to="/turmas"><font-awesome-icon :icon="['fas', 'users']" size="lg" fixed-width />YOGA</router-link>-->
+
+            <!--<router-link to="/agendamentos"><font-awesome-icon :icon="['far', 'calendar-alt']" size="lg" fixed-width /> Agendamentos SALA</router-link>-->
+            <!--            
             <template>
                 <div class="menu-grupo" @click="menuGrupoProdutos">
                     <font-awesome-icon :icon="['fas', 'cookie-bite']" size="lg" fixed-width /> Produtos
@@ -23,9 +57,10 @@
 
                 <div class="menu-grupo-sub" v-if="menuGrupo.produto">
                     <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Consulta e Cadastro</router-link>
-                    <!--<router-link to="/produtos-categorias" v-if="getPerfilAcesso == 0"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Categorias</router-link>-->
+                    
                 </div>
             </template>
+            -->
 
             <!-- Apenas perfil Administrativo :: 0 -->
             <router-link to="/relatorios" v-if="getPerfilAcesso == 0"><font-awesome-icon :icon="['fas', 'file-alt']" size="lg" fixed-width /> Relatórios</router-link>
@@ -66,6 +101,8 @@ export default {
             menuGrupo:{
                 sistema: false,
                 produto: false,
+                yoga: false,
+                salas: false,
             }
         }
     },
@@ -82,6 +119,15 @@ export default {
         console.log(' Perfil: '+ this.getPerfilAcesso)
     },
     methods:{
+        
+        menuGrupoYoga(){
+            this.menuGrupo.yoga = !this.menuGrupo.yoga
+            console.log(' Perfil: '+ this.getPerfilAcesso)
+        },
+        menuGrupoSalas(){
+            this.menuGrupo.salas = !this.menuGrupo.salas
+            console.log(' Perfil: '+ this.getPerfilAcesso)
+        },
         menuGrupoSistema(){
             this.menuGrupo.sistema = !this.menuGrupo.sistema
             console.log(' Perfil: '+ this.getPerfilAcesso)
@@ -153,7 +199,7 @@ export default {
         height: 36px;
         line-height: 36px;
         top:0;
-        right: 40px;
+        right: 10px;
     }
     .menu-grupo-sub {
         padding-left: 20px;

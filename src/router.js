@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Inicio from './views/Inicio.vue'
 import Clientes from './views/Clientes.vue'
+import YogaContratos from './views/Yoga_Contratos.vue'
+import YogaProdutos from './views/Yoga_Produtos.vue'
 
 Vue.use(Router)
 
@@ -23,6 +25,17 @@ export default new Router({
       path: '/clientes',
       name: 'clientes',
       component: Clientes
+    },
+
+    {
+      path: '/yoga-contratos',
+      name: 'yoga-contratos',
+      component: YogaContratos
+    },
+    {
+      path: '/yoga-produtos',
+      name: 'yoga-produtos',
+      component: YogaProdutos
     },
     
     //{

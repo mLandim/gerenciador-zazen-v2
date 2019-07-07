@@ -161,7 +161,6 @@ export default {
       grid-area: g-menu;
       display: grid;
       grid-template-rows: 50px auto;
-     
       background-color: #ffffff;
     }
 
@@ -172,12 +171,14 @@ export default {
             background-color: #ffffff;
             color:#ffffff;
             padding: 6px;
+            box-sizing: border-box;
         }
         
         .menu-reponsivo{
             background-color: #ffffff;    
             color:#ffffff;
             padding: 6px;
+            box-sizing: border-box;
                 
         }
 
@@ -185,6 +186,7 @@ export default {
       grid-area: g-conteudo;
       padding: 10px;
       overflow: hidden;
+      box-sizing: border-box;
     }
 
 
@@ -194,6 +196,7 @@ export default {
       border-bottom:1px solid #e6e6e6;
       padding: 6px;
       display: none;
+      box-sizing: border-box;
     }
         .menu-pequeno{
             display: none;
