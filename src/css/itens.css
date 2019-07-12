@@ -5,7 +5,6 @@
     grid-gap: 8px;
     overflow-y: auto;
     padding: 10px;
-    
     box-sizing: border-box;
     
 }
@@ -15,13 +14,13 @@
     grid-template-rows: 70px auto;
     grid-column-gap: 2px;
     background-color: #ffffff;
-    height: 88px;
+    height: 98px;
     padding: 5px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     border-radius: 6px;
     cursor: pointer;
     overflow: hidden;
-
+    box-sizing: border-box;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     
 }
@@ -29,6 +28,7 @@
     border:1px solid #ff00f9;
 }
 .item:hover{
+    border:1px solid #34495e;
     box-shadow: 0 4px 8px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .item-image{
@@ -65,7 +65,7 @@
     font-size: 10px;
     font-weight: 600;
     color: #3f5973;
-    margin-top: 3px;
+    margin-top: 1px;
 }
 
 .item-bar{
@@ -73,11 +73,11 @@
     grid-column-end: -1;
     
     text-align: right;
-    font-size: 10px;
+    font-size: 11px;
     height:16px;
     line-height: 16px;
     border-top: 1px dashed #f2f2f2;
-    padding-top: 2px;
+    padding-top: 3px;
 }
 
 .item-bar span{
@@ -88,4 +88,10 @@
     line-height: 16px;
     margin-left: 5px;
     color: #8c8c8c;
+}
+
+.item-bar span.item-bar-contratos{
+   
+    color: #33ccff;
+    font-weight: 700;
 }

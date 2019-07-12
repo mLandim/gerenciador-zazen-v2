@@ -50,13 +50,14 @@
                     <div class="item-info">
                         <span class="info-linha1">{{ item.modalidade }}</span>
                         <span class="info-linha2"><font-awesome-icon :icon="['fas', 'calendar']" size="lg" fixed-width /> {{ item.plano }}</span>
-                        <span class="info-linha2"><font-awesome-icon :icon="['far', 'clock']" size="lg" fixed-width /> {{ item.frequencia }} - {{ item.horario }}</span>
+                        <span class="info-linha2"><font-awesome-icon :icon="['far', 'clock']" size="lg" fixed-width /> {{ item.frequencia }} - {{ item.horario }}h</span>
+                        <span class="info-linha2"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> {{  item.valor  }}</span>
                        
                         
                     </div>
                     <div class="item-bar">
-                        <span ><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos_text }}</span>
-                        <span ><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width />{{ item.valor }}</span>
+                        <span :class="{'item-bar-contratos': item.contratos > 0}"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos_text }}</span>
+                       
                         <!--<span ><font-awesome-icon :icon="['fas', 'check']" size="lg" fixed-width />{{ item.data_inicio }}</span>
                         <span ><font-awesome-icon :icon="['fas', 'hourglass-half']" size="lg" fixed-width />{{ item.vencimento_pz }} dias</span>
                        
@@ -86,8 +87,8 @@
                         <div class="text-menu">Visualizar</div>
                     </div>
                     <div class="formulario-menu-item">
-                        <font-awesome-icon :icon="['fas', 'check-double']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Renovar</div>
+                        <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
+                        <div class="text-menu">Vender</div>
                     </div>
                     <div class="formulario-menu-item">
                         <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
