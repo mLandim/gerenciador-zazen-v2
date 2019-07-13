@@ -264,7 +264,18 @@ export default new Vuex.Store({
 					}
 					if(change.doc.data().contratos.length > 0){
 						tags += '#comcontratos|#temcontratados|#comprador|'
-					}		
+					}
+					
+					if(change.doc.data().endereco.logradouro =='' || change.doc.data().endereco.numero =='' || change.doc.data().endereco.cep =='' || change.doc.data().endereco.bairro =='' || change.doc.data().endereco.cidade =='' || change.doc.data().endereco.uf ==''){
+						tags += '#incompleto|'
+					}
+					if( (change.doc.data().telefone.ddd =='' || change.doc.data().telefone.numero =='') && tags.includes('incompleto') === false){
+						tags += '#incompleto|'
+					}
+
+					if(change.doc.data().instagram =='' && tags.includes('incompleto') === false){
+						tags += '#incompleto|'
+					}
 
                     if(change.type === 'added'){
 

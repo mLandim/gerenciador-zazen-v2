@@ -9,7 +9,7 @@
             <router-link to="/inicio-logado"><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Início</router-link>
             <router-link to="/clientes"><font-awesome-icon :icon="['fas', 'user']" size="lg" fixed-width /> Clientes</router-link> 
            
-            <router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Vendas</router-link>
+            <!--<router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Vendas</router-link>-->
             
             <template>
                 <div class="menu-grupo" @click="menuGrupoYoga">
@@ -36,8 +36,9 @@
                 </div>
 
                 <div class="menu-grupo-sub" v-if="menuGrupo.salas">
-                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Contratos</router-link>
                     <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Agendamentos</router-link>
+                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Contratos</router-link>
+                    
                     
                 </div>
 
@@ -61,6 +62,9 @@
                 </div>
             </template>
             -->
+
+            <router-link to="/loja"><font-awesome-icon :icon="['fas', 'store']" size="lg" fixed-width /> Loja</router-link>
+
 
             <!-- Apenas perfil Administrativo :: 0 -->
             <router-link to="/relatorios" v-if="getPerfilAcesso == 0"><font-awesome-icon :icon="['fas', 'file-alt']" size="lg" fixed-width /> Relatórios</router-link>

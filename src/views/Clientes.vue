@@ -133,16 +133,16 @@
                                         <label for=""><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width /> Nascimento</label>
                                         <span>{{itemSelecionado.data_nascimento}}</span>
                                     </div>
-                                    <div class="formulario-conteudo-item-texto">
+                                    <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.telefone">
                                         <label for=""><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width /> Telefone</label>
                                         <span>{{itemSelecionado.telefone}}</span>
                                     </div>
                                      <div class="formulario-conteudo-item-texto">
                                         <label for=""><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Endereço</label>
                                         <span>{{itemSelecionado.endereco.logradouro}}, {{itemSelecionado.endereco.numero}}</span>
-                                        <span>{{itemSelecionado.endereco.complemento}}</span>
+                                        <span v-if="itemSelecionado.endereco.complemento">{{itemSelecionado.endereco.complemento}}</span>
                                         <span>{{itemSelecionado.endereco.bairro}}, {{itemSelecionado.endereco.cidade}}-{{itemSelecionado.endereco.uf}}</span>
-                                        <span>{{itemSelecionado.endereco.cep}} </span>
+                                        <span v-if="itemSelecionado.endereco.cep">{{itemSelecionado.endereco.cep}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -541,7 +541,7 @@ export default {
     .cliente-tags span{
         display: block;
         position: relative;
-        height: auto;
+        height: 100px;
         line-height: 12px;
         width: 100%;
         text-align: left;
