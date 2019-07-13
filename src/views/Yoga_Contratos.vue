@@ -49,7 +49,7 @@
                     </div>
                     <div class="item-info">
                         <span class="info-linha1">{{ item.modalidade }}</span>
-                        <span class="info-linha2"><font-awesome-icon :icon="['fas', 'user']" size="lg" fixed-width /> {{ item.cliente }}</span>
+                        <span class="info-linha2"><font-awesome-icon :icon="['fas', 'user']" size="lg" fixed-width /> {{ item.cliente.nome }}</span>
                         <span class="info-linha2"><font-awesome-icon :icon="['far', 'clock']" size="lg" fixed-width /> {{ item.plano }} - {{ item.frequencia }} - {{ item.horario }}</span>
                        
                         

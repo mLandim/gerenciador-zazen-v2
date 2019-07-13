@@ -3,7 +3,13 @@ export const utilitarios = {
 
         //**************************************************************************************************************************
         // Utilitários
+        mesAtual(){
+            let data = new Date()
+            let mes  = (data.getMonth()+1).toString() //+1 pois no getMonth Janeiro começa com zero.
+            let mesF = (mes.length == 1) ? '0'+mes : mes
 
+            return mesF
+        },
         dataFormatada: function(dataCompleta) {
             let data = new Date(dataCompleta)
             let dia  = data.getDate().toString()
@@ -57,7 +63,24 @@ export const utilitarios = {
             //console.log('>> ' +vencimento)
             let resultado =  Math.floor((vencimento-hoje)/(1000*60*60*24))
             if(resultado < 1){
-                resultado = '00:'+Math.floor((vencimento-hoje)/(1000*60*24)).toFixed(0)+':00'
+                //resultado = '00:'+Math.floor((vencimento-hoje)/(1000*60*24)).toFixed(0)+':00'
+                resultado = 0
+            }else{
+
+            }
+            return resultado
+
+
+        },
+
+        diferencaDiasHoje(dataCompleta){
+            let data = new Date(dataCompleta)
+            let hoje = new Date()
+           
+            let resultado =  Math.floor((hoje-data)/(1000*60*60*24))
+            if(resultado < 1){
+                //resultado = '00:'+Math.floor((vencimento-hoje)/(1000*60*24)).toFixed(0)+':00'
+                resultado = 0
             }else{
 
             }

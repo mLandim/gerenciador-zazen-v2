@@ -30,7 +30,7 @@
 
             <template>
                 <div class="menu-grupo" @click="menuGrupoSalas">
-                    <font-awesome-icon :icon="['fas', 'calendar-alt']" size="lg" fixed-width /> Salas
+                    <font-awesome-icon :icon="['far', 'calendar-check']" size="lg" fixed-width /> Salas
                     <font-awesome-icon :icon="['fas', 'chevron-up']" size="sm"  class="menu-grupo-ico-arrow" v-if="menuGrupo.salas"/>
                     <font-awesome-icon :icon="['fas', 'chevron-down']" size="sm"  class="menu-grupo-ico-arrow" v-else/>
                 </div>

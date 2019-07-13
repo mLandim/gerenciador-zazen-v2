@@ -126,5 +126,6 @@
         height: 26px;
         margin: 0 10px;
     }
-
+    .input-filter{width: 180px;}
+    .input-filter input{height: 18px;}
 }

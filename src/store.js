@@ -47,6 +47,12 @@ export default new Vuex.Store({
 			agendamentos:[]
 		},
 
+		iconeTipoProduto:{
+			YOGA:['fas', 'running'],
+			SALAS:['far', 'calendar-check'],
+			LOJA:['fas','store']
+		},
+
 	},
 	getters:{
 		getTitulo: state => state.titulo,
@@ -59,6 +65,8 @@ export default new Vuex.Store({
 		getTabela_Clientes: state => state.tabelas.clientes,
 		getTabela_Produtos: state => state.tabelas.produtos,
 		getTabela_Contratos: state => state.tabelas.contratos,
+
+		getIconeTipoProduto: state => state.iconeTipoProduto,
 
 
 	},
@@ -250,6 +258,14 @@ export default new Vuex.Store({
                 const changes = resposta.docChanges()
                 changes.forEach(change =>{
 
+					let tags = ''
+					if(utilitarios.dataFormatada(change.doc.data().nascimento.toDate()).includes(utilitarios.mesAtual())){
+						tags += '#aniversario|#niver|'
+					}
+					if(change.doc.data().contratos.length > 0){
+						tags += '#comcontratos|#temcontratados|#comprador|'
+					}		
+
                     if(change.type === 'added'){
 
 						//console.log('Novo Cliente >>')
@@ -266,6 +282,7 @@ export default new Vuex.Store({
 							contratos: change.doc.data().contratos.length,
 							contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
 							endereco: change.doc.data().endereco,
+							tags:tags,
                             sel:false
                         }
                         //console.log(linha)
@@ -286,6 +303,7 @@ export default new Vuex.Store({
 									telefone: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
 									contratos: change.doc.data().contratos.length,
 									endereco: change.doc.data().endereco,
+									tags:tags,
 									sel:false
 								}
 								let tabelalen = context.state.tabelas.clientes.length	
@@ -326,11 +344,17 @@ export default new Vuex.Store({
                 
                 const changes = resposta.docChanges()
                 changes.forEach(change =>{
-
+					let tags = ''
                     if(change.type === 'added'){
 
                         if(change.doc.data().categoria=='YOGA'){
-                            //self.totalizadores[0].quantidade++
+							//self.totalizadores[0].quantidade++
+							
+							
+							if(change.doc.data().contratos.length > 0){
+								tags += '#contratados|'
+							}	
+
                             let linha = {   
                                     id: change.doc.id,
                                     categoria: change.doc.data().categoria,
@@ -341,7 +365,8 @@ export default new Vuex.Store({
                                     contratos: change.doc.data().contratos.length,
                                     contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
                                     situacao: change.doc.data().situacao,
-                                    valor: change.doc.data().valor,
+									valor: change.doc.data().valor,
+									tags: tags,
                                     sel:false
                                     }
                             //console.log(linha)
@@ -353,6 +378,10 @@ export default new Vuex.Store({
 						console.log("Modified city: ", change.doc.data().categoria);
 						//console.log("Modified city: ", change.doc.data());
 						if(change.doc.data().categoria=='YOGA'){
+							if(change.doc.data().contratos.length > 0){
+								tags += '#contratados|'
+							}	
+
 							let linha = {   
 								id: change.doc.id,
 								categoria: change.doc.data().categoria,
@@ -363,6 +392,7 @@ export default new Vuex.Store({
 								contratos: change.doc.data().contratos.length,
 								situacao: change.doc.data().situacao,
 								valor: change.doc.data().valor,
+								tags: tags,
 								sel:false
 								}
 							let tabelalen = context.state.tabelas.produtos.tabelaYoga.length	
@@ -406,9 +436,13 @@ export default new Vuex.Store({
                 const changes = resposta.docChanges()
                 changes.forEach(change =>{
 
+					let tags = ''
+
                     if(change.type === 'added'){
 
                         //if(change.doc.data().categoria=='YOGA'){
+
+							
 
 							let produtoId = change.doc.data().produto[0]
 							let clienteId = change.doc.data().cliente[0]
@@ -430,27 +464,53 @@ export default new Vuex.Store({
 									data_inicio: dataInicio,
 									vencimento: '',
 									vencimento_pz: '',
-									cliente: '',
+									cliente: null,
 									situacao: situacao,
 									turma: '',
 									valor: valorTotal,
+									tags: '',
 									sel:false
 									}
 							firebase.firestore().collection('produtos').doc(produtoId).get().then( resultado2 =>{
+								
 								
 								linha.categoria = resultado2.data().categoria
 								linha.modalidade = resultado2.data().modalidade
                                 linha.plano = resultado2.data().plano
                                 linha.frequencia = resultado2.data().frequencia
                                 linha.horario = resultado2.data().horario
-								linha.vencimento = utilitarios.dataVencimentoFormatada(change.doc.data().data_inicio.toDate(), resultado2.data().plano),
-								linha.vencimento_pz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano),
+								linha.vencimento = utilitarios.dataVencimentoFormatada(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+								linha.vencimento_pz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+								
+								tags += `#${resultado2.data().categoria}|#${resultado2.data().modalidade}|#${resultado2.data().plano}|#${resultado2.data().frequencia}|#${resultado2.data().horario}|`								
+								let vencPz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+								
+								if( vencPz <= 0){
+									tags +='#vencido|'
+								}else{
 
+									if( vencPz < 5){
+										tags += '#vencemenos5dias|#5oumenosdiasparavencer|'
+									}
+									if( vencPz < 1){
+										tags +='#vencendo|'
+									}
+								}
+								if(linha.vencimento.includes(utilitarios.mesAtual())){
+									tags += '#venceestemes|'
+								}
+
+								if(utilitarios.diferencaDiasHoje(change.doc.data().data_inicio.toDate()) < 5 ){
+									tags += '#novos|#recente|'
+								}
+
+								
+								linha.tags = tags
 
 								//linha.valor = resultado2.data().valor
 								firebase.firestore().collection('clientes').doc(clienteId).get().then( resultado3 =>{
 
-									linha.cliente = resultado3.data().nome
+									linha.cliente = {id: clienteId, nome:resultado3.data().nome}
 
 									context.state.tabelas.contratos.tabelaYoga.push(linha)
 

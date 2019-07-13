@@ -114,85 +114,112 @@
 }
 
 
+.fomulario-conteudo{
+    display: block;
+    position: relative;
+    height: 100%;
+    width:100%;
+    box-sizing: border-box;
+    padding: 0 20px;
+}
+
+.formulario-conteudo-titulo{
+    display: block;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+    .formulario-conteudo-titulo > span{
+
+        text-align: left;
+        color: #0099ff;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+.formulario-conteudo-item-texto{
+    display: block;
+    position: relative;
+    min-height: 34px;
+    height: auto;
+    margin-bottom: 5px;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}    
+    .formulario-conteudo-item-texto > label{
+        text-align: left;
+        color: #f1f1f1;
+        font-size: 12px;
+        
+    }
+
+    .formulario-conteudo-item-texto span{
+        display: block;
+        position: relative;
+        height: 18px;
+        line-height: 18px;
+        width: 100%;
+        text-align: left;
+        color: #0099ff;
+        font-size: 16px;
+        font-weight: 700;
+        margin-top: 3px;
+    }
+
+
 
 
 
 @keyframes fadeInMask {
-    from {
-        opacity: 0;
-    }
-  
-    to {
-        opacity: 0.7;
-    }
+    from {opacity: 0;}
+    to {opacity: 0.7;}
 }
 @keyframes fadeOutMask {
-    from {
-        opacity: 0.7;
-        
-    }
-  
-    to {
-        opacity: 0;
-    }
+    from {opacity: 0.7;}
+    to {opacity: 0;}
 }
 @keyframes slidein {
-    from {
-        left: 100vw; 
-    }
-  
-    to {
-        left: 40vw;
-    }
+    from {left: 100vw;}
+    to {left: 40vw;}
 }
 @keyframes slideout {
-    from {
-        left: 40vw;
-         
-    }
-  
-    to {
-        left: 100vw;
-    }
+    from {left: 40vw;}
+    to {left: 100vw;}
 }
+
 
 @media screen and (max-width: 400px){
 
     .formulario-detalhes{
-        
         height: 100vh;
         width: 100vw;
         top:0;
         left: 0;
-    
     }
     .formulario-detalhes-fechando{
-        
         height: 100vh;
         width: 100vw;
         top:0;
         left: 0;
-    
     }
-
+    .formulario-conteudo-titulo{line-height: 18px; padding-top: 10px;}
+    .formulario-conteudo-titulo > span{font-size: 18px;}
+    .formulario-conteudo-item-texto{min-height: 25px;}
+    .formulario-conteudo-item-texto > label{font-size: 11px;}
+    .formulario-conteudo-item-texto span{font-size: 12px; height: 12px;line-height: 12px;}
     @keyframes slidein {
-        from {
-            left: 100vw; 
-        }
-      
-        to {
-            left: 0;
-        }
+        from {left: 100vw;}
+        to {left: 0;}
     }
     @keyframes slideout {
-        from {
-            left: 0;
-             
-        }
-      
-        to {
-            left: 100vw;
-        }
+        from {left: 0;}
+        to {left: 100vw;}
     }
+
 
 }
