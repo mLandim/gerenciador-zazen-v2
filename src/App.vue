@@ -230,7 +230,7 @@ export default {
     @import './css/formulario-detalhes.css';
     @import './css/elements.css';
     @import './css/itens.css';
-
+    @import './css/cards-personalizados.css';
 
 
 /*********************************************************************

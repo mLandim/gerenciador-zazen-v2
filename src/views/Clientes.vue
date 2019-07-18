@@ -20,46 +20,157 @@
                 <div class="informacao-quantidades" v-else>
                     <div class="q-filtrada"> exibindo {{ tabelafiltro.length}} </div><div class="q-total">/{{ tabela.length}} cadastrados</div>
                 </div>
-            </div>
 
-            <div class="lista-filter-order">
-                <div class="input-filter">
-                    <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
-                    <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
-                </div>
-                <div class="order-conteiner">
-                    <span>Ordenar por </span>
-                    <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'nome')">NOME</div>
-                    <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'data_nascimento')">ANIVERSÁRIO</div>
-                    <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'contratos')">QUANTIDADE CONTRATOS</div>
-                </div>
-                <div class="order-conteiner-min">
-                    <div class="order-item"><font-awesome-icon :icon="['fas', 'sort-alpha-down']" fixed-width /></div>
-                    
-                </div>
-            </div>
-
-            <div class="lista-itens">
-                
-                <div class="item"  v-for="item in tabelafiltro" :key="item.nome" @click="abreDetalhe(item)">
-                    <div class="item-image">
-                        <div class="thunb-none"><font-awesome-icon :icon="['fas', 'user']" fixed-width /></div>
+                <div class="dock-btn dock-btn-right">
+                   <div class="btn" :class="{'btn-desable': exibe=='tabela', 'btn-pdr' : exibe!='tabela'}" @click="exibe='tabela'" >
+                        <div class="btn-label">Tabela</div>
+                        <font-awesome-icon :icon="['fas', 'border-all']"  class="btn-ico" />
                     </div>
-                    <div class="item-info">
-                        <span class="info-linha1">{{ item.nome }}</span>
-                        <span class="info-linha2"><font-awesome-icon :icon="['far', 'envelope']" size="lg" fixed-width /> {{ item.email }}</span>
-                        <span class="info-linha2" v-if="item.instagram"><font-awesome-icon :icon="['fab', 'instagram']" size="lg" fixed-width /> {{ item.instagram }}</span>
+                    <div class="btn" :class="{'btn-desable': exibe=='cards', 'btn-pdr' : exibe!='cards'}"  @click="exibe='cards'" >
+                        <div class="btn-label">Blocos</div>
+                        <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
+                    </div>
+                </div>
+
+            </div>
+            
+            <template v-if="exibe==='cards'">
+
+                <div class="lista-filter-order">
+                    <div class="input-filter">
+                        <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
+                        <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
+                    </div>
+                    <div class="order-conteiner">
+                        <span>Ordenar por </span>
+                        <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'nome')">NOME</div>
+                        <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'data_nascimento')">ANIVERSÁRIO</div>
+                        <div class="order-item" @click="aplicarOrdem(tabelafiltro, true, 'contratos')">QUANTIDADE CONTRATOS</div>
+                    </div>
+                    <div class="order-conteiner-min">
+                        <div class="order-item"><font-awesome-icon :icon="['fas', 'sort-alpha-down']" fixed-width /></div>
                         
                     </div>
-                    <div class="item-bar">
-                        <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone }} </span>
-                        <span><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width />{{ item.data_nascimento }}</span>
-                        <span v-if="item.contratos" class="item-bar-contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos }} Contr. </span>
-                    </div>
                 </div>
 
-            </div>
+                <div class="lista-itens">
+                    
+                    <div class="item"  v-for="item in tabelafiltro" :key="item.nome" @click="abreDetalhe(item)">
+                        <div class="item-image">
+                            <div class="thunb-none"><font-awesome-icon :icon="['fas', 'user']" fixed-width /></div>
+                        </div>
+                        <div class="item-info">
+                            <span class="info-linha1">{{ item.nome }}</span>
+                            <span class="info-linha2"><font-awesome-icon :icon="['far', 'envelope']" size="lg" fixed-width /> {{ item.email }}</span>
+                            <span class="info-linha2" v-if="item.instagram"><font-awesome-icon :icon="['fab', 'instagram']" size="lg" fixed-width /> {{ item.instagram }}</span>
+                            
+                        </div>
+                        <div class="item-bar">
+                            <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone }} </span>
+                            <span><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width />{{ item.data_nascimento }}</span>
+                            <span v-if="item.contratos" class="item-bar-contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos }} Contr. </span>
+                        </div>
+                    </div>
 
+                </div>
+
+            </template>
+            
+            <template v-else>
+                
+                <!--
+                <div class="dock-btn-rel ">
+                   <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="novo">
+                        <div class="btn-label">Novo Cliente</div>
+                        <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                    </div>
+                </div>
+                -->
+                <div></div>
+
+                <div class="cd-grid cd-padding-10 cd-shw-0 tabela-card" >
+
+                        <div class="cd-grid-title">
+
+                            <span>Clique na Linha para Selecionar...</span>
+
+                            <!-- Comandos para manipular os dados da tabela -->
+                            <div class="dock-btn dock-btn-right">
+                                <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="novo">
+                                    <div class="btn-label">Novo Cliente</div>
+                                    <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="cd-grid-content">
+                        
+                            <table class="tabela-formatada"  style="width:100%" cellspacing="0"  >
+                                <thead>
+                                    <tr>
+                                        <template  v-for="(head, key) in tabelaClientes.tabelaHead" >
+                                                    
+                                            <th  :key="head.colunaId" class="th" :style="head.style" style="text-align:center;" > <!-- :class="{ 'th-maior': head.columnData === 'ABREVIADO'}" -->
+
+                                                <!--Se a propriedade filterText não estiver disponível: não habilitar o filtro para a coluna-->
+                                                <div class="filtro">
+                                                    <input v-if="'filterText' in head" type="text"  style="width:86%;"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
+                                                </div>
+                                                <!--Se a propriedade asc não estiver disponível: não habilitar a coluna para ordenar-->
+                                                <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="utilitarios.ordenarTabela(tabelaClientes, tabelaFiltrada, $event)">
+                                                        {{head.columnText.trim()}}  
+                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  v-if="head.asc" />
+                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  v-else-if="head.asc===false" />
+                                                        <span v-else></span>
+                                                </div>
+                                                <div v-else class="ordem" :class="'head-nosort'">
+                                                    {{head.columnText.trim()}} 
+                                                </div>
+                                                    
+                                            </th>
+                                                    
+                                        </template>
+                                        <!--<th class="th"><input  id="cAnexoT" name="cAnexoT" type="checkbox"  /></th>-->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+
+                                    <tr v-for="(linha) in tabelaFiltrada" :key="linha.id" @click="abreDetalhe(linha)"> <!--:class="{'tr-x': linha.EXC == 'X'}" @click="clicarLinhaSubconta(linha)"-->
+                                        
+                                        <template v-for="(th) in tabelaClientes.tabelaHead"  >
+                                            
+                                            <!--
+                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" v-if="th.type=='checkbox'" >
+                                                <font-awesome-icon :icon="['fas', 'check-square']" size="2x" v-if="linha[th.columnData]" @click="desselecionarLinha(linha)" class="tabela-chk-fw-2x" />
+                                                <font-awesome-icon :icon="['fas', 'square']" size="2x" v-else @click="selecionarLinha(linha)" class="tabela-chk-fw-2x" />
+                                            </td>
+                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" v-else >{{ linha[th.columnData] }}</td>
+                                            -->
+                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" >{{ linha[th.columnData] }}</td>
+                                        </template>
+                                            
+
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Exibindo {{tabelaFiltrada.length}} de {{tabelaClientes.tabelaBody.length}} Registros</th>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+
+                        </div>
+
+                </div>
+
+            </template>
+            
+
+        
         </div>
 
 
@@ -202,7 +313,8 @@
 
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
+import { utilitarios }  from '../utilitarios'
 
 export default {
 
@@ -210,11 +322,31 @@ export default {
     data(){
         return {
 
+            exibe: 'tabela',
             // Controles Itens
             tabela:[],
             contratos:[],
             produtos:[],
             filtro:'',
+
+
+            // Controles Tabela
+            tabelaClientes:{
+                tabelaTitle:'Clientes',
+                tabelaHead: [
+                    {colunaId:0, columnText:'Cpf', columnData:'cpf', type:'string', filterText:'', asc:null,  style:{}},
+                    {colunaId:1, columnText:'Nome', columnData:'nome', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
+                    {colunaId:2, columnText:'Email', columnData:'email', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
+                    {colunaId:3, columnText:'Igr', columnData:'instagram', type:'string', filterText:'',  asc:null,  style:{width:'10%',textAlign:'left'}},
+                    {colunaId:4, columnText:'Data Nascimento', columnData:'data_nascimento', type:'string', filterText:'',  asc:null,  style:{textAlign:'center'}},
+                    {colunaId:6, columnText:'Situação', columnData:'situacao', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
+                    {colunaId:7, columnText:'Telefone', columnData:'telefone', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
+                    {colunaId:8, columnText:'Contratos', columnData:'contratos', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
+                    //{colunaId:9, columnText:'Selecionar', columnData:'sel', type:'checkbox', asc:null, style:{width:'6%', textAlign:'center'}},
+                ],
+                tabelaBody:[]
+            },
+            linhasSelecionadas:[],
 
             
 
@@ -249,13 +381,20 @@ export default {
 
             return resultado
 
-        }
+        },
+
+        tabelaFiltrada:function(){
+            return utilitarios.filtrandoTabela(this.tabelaClientes);
+        },
        
     },
     created(){
         console.log('Clientes >> Criado')
         console.log(this.getTabela_Clientes)
-        this.tabela = this.getTabela_Clientes
+
+        this.tabela = this.getTabela_Clientes // itens
+        this.tabelaClientes.tabelaBody = this.getTabela_Clientes // tabelas
+
         console.log(this.getTabela_Contratos)
         this.contratos = [...this.getTabela_Contratos.tabelaYoga, ...this.getTabela_Contratos.tabelaSalas, ...this.getTabela_Contratos.tabelaLoja]
         
@@ -265,7 +404,8 @@ export default {
         getTabela_Clientes: function(val){
             console.log('watch >> getTabela_Clientes')
             
-            this.tabela = val
+            this.tabela = val // itens
+            this.tabelaClientes.tabelaBody = val // tabelas
 
         },
         getTabela_Contratos: function(val){
@@ -286,10 +426,7 @@ export default {
             console.log('abreDetalhe >>')
             this.itemSelecionado = item
             this.detalhe = true
-           
-
-        
-        
+    
         },
 
         fechaDetalhe(){
@@ -309,9 +446,6 @@ export default {
         selecionaMenu(menuIndex){
             this.menuSelecionado = menuIndex
         },
-
-
-
 
 
         // Ao selecionar
@@ -414,67 +548,6 @@ export default {
 
 
      
-
-
-        //**************************************************************************************************************************
-        //Ordem e Filtros
-        //Ordenar tabela
-            aplicarOrdem:function(tabelaFiltradaRec, orderAsc, property){
-                console.log('aplicarOrdem >>')
-                var self = this;
-                tabelaFiltradaRec.sort(function(obj1, obj2){
-                    if(orderAsc){
-                        if (obj1[property] < obj2[property]){
-                            return -1;
-                        }else if (obj1[property] > obj2[property]){
-                            return 1;
-                        }else{
-                            return 0;
-                        }
-                    }else{
-                        if (obj1[property] < obj2[property]){
-                            return 1;
-                        }else if (obj1[property] > obj2[property]){
-                            return -1;
-                        }else{
-                            return 0;
-                        } 
-                    }  
-                });
-            },
-            //Ordenando tabela > Chama sortApply
-            ordenarTabela:function(tabelaRec, tabelaFiltradaRec, event){
-                
-                var self = this;
-                var colData = 'columnData';//event.target.id;
-                var targetIndex = event.target.id;
-                for (var index = 0, totalHead = tabelaRec.tabelaHead.length; index < totalHead; index++) {
-                    var element = tabelaRec.tabelaHead[index];
-                    //console.log(' >> '+index+' x '+targetIndex);
-                    if(index==targetIndex){
-                        console.log(' >> '+element+' - '+targetIndex);
-                        if(element.asc==null){
-                            element.asc = true;
-                        }else{
-                            element.asc = !element.asc;
-                        }
-                        if('columnOrder' in element){
-                            colData = 'columnOrder';
-                        }
-                    }else{
-                        element.asc = null;
-                    }
-                }
-                console.log(' >> '+colData+' - '+targetIndex);
-                var orderAsc = tabelaRec.tabelaHead[targetIndex].asc;
-                var propertyOrder = tabelaRec.tabelaHead[targetIndex][colData];
-                console.log(' >> '+orderAsc+' - '+propertyOrder);
-                self.aplicarOrdem(tabelaFiltradaRec, orderAsc, propertyOrder);
-                
-            },
-        
-        //**************************************************************************************************************************    
-            
 
 
     }

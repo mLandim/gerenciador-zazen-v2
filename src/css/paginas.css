@@ -30,6 +30,7 @@
     grid-template-rows: 60px 40px calc(100% - 100px);
 }
 .informacao{
+    position: relative;
     padding: 0 10px;
 }
 .informacao-titulo{

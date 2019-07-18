@@ -127,7 +127,156 @@ export const utilitarios = {
             let dataArr = `${data.split('/')[2]}-${data.split('/')[1]}-${data.split('/')[0]}`
             return new Date(dataArr)
 
-        }
+        },
+
+
+        //**************************************************************************************************************************
+        //Ordem e Filtros 
+        //Ordenar tabela
+        aplicarOrdem:function(tabelaFiltradaRec, orderAsc, property){
+            var self = this;
+            tabelaFiltradaRec.sort(function(obj1, obj2){
+                if(orderAsc){
+                    if (obj1[property] < obj2[property]){
+                        return -1;
+                    }else if (obj1[property] > obj2[property]){
+                        return 1;
+                    }else{
+                        return 0;
+                    }
+                }else{
+                    if (obj1[property] < obj2[property]){
+                        return 1;
+                    }else if (obj1[property] > obj2[property]){
+                        return -1;
+                    }else{
+                        return 0;
+                    } 
+                }  
+            });
+        },
+        //Ordenando tabela > Chama sortApply
+        ordenarTabela:function(tabelaRec, tabelaFiltradaRec, event){
+            
+            var self = this;
+            var colData = 'columnData';//event.target.id;
+            var targetIndex = event.target.id;
+            for (var index = 0, totalHead = tabelaRec.tabelaHead.length; index < totalHead; index++) {
+                var element = tabelaRec.tabelaHead[index];
+                //console.log(' >> '+index+' x '+targetIndex);
+                if(index==targetIndex){
+                    console.log(' >> '+element+' - '+targetIndex);
+                    if(element.asc==null){
+                        element.asc = true;
+                    }else{
+                        element.asc = !element.asc;
+                    }
+                    if('columnOrder' in element){
+                        colData = 'columnOrder';
+                    }
+                }else{
+                    element.asc = null;
+                }
+            }
+            console.log(' >> '+colData+' - '+targetIndex);
+            var orderAsc = tabelaRec.tabelaHead[targetIndex].asc;
+            var propertyOrder = tabelaRec.tabelaHead[targetIndex][colData];
+            console.log(' >> '+orderAsc+' - '+propertyOrder);
+            self.aplicarOrdem(tabelaFiltradaRec, orderAsc, propertyOrder);
+            
+        },
+        //Filtrando as linhas de acordo com o valor dos filtros
+        filtrandoTabela: function(tabelaRec){
+            var self = this;
+            var novaTabela = [];
+            //console.log(tabelaRec);
+            //Loop em todas as linhas
+            for (var index = 0,  total = tabelaRec.tabelaBody.length; index < total; index++) {
+                var linha = tabelaRec.tabelaBody[index];
+                var resultados = []; // Array que guardará o resultado de cada comparação, para cada campo
+                
+                //Loop em todos o campos (de acordo com as configurações)
+                for (var index2 = 0, total2 = tabelaRec.tabelaHead.length; index2 < total2; index2++) {
+                    
+                    if('filterText' in tabelaRec.tabelaHead[index2]){
+                    
+                        var filtro = tabelaRec.tabelaHead[index2].filterText;
+                        if('columnData' in tabelaRec.tabelaHead[index2]){
+                            var coluna = tabelaRec.tabelaHead[index2].columnData;
+                        }else{
+                            var coluna = tabelaRec.tabelaHead[index2].columnOrder;
+                        }
+                    
+                        
+                        //console.log(tabelaRec.tabelaHead[index2]);
+                        var tipo = tabelaRec.tabelaHead[index2].type;
+                        
+                        //Comparação especial se for número - < e > disponíveis
+                        if(tipo==='number'){
+                            
+                            if(filtro.charAt(0)=='<'){
+                                
+                                var sFiltro = filtro.substr(1);
+                                if(sFiltro.length === 0){
+                                    resultados.push(1);
+                                }else{
+                                    if(linha[coluna] < sFiltro){ 
+                                        resultados.push(1);
+                                    }else{
+                                        resultados.push(0);
+                                    }
+                                }
+        
+                            }else if(filtro.charAt(0)=='>'){
+                                
+                                var sFiltro = filtro.substr(1);
+                                if(sFiltro.length === 0){
+                                    resultados.push(1);
+                                }else{
+                                    if(linha[coluna] > sFiltro){ 
+                                        resultados.push(1);
+                                    }else{
+                                        resultados.push(0);
+                                    }
+                                }
+                            }else{
+                                if(linha[coluna].toString().indexOf(filtro) >= 0){ 
+                                    resultados.push(1);
+                                }else{
+                                    resultados.push(0);
+                                }
+                                
+                            }
+                        //Comparação normal (texto)
+                        }else{
+                            if(typeof linha[coluna].toString() =='string'){
+                                if(linha[coluna].toString().toUpperCase().indexOf(filtro.toUpperCase()) >= 0){ 
+                                    resultados.push(1);// Se encontrou registra 1 ( linha deve ficar)
+                                }else{
+                                    resultados.push(0);// Se Não encontrou registra 0 ( linha não exibida)
+                                }
+                            }
+                        }
+                    }else{
+                        resultados.push(1);// Se encontrou registra 1 ( linha deve ficar)
+                    }
+                    
+                }
+                //Se encontrar um 0 registrado, a linha não será exibida
+                if(resultados.indexOf(0)!==-1){
+                    //Não Mostra linha
+                }else{
+                    novaTabela.push(linha); //Mostra Linha
+                }
+                
+            }
+            
+            
+            return novaTabela;
+        },
+
+        //**************************************************************************************************************************    
+        
 
 }
 

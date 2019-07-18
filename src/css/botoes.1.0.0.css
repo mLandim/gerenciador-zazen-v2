@@ -1,73 +1,116 @@
 /*********************************************************************
     FORMATAÇÃO BASE PARA BOTÕES DE AÇÃO
 *********************************************************************/
-.dock-btn-right{
-    right: 10px;
-    text-align: right;
-}
-.dock-btn{
-    position: absolute;
-    display: block;
-    top:0;
-    background: transparent;
-    height: 40px;
-    width: auto;
-    padding: 0 5px;
-}
-.dock-btn-top-5{
-    position: absolute;
-    display: block;
-    top:5px;
-    background: transparent;
-    height: 40px;
-    width: auto;
-    padding: 0 5px;
-}
-.dock-btn-top-10{
-    position: absolute;
-    display: block;
-    top:10px;
-    background: transparent;
-    height: 40px;
-    width: auto;
-    padding: 0 5px;
-}
     
-
-
-
-.dock-btn .btn{
-    position: relative;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    min-width: 40px;
-    border-radius: 50px;
-    text-align: center;
-    cursor:pointer;
-    margin: 0 6px;
-    transition: 0.5s;
-    transition-timing-function: ease-in;
-    
-}
-    .dock-btn .btn:hover {
-        padding: 0 10px;
-        
-    }
-    .dock-btn .btn:hover .btn-label{
+    .dock-btn{
+        position: absolute;
+        display: block;
+        top:0;
+        background: transparent;
         height: 40px;
-        line-height: 40px;
         width: auto;
-        margin: 0 10px 0 0;
-        display: inline-block;
-        vertical-align: top;
-        opacity: 1;
-        
+        padding: 0 5px;
     }
-    .dock-btn .btn:hover .btn-ico{
-        transform: rotate(360deg)
-        
+    .dock-btn-right{
+        right: 10px;
+        text-align: right;
     }
+    .dock-btn-top-5{
+        position: absolute;
+        display: block;
+        top:5px;
+        background: transparent;
+        height: 40px;
+        width: auto;
+        padding: 0 5px;
+    }
+    .dock-btn-top-10{
+        position: absolute;
+        display: block;
+        top:10px;
+        background: transparent;
+        height: 40px;
+        width: auto;
+        padding: 0 5px;
+    }
+
+        .dock-btn  .btn{
+            position: relative;
+            display: inline-block;
+            height: 32px;
+            line-height: 32px;
+            min-width: 32px;
+            border-radius: 50px;
+            text-align: center;
+            cursor: pointer;
+            margin: 0 6px;
+            transition: 0.5s;
+            transition-timing-function: ease-in;
+            
+        }
+        .dock-btn .btn:hover {
+            padding: 0 10px;
+            
+        }
+        .dock-btn .btn:hover .btn-label{
+            height: 32px;
+            line-height: 32px;
+            width: auto;
+            margin: 0 10px 0 0;
+            display: inline-block;
+            vertical-align: top;
+            opacity: 1;
+            
+        }
+        .dock-btn .btn:hover .btn-ico{
+            transform: rotate(360deg)
+            
+        }
+
+
+    .dock-btn-rel{
+        position: relative;
+        display: block;
+        background: transparent;
+        height: 100%;
+        width: auto;
+        padding: 0 5px;
+    }
+    
+        .dock-btn-rel  .btn{
+            position: relative;
+            display: inline-block;
+            height: 32px;
+            line-height: 32px;
+            min-width: 32px;
+            border-radius: 50px;
+            text-align: center;
+            cursor:pointer;
+            margin: 0 6px;
+            transition: 0.5s;
+            transition-timing-function: ease-in;
+            
+        }
+        .dock-btn-rel .btn:hover {
+            padding: 0 10px;
+            
+        }
+        .dock-btn-rel .btn:hover .btn-label{
+            height: 32px;
+            line-height: 32px;
+            width: auto;
+            margin: 0 10px 0 0;
+            display: inline-block;
+            vertical-align: top;
+            opacity: 1;
+            
+        }
+        .dock-btn-rel .btn:hover .btn-ico{
+            transform: rotate(360deg)
+            
+        }
+
+
 
 .btn-label{
     position: relative;
@@ -83,8 +126,8 @@
     position: relative;
     display: inline-block;
     vertical-align: top;
-    height: 40px;
-    line-height: 40px;
+    height: 32px;
+    line-height: 32px;
     transition: 0.5s;
 }
 
@@ -109,5 +152,11 @@
     background-color: #f2f2f2;
     color:#cccccc;
     cursor:auto;
+}
+
+.btn-pdr{
+    background-color: #e6e6e6;
+    color:#1a1a1a;
+    
 }
 
