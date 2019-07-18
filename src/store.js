@@ -259,7 +259,7 @@ export default new Vuex.Store({
                 changes.forEach(change =>{
 
 					let tags = ''
-					if(utilitarios.dataFormatada(change.doc.data().nascimento.toDate()).includes(utilitarios.mesAtual())){
+					if(utilitarios.dataFormatada(change.doc.data().nascimento.toDate()).includes(`/${utilitarios.mesAtual()}/`)){
 						tags += '#aniversario|#niver|'
 					}
 					if(change.doc.data().contratos.length > 0){

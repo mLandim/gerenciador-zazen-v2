@@ -86,7 +86,13 @@
                     </div>
                 </div>
                 -->
-                <div></div>
+                <div class="lista-filter-order">
+                    <div class="input-filter">
+                        <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
+                        <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
+                    </div>
+                   
+                </div>
 
                 <div class="cd-grid cd-padding-10 cd-shw-0 tabela-card" >
 
@@ -378,7 +384,7 @@ export default {
                     resultado.push(element)
                 }
             }
-
+            this.tabelaClientes.tabelaBody = resultado
             return resultado
 
         },
