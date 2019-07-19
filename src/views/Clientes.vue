@@ -78,23 +78,16 @@
             
             <template v-else>
                 
-                <!--
-                <div class="dock-btn-rel ">
-                   <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="novo">
-                        <div class="btn-label">Novo Cliente</div>
-                        <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
-                    </div>
-                </div>
-                -->
                 <div class="lista-filter-order">
                     <div class="input-filter">
                         <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
                     </div>
-                   
                 </div>
 
-                <div class="cd-grid cd-padding-10 cd-shw-0 tabela-card" >
+                <div class="cd-grid-container">
+                
+                    <div class="cd-grid cd-grid-30  cd-shw-0">
 
                         <div class="cd-grid-title">
 
@@ -124,7 +117,7 @@
                                                     <input v-if="'filterText' in head" type="text"  style="width:86%;"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
                                                 </div>
                                                 <!--Se a propriedade asc não estiver disponível: não habilitar a coluna para ordenar-->
-                                                <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="utilitarios.ordenarTabela(tabelaClientes, tabelaFiltrada, $event)">
+                                                <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="ordenar(tabelaClientes, tabelaFiltrada, $event)">
                                                         {{head.columnText.trim()}}  
                                                         <font-awesome-icon :icon="['fas', 'caret-up']"  v-if="head.asc" />
                                                         <font-awesome-icon :icon="['fas', 'caret-down']"  v-else-if="head.asc===false" />
@@ -170,6 +163,8 @@
                             </table>
 
                         </div>
+
+                    </div>
 
                 </div>
 
@@ -344,7 +339,8 @@ export default {
                     {colunaId:1, columnText:'Nome', columnData:'nome', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
                     {colunaId:2, columnText:'Email', columnData:'email', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
                     {colunaId:3, columnText:'Igr', columnData:'instagram', type:'string', filterText:'',  asc:null,  style:{width:'10%',textAlign:'left'}},
-                    {colunaId:4, columnText:'Data Nascimento', columnData:'data_nascimento', type:'string', filterText:'',  asc:null,  style:{textAlign:'center'}},
+                    {colunaId:4, columnText:'Data Cadastro', columnData:'data_cadastro', columnOrder: 'data_cadastro_order', type:'string', filterText:'',  asc:null,  style:{}},
+                    {colunaId:5, columnText:'Data Nascimento', columnData:'data_nascimento', columnOrder: 'data_nascimento_order', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:6, columnText:'Situação', columnData:'situacao', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     {colunaId:7, columnText:'Telefone', columnData:'telefone', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     {colunaId:8, columnText:'Contratos', columnData:'contratos', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
@@ -426,7 +422,7 @@ export default {
     methods:{
 
 
-
+        // Itens / Tabela
         abreDetalhe(item){
 
             console.log('abreDetalhe >>')
@@ -434,7 +430,11 @@ export default {
             this.detalhe = true
     
         },
+        ordenar(tabelaClientes, tabelaFiltrada, e){
+            utilitarios.ordenarTabela(tabelaClientes, tabelaFiltrada, e)
+        },
 
+        // Formulário Detalhe
         fechaDetalhe(){
 
             console.log('fechaDetalhe >>')
@@ -448,57 +448,12 @@ export default {
             },1000)
             
         },
-
         selecionaMenu(menuIndex){
             this.menuSelecionado = menuIndex
         },
 
 
-        // Ao selecionar
-        selecionarLinha(linha){
-            linha.sel = true
-            let linhasLen = this.linhasSelecionadas.length
-            let teste = false
-            for (let index = 0; index < linhasLen; index++) {
-                const element = this.linhasSelecionadas[index];
-                if(element.id === linha.id){
-                    teste = true
-                    break
-                }
-            }
-            if(!teste){
-                this.linhasSelecionadas.push(linha)
-            }
-        },
-
-        // Ao desselecionar
-        desselecionarLinha(linha){
-            linha.sel = false
-            let linhasLen = this.linhasSelecionadas.length
-            for (let index = 0; index < linhasLen; index++) {
-                const element = this.linhasSelecionadas[index];
-                if(element.id === linha.id){
-                    this.linhasSelecionadas.splice(index, 1)
-                    break
-                }
-            }
-        },
-
-        selecionaCategoria(item){
-
-            this.totalizadores.forEach(function(valor){
-
-                if(item.nome===valor.nome){
-                    valor.selecionado=true
-                    valor.style.opacity = 1
-                }else{
-                    valor.selecionado = false
-                    valor.style.opacity = 0.5
-                }
-            })
-
-        },
-
+       
 
 
         // Abre formulário flutuante para NOVO produto
@@ -553,6 +508,58 @@ export default {
         },
 
 
+
+
+
+
+
+        // Em desuso
+
+        // Ao selecionar
+        selecionarLinha(linha){
+            linha.sel = true
+            let linhasLen = this.linhasSelecionadas.length
+            let teste = false
+            for (let index = 0; index < linhasLen; index++) {
+                const element = this.linhasSelecionadas[index];
+                if(element.id === linha.id){
+                    teste = true
+                    break
+                }
+            }
+            if(!teste){
+                this.linhasSelecionadas.push(linha)
+            }
+        },
+
+        // Ao desselecionar
+        desselecionarLinha(linha){
+            linha.sel = false
+            let linhasLen = this.linhasSelecionadas.length
+            for (let index = 0; index < linhasLen; index++) {
+                const element = this.linhasSelecionadas[index];
+                if(element.id === linha.id){
+                    this.linhasSelecionadas.splice(index, 1)
+                    break
+                }
+            }
+        },
+
+        selecionaCategoria(item){
+
+            this.totalizadores.forEach(function(valor){
+
+                if(item.nome===valor.nome){
+                    valor.selecionado=true
+                    valor.style.opacity = 1
+                }else{
+                    valor.selecionado = false
+                    valor.style.opacity = 0.5
+                }
+            })
+
+        },
+
      
 
 
@@ -580,7 +587,7 @@ export default {
         height: 100%;
         width: 100%;
         padding: 10px 0;
-        border-bottom: 1px solid #0099ff;
+        border-bottom: 1px solid #272727;
         box-sizing: border-box;
     }
     .bloco2{
@@ -597,10 +604,10 @@ export default {
         height: 200px;
         line-height: 200px;
         width: 200px;
-        background-color: #1b2631;
+        background-color: #272727;
         border-radius: 10px;
         text-align: center;
-        border: 1px solid #0099ff;
+        color:#4d4d4d;
         box-sizing: border-box;
     }
 
@@ -612,7 +619,7 @@ export default {
     
     .cliente-tags > label{
         text-align: left;
-        color: #f1f1f1;
+        color: #00e7fc;
         font-size: 11px;
         
     }
@@ -624,7 +631,7 @@ export default {
         line-height: 12px;
         width: 100%;
         text-align: left;
-        color: #0099ff;
+        color: #f1f1f1;
         font-size: 12px;
         font-weight: 700;
         margin-top: 3px;
@@ -653,7 +660,7 @@ export default {
     .cliente-contratos-titulo > span{
 
         text-align: left;
-        color: #0099ff;
+        color: #f1f1f1;
         font-size: 28px;
         font-weight: 700;
     }

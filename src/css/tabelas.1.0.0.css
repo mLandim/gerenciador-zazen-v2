@@ -19,15 +19,19 @@
     height: 30px;
     
 }
+/*
 .tabela-formatada > thead > tr{
     height: 30px;
     line-height: 30px;
 }
+*/
 .tabela-formatada > thead > tr > th.th{
     position: relative;
     cursor: pointer;
     text-align: center;
     color:#000000;
+    padding:0 5px;
+    box-sizing: border-box;
     /*border-bottom: 2px solid #bfbfbf;*/
 }
 .tabela-formatada > thead > tr > th.th-maior{
@@ -41,11 +45,14 @@
     display: table;
     width: calc(100% - 1.4em);
     table-layout: fixed;
+    height: 30px;
+    line-height: 24px;
 }
+
 .tabela-formatada > tbody{
     display: block;
     height: auto;
-    max-height: calc(100% - 90px);
+    max-height: calc(100% - 70px);
     overflow-y: scroll;
     overflow-x: hidden;
     border-bottom: 1px solid #cccccc;
@@ -64,7 +71,9 @@
     max-width: 250px;
     white-space: nowrap;
     overflow-x: hidden;
-    padding-left: 5px;
+    padding:0 5px;
+    text-align: center;
+    box-sizing: border-box;
 }
 .tabela-formatada > tbody > tr:first-child > td{
     border-top: 0;
@@ -74,7 +83,8 @@
     color: #ff0000;
 }
 .tabela-formatada tbody tr td.td-hover{
-    background-color: #f2f2f2;
+    
+    font-weight: 700;
 }
 .tabela-formatada > tbody > tr > td.td-maior{
     width: 30%;

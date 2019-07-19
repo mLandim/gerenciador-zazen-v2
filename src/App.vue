@@ -140,9 +140,9 @@ export default {
     body{
         margin:0;
         padding: 0;
-        background-color: #f3f4f6;
+        background-color: #e6e6e6;
         /*background-image: linear-gradient(270deg, #c5cad3 0%, #e2e4e9 35%, #f3f4f6 100%);*/
-        font-family:  'Varela Round','Roboto','Avenir', Helvetica, Arial, sans-serif;
+        font-family:  'Roboto','Varela Round','Avenir', Helvetica, Arial, sans-serif;
         overflow: hidden;
     }
  
@@ -160,7 +160,7 @@ export default {
     .menu{
       grid-area: g-menu;
       display: grid;
-      grid-template-rows: 50px auto;
+      grid-template-rows: 84px auto;
       background-color: #ffffff;
     }
 

@@ -150,7 +150,7 @@ export default {
         display: block;
         width: 100%;
         height: 100%;
-        font-size: 12px;
+        font-size: 14px;
         
     }
 
@@ -169,14 +169,14 @@ export default {
         line-height: 36px;
         text-align: left;
         text-decoration: none;
-        color: #34495e;
+        color: #333333;
         font-weight: 700;
         cursor: pointer;
         padding-left: 6px;
     }
         #nav a:hover{
             border-radius: 10px;
-            background-color: #f1f1f1;
+            color: #1a1a1a;
             z-index: 10;
         }
 
@@ -188,14 +188,14 @@ export default {
         line-height: 36px;
         text-align: left;
         text-decoration: none;
-        color: #34495e;
+        color: #333333;
         font-weight: 700;
         cursor: pointer;
         padding-left: 6px;
     }    
         #nav .menu-grupo:hover{
-            
-            background-color: #f1f1f1;
+            color: #1a1a1a;
+           
         }
     .menu-grupo-ico-arrow{
         display: block;

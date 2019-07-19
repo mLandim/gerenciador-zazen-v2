@@ -1,14 +1,16 @@
 .pagina{
     display: grid;
-    grid-template-rows: 20px calc(100vh - 48px);
-    grid-row-gap: 10px;
-    color: #34495e;
+    grid-template-rows: 20px calc(100vh - 42px);
+    grid-row-gap: 1px;
+    color: #1a1a1a;
 }
 
 .arvore-acesso{
     
     font-size: 12px;
     border-bottom: 1px solid #e6e6e6;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
 .arvore-acesso a {
@@ -16,13 +18,18 @@
     display: inline-block;
     text-decoration: none;
     margin:0 5px 0 0;
-    color:#486684;
+    color: #6e6e6e;
+    font-weight: 800;
 
 }
+    .arvore-acesso a:hover {
+        color: #1a1a1a;
+    }
 .arvore-acesso span {
     position: relative;
     display: inline-block;
     margin:0 5px 0 5px;
+    color: #6e6e6e;
 }
 
 .info-conteudo{
@@ -38,7 +45,7 @@
     width: auto;
     font-size: 26px;
     font-weight: 700;
-    color: #34495e;
+    color: #1a1a1a;
 
 }
 .informacao-quantidades{
@@ -46,7 +53,7 @@
     width: auto;
     font-size: 11px;
     font-weight: 700;
-    color: #808080;
+    color: #6e6e6e;
     margin-left: 10px;
 }
     .q-filtrada{
