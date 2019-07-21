@@ -63,6 +63,9 @@
         height: 100%;
        
     }
+    .cd-grid-title span > svg{
+        margin-right: 8px;
+    }
     .cd-grid-content{
         display: block;
         position: relative;
@@ -90,6 +93,34 @@
     }
     .cd-right{
         text-align: right;
+    }
+
+    .cd-lista{
+        position: relative;
+        display: block;
+        height: 100%;
+        widows: 100%;
+        box-sizing: border-box;
+        overflow-y: auto;
+    }
+    .cd-lista-item{
+        position: relative;
+        display: block;
+        height: 60px;
+        width: 100%;
+        padding: 5px;
+        border-bottom: 1px solid #cccccc;
+        box-sizing: border-box;
+        
+    }
+
+    .cd-lista-item > span{
+        position: relative;
+        display: inline-block;
+        height: 60px;
+        vertical-align: top;
+        font-size: 12px;
+        box-sizing: border-box;
     }
 
 /*

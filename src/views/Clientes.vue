@@ -15,10 +15,11 @@
             <div class="informacao">
                 <div class="informacao-titulo">Clientes</div>
                 <div class="informacao-quantidades" v-if="tabela.length===tabelafiltro.length">
-                    <div class="q-total">({{ tabela.length }} cadastrados)</div>
+                    <div class="q-total" v-if="tabela.length > 1">{{ tabela.length }} cadastrados</div>
+                    <div class="q-total" v-else >{{ tabela.length }} cadastrado</div>
                 </div>
                 <div class="informacao-quantidades" v-else>
-                    <div class="q-filtrada"> exibindo {{ tabelafiltro.length}} </div><div class="q-total">/{{ tabela.length}} cadastrados</div>
+                    <div class="q-total"> exibindo {{ tabelafiltro.length }}  / </div> <div class="q-filtrada">{{ tabela.length}} cadastrados</div>
                 </div>
 
                 <div class="dock-btn dock-btn-right">
@@ -27,13 +28,18 @@
                         <font-awesome-icon :icon="['fas', 'border-all']"  class="btn-ico" />
                     </div>
                     <div class="btn" :class="{'btn-desable': exibe=='cards', 'btn-pdr' : exibe!='cards'}"  @click="exibe='cards'" >
-                        <div class="btn-label">Blocos</div>
+                        <div class="btn-label">Cartões</div>
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
+                    </div>
+                    <div class="btn" :class="{'btn-desable': exibe=='grafico', 'btn-pdr' : exibe!='grafico'}"  @click="exibe='grafico'" >
+                        <div class="btn-label">Estatísticas</div>
+                        <font-awesome-icon :icon="['fas', 'chart-line']"  class="btn-ico" />
                     </div>
                 </div>
 
             </div>
             
+            <!-- Cards -->
             <template v-if="exibe==='cards'">
 
                 <div class="lista-filter-order">
@@ -51,6 +57,15 @@
                         <div class="order-item"><font-awesome-icon :icon="['fas', 'sort-alpha-down']" fixed-width /></div>
                         
                     </div>
+
+                    <!-- Comandos para manipular os dados da tabela -->
+                    <div class="dock-btn dock-btn-right">
+                        <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
+                            <div class="btn-label">Novo Cliente</div>
+                            <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="lista-itens">
@@ -75,14 +90,23 @@
                 </div>
 
             </template>
-            
-            <template v-else>
+            <!-- Tabela -->
+            <template v-else-if="exibe==='tabela'">
                 
                 <div class="lista-filter-order">
                     <div class="input-filter">
                         <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
                     </div>
+
+                    <!-- Comandos para manipular os dados da tabela -->
+                    <div class="dock-btn dock-btn-right">
+                        <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
+                            <div class="btn-label">Novo Cliente</div>
+                            <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="cd-grid-container">
@@ -93,13 +117,7 @@
 
                             <span>Clique na Linha para Selecionar...</span>
 
-                            <!-- Comandos para manipular os dados da tabela -->
-                            <div class="dock-btn dock-btn-right">
-                                <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="novo">
-                                    <div class="btn-label">Novo Cliente</div>
-                                    <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
-                                </div>
-                            </div>
+                            
 
                         </div>
 
@@ -114,13 +132,13 @@
 
                                                 <!--Se a propriedade filterText não estiver disponível: não habilitar o filtro para a coluna-->
                                                 <div class="filtro">
-                                                    <input v-if="'filterText' in head" type="text"  style="width:86%;"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
+                                                    <input v-if="'filterText' in head" type="text"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
                                                 </div>
                                                 <!--Se a propriedade asc não estiver disponível: não habilitar a coluna para ordenar-->
                                                 <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="ordenar(tabelaClientes, tabelaFiltrada, $event)">
                                                         {{head.columnText.trim()}}  
-                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  v-if="head.asc" />
-                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  v-else-if="head.asc===false" />
+                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  class="head-sort-ico" v-if="head.asc" />
+                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  class="head-sort-ico" v-else-if="head.asc===false" />
                                                         <span v-else></span>
                                                 </div>
                                                 <div v-else class="ordem" :class="'head-nosort'">
@@ -169,8 +187,35 @@
                 </div>
 
             </template>
-            
+            <!-- Estatíticas -->
+            <template v-else>
+                <div></div>
+                <div class="estatisticas">
+                                        
+                    <div class="cd-grid cd-grid-30  cd-shw-0">
+                        <div class="cd-grid-title">
+                            <span><font-awesome-icon :icon="['fas', 'birthday-cake']"  /> Aniversariantes do Mês</span> 
+                        </div>
+                        <div class="cd-grid-content">
+                            <div class="cd-lista">
+                                <div class="cd-lista-item" v-for="item in aniversariantes" :key="item.id">
+                                    <span style="width:70%;" >
+                                        <span style="position:relative; display:block; width:100%;height:30px;line-height:40px; font-weight:700;">{{item.nome}}</span>
+                                        <span style="position:relative; display:block; width:100%;height:20px;line-height:10px;font-size:10px">{{item.email}}</span>
+                                    </span>
+                                    <span style="width:29%; font-weight:700; line-height:40px;">{{item.data_nascimento}}</span>
+                                </div>
+                            </div>
+                           
 
+                        </div>
+                    </div>
+
+                     
+                    
+                </div>
+
+            </template>
         
         </div>
 
@@ -183,125 +228,263 @@
 
             <div :class="{'formulario-detalhes-fechando' : detalheFechando, 'formulario-detalhes': detalheFechando===false}" >
                 
-                <!-- Menu lateral do Formulário -->
-                <div class="formulario-menu">
+                <template v-if="novoItem">
+                    <div class="formulario-menu">
 
-                    <div class="form-ico-close" @click="fechaDetalhe">
-                        <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
-                    </div>
+                        <div class="form-ico-close" @click="fechaDetalhe">
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
+                        </div>
 
-                    <div class="formulario-menu-item " :class="{'menu-item-sel':menuSelecionado==0}"  @click="menuSelecionado=0">
-                        <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Visualizar</div>
                     </div>
-                    <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==1}"  @click="menuSelecionado=1">
-                        <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Vender</div>
-                    </div>
-                    <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==2}"  @click="menuSelecionado=2">
-                        <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Editar</div>
-                    </div>
-                    <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
-                        <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Excluir</div>
-                    </div>
+                    <div class="fomulario-conteudo">
+                        <div class="formulario-conteudo-titulo">
+                            <span>Novo Cliente</span>
+                        </div>
 
-                </div>
+                        <div class="formulario-inputs">
 
-                <!-- Conteudo do formulário -->
-                <div class="fomulario-conteudo">
+                            <div class="input-container" style="width:30%">
+                                <label>Nome *</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text" v-model="novoDados.nome">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:70%">
+                                <label>Sobrenome *</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text" v-model="novoDados.sobrenome">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Cpf *</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text" v-mask="'###.###.###-##'"  v-model="novoDados.cpf">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Rg</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"  v-model="novoDados.rg">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:60%">
+                                <label>Data de Nascimento *</label>
+                                <div class="input-border" style="height:30px;width:30%">
+                                    <input type="text" v-mask="'##/##/####'"  v-model="novoDados.nascimento">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:60%">
+                                <label>Email *</label>
+                                <div class="input-border" style="height:30px;">
+                                    <input type="text"  v-model="novoDados.email">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:40%">
+                                <label>Instagram</label>
+                                <div class="input-border" style="height:30px;">
+                                    <input type="text"  v-model="novoDados.instagram">
+                                </div>
+                            </div>
 
-                    <!-- Visualizar -->
-                    <template  v-if="menuSelecionado==0">
+                        </div>
+                        <div class="formularios-inputs">
+                            
+                            <div class="input-container" style="width:100%">
+                                <label>Cep</label>
+                                <div class="input-border" style="height:30px;width:20%">
+                                    <input type="text" v-mask="'#####-###'"  v-model="novoDados.endereco.cep" @blur="consultaCep($event, novoDados.endereco)">
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:80%">
+                                <label>Logradouro (Rua, Avenida, Travessa...)</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"   v-model="novoDados.endereco.logradouro" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Número</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"   v-model="novoDados.endereco.numero" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%">
+                                <label>Complemento (Númdero do apartamentp, casa...)</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"   v-model="novoDados.endereco.complemento" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Bairro</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"   v-model="novoDados.endereco.bairro" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Cidade</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text"   v-model="novoDados.endereco.cidade" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:60%">
+                                <label>UF</label>
+                                <div class="input-border" style="height:30px;width:40px">
+                                    <input type="text"   v-model="novoDados.endereco.uf" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:60px">
+                                <label>DDD</label>
+                                <div class="input-border" style="height:30px">
+                                    <input type="text" v-mask="'(##)'"   v-model="novoDados.telefone.ddd" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:calc(100% - 60px);">
+                                <label>Telefone</label>
+                                <div class="input-border" style="height:30px;width:16%;">
+                                    <input type="text"  v-mask="'#####-####'" v-model="novoDados.telefone.numero" >
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%;">
+                                <label>Observações</label>
+                                <div class="input-border" style="height:60px;">
+                                    <textarea v-model="novoDados.observacoes" ></textarea>
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="formularios-inputs">
+                            <div class="input-container" style="width:100%;">
+                                <div class="input-button right" @click="cadastrarCliente"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Cadastrar</div>
+                            </div>
+                        </div>
+                    
+                    </div>
+                </template>
+
+                <template v-else>
+                    <!-- Menu lateral do Formulário -->
+                    <div class="formulario-menu">
+
+                        <div class="form-ico-close" @click="fechaDetalhe">
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
+                        </div>
+
+                        <div class="formulario-menu-item " :class="{'menu-item-sel':menuSelecionado==0}"  @click="menuSelecionado=0">
+                            <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Visualizar</div>
+                        </div>
+                    
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==2}"  @click="menuSelecionado=1">
+                            <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Editar</div>
+                        </div>
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==1}"  @click="menuSelecionado=2">
+                            <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Vender</div>
+                        </div>
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
+                            <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Excluir</div>
+                        </div>
+
+                    </div>
+                    <!-- Conteudo do formulário -->
+                    <div class="fomulario-conteudo">
                         <div class="formulario-conteudo-titulo">
                             <span>{{itemSelecionado.nome}}</span>
                         </div>
-                        <div class="cliente-visualizar">
-                            <div class="cliente-bloco">
-                                <div class="bloco">
-                                    <div class="cliente-foto">
-                                        <font-awesome-icon :icon="['fas', 'user']" />
+                        <!-- Visualizar -->
+                        <template v-if="menuSelecionado===0">
+                            
+                            <div class="cliente-visualizar">
+                                <div class="cliente-bloco">
+                                    <div class="bloco">
+                                        <div class="cliente-foto">
+                                            <font-awesome-icon :icon="['fas', 'user']" />
+                                        </div>
+                                        <div class="cliente-tags">
+                                            <label for=""><font-awesome-icon :icon="['fas', 'hashtag']" size="lg" fixed-width />Tags</label>
+                                            <span>{{ itemSelecionado.tags.split('|').join(' ') }}</span>
+                                        </div>
                                     </div>
-                                    <div class="cliente-tags">
-                                        <label for=""><font-awesome-icon :icon="['fas', 'hashtag']" size="lg" fixed-width />Tags</label>
-                                        <span>{{ itemSelecionado.tags.split('|').join(' ') }}</span>
+                                    <div class="bloco2">
+                                        <div class="formulario-conteudo-item-texto">
+                                            <label for=""><font-awesome-icon :icon="['fas', 'address-card']" size="lg" fixed-width /> Documento Id</label>
+                                            <span>{{itemSelecionado.cpf}}</span>
+                                        </div>
+                                        <div class="formulario-conteudo-item-texto">
+                                            <label for=""><font-awesome-icon :icon="['far', 'envelope']" size="lg" fixed-width /> Email</label>
+                                            <span>{{itemSelecionado.email}}</span>
+                                        </div>
+                                        <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.instagram">
+                                            <label for=""><font-awesome-icon :icon="['fab', 'instagram']" size="lg" fixed-width /> Instagram</label>
+                                            <span>{{itemSelecionado.instagram}}</span>
+                                        </div>
+                                        <div class="formulario-conteudo-item-texto" >
+                                            <label for=""><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width /> Nascimento</label>
+                                            <span>{{itemSelecionado.data_nascimento}}</span>
+                                        </div>
+                                        <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.telefone">
+                                            <label for=""><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width /> Telefone</label>
+                                            <span>{{itemSelecionado.telefone}}</span>
+                                        </div>
+                                        <div class="formulario-conteudo-item-texto">
+                                            <label for=""><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Endereço</label>
+                                            <span>{{itemSelecionado.endereco.logradouro}}, {{itemSelecionado.endereco.numero}}</span>
+                                            <span v-if="itemSelecionado.endereco.complemento">{{itemSelecionado.endereco.complemento}}</span>
+                                            <span>{{itemSelecionado.endereco.bairro}}, {{itemSelecionado.endereco.cidade}}-{{itemSelecionado.endereco.uf}}</span>
+                                            <span v-if="itemSelecionado.endereco.cep">{{itemSelecionado.endereco.cep}}</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="bloco2">
-                                     <div class="formulario-conteudo-item-texto">
-                                        <label for=""><font-awesome-icon :icon="['fas', 'address-card']" size="lg" fixed-width /> Documento Id</label>
-                                        <span>{{itemSelecionado.cpf}}</span>
-                                    </div>
-                                    <div class="formulario-conteudo-item-texto">
-                                        <label for=""><font-awesome-icon :icon="['far', 'envelope']" size="lg" fixed-width /> Email</label>
-                                        <span>{{itemSelecionado.email}}</span>
-                                    </div>
-                                    <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.instagram">
-                                        <label for=""><font-awesome-icon :icon="['fab', 'instagram']" size="lg" fixed-width /> Instagram</label>
-                                        <span>{{itemSelecionado.instagram}}</span>
-                                    </div>
-                                    <div class="formulario-conteudo-item-texto" >
-                                        <label for=""><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width /> Nascimento</label>
-                                        <span>{{itemSelecionado.data_nascimento}}</span>
-                                    </div>
-                                    <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.telefone">
-                                        <label for=""><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width /> Telefone</label>
-                                        <span>{{itemSelecionado.telefone}}</span>
-                                    </div>
-                                     <div class="formulario-conteudo-item-texto">
-                                        <label for=""><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Endereço</label>
-                                        <span>{{itemSelecionado.endereco.logradouro}}, {{itemSelecionado.endereco.numero}}</span>
-                                        <span v-if="itemSelecionado.endereco.complemento">{{itemSelecionado.endereco.complemento}}</span>
-                                        <span>{{itemSelecionado.endereco.bairro}}, {{itemSelecionado.endereco.cidade}}-{{itemSelecionado.endereco.uf}}</span>
-                                        <span v-if="itemSelecionado.endereco.cep">{{itemSelecionado.endereco.cep}}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="cliente-bloco2">
+                                <div class="cliente-bloco2">
 
-                                <div class="cliente-contratos">
-                                    <div class="cliente-contratos-titulo">
-                                        <span>Contratos</span>
-                                    </div>
-                                    <div class="cliente-contratos-lista">
-                                        <template v-for="item in contratos"  >
-                                            <div class="cliente-contratos-item"  :key="item.id"  v-if="item.cliente.id === itemSelecionado.id">
-                                                <div class="item-image">
-                                                    <div class="thunb-none">
-                                                        <font-awesome-icon :icon="getIconeTipoProduto[item.categoria]" fixed-width />
+                                    <div class="cliente-contratos">
+                                        <div class="cliente-contratos-titulo">
+                                            <span>Contratos</span>
+                                        </div>
+                                        <div class="cliente-contratos-lista">
+                                            <template v-for="item in contratos"  >
+                                                <div class="cliente-contratos-item"  :key="item.id"  v-if="item.cliente.id === itemSelecionado.id">
+                                                    <div class="item-image">
+                                                        <div class="thunb-none">
+                                                            <font-awesome-icon :icon="getIconeTipoProduto[item.categoria]" fixed-width />
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info">
+                                                        <span class="info-linha1">{{ item.modalidade }}</span>
+                                                        <span class="info-linha2"><font-awesome-icon :icon="['far', 'clock']" size="lg" fixed-width /> {{ item.plano }} - {{ item.frequencia }} - {{ item.horario }}</span>
+                                                    </div>
+                                                    <div class="item-bar">
+                                                        <span ><font-awesome-icon :icon="['fas', 'check']" size="lg" fixed-width />{{ item.data_inicio }}</span>
+                                                        <span ><font-awesome-icon :icon="['fas', 'hourglass-half']" size="lg" fixed-width />{{ item.vencimento_pz }} dias</span>
+                                                        <span ><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width />{{ item.valor }}</span>
                                                     </div>
                                                 </div>
-                                                <div class="item-info">
-                                                    <span class="info-linha1">{{ item.modalidade }}</span>
-                                                    <span class="info-linha2"><font-awesome-icon :icon="['far', 'clock']" size="lg" fixed-width /> {{ item.plano }} - {{ item.frequencia }} - {{ item.horario }}</span>
-                                                </div>
-                                                <div class="item-bar">
-                                                    <span ><font-awesome-icon :icon="['fas', 'check']" size="lg" fixed-width />{{ item.data_inicio }}</span>
-                                                    <span ><font-awesome-icon :icon="['fas', 'hourglass-half']" size="lg" fixed-width />{{ item.vencimento_pz }} dias</span>
-                                                    <span ><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width />{{ item.valor }}</span>
-                                                </div>
-                                            </div>
-                                        </template>
-                                        
-                                    </div>    
+                                            </template>
+                                            
+                                        </div>    
+
+                                    </div>
+                                    
+
 
                                 </div>
-                                
-
-
                             </div>
-                        </div>
-                    </template>
+                        </template>
 
-                    <!-- Vender -->
+                        <!-- Editar -->
+                        <template v-if="menuSelecionado===1">
+                            
+                        </template>
+                        <!-- Vender -->
 
-                    <!-- Editar -->
+                        <!-- Excluir -->
+                        
 
-                    <!-- Excluir -->
-                    
+                    </div>
 
-                </div>
+                </template>                
 
             </div>
 
@@ -310,16 +493,24 @@
     </div>
 
 </template>
+
 <script>
 
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 import { setTimeout } from 'timers'
-import { utilitarios }  from '../utilitarios'
+import { utilitarios }  from '@/utilitarios'
+
+import {mask} from 'vue-the-mask'
+import {Money} from 'v-money'
+
 
 export default {
 
     name:'clientes',
+    directives:{
+        mask
+    },
     data(){
         return {
 
@@ -356,7 +547,37 @@ export default {
             itemSelecionado:null,
             menuSelecionado:0,
             detalhe: false,
-            detalheFechando:false
+            detalheFechando:false,
+            novoItem:false,
+            novoDados:{
+                nome:'',
+                sobrenome:'',
+                email:'',
+                instagram:'',
+                cpf:'',
+                rg:'',
+                endereco:{
+                    logradouro:'',
+                    numero:'',
+                    complemento:'',
+                    cep:'',
+                    bairro:'',
+                    cidade:'',
+                    uf:''
+
+                },
+                telefone:{
+                    ddd:'',
+                    numero:'',
+                },
+                        
+                nascimento:'',
+                observacoes:'',
+                data_cadastro:'',
+                contratos:[],
+                ativo: true,
+                cadastrado_por:''
+            }
         }
     },
     computed:{
@@ -388,7 +609,21 @@ export default {
         tabelaFiltrada:function(){
             return utilitarios.filtrandoTabela(this.tabelaClientes);
         },
-       
+
+        aniversariantes:function(){
+
+            let resposta = []
+            for (let index = 0; index < this.getTabela_Clientes.length; index++) {
+                const element = this.getTabela_Clientes[index];
+                if(element.tags.includes('#niver')){
+                    resposta.push(element)
+                }
+            }
+
+            return resposta
+
+
+        }
     },
     created(){
         console.log('Clientes >> Criado')
@@ -424,10 +659,15 @@ export default {
 
         // Itens / Tabela
         abreDetalhe(item){
-
+            if(item==='novo'){
+                this.novoItem=true
+                this.detalhe = true
+            }else{
+                this.itemSelecionado = item
+                this.detalhe = true
+            }
             console.log('abreDetalhe >>')
-            this.itemSelecionado = item
-            this.detalhe = true
+            
     
         },
         ordenar(tabelaClientes, tabelaFiltrada, e){
@@ -442,6 +682,7 @@ export default {
             
 
             setTimeout(()=>{
+                this.novoItem = false
                 this.itemSelecionado = null
                 this.detalhe = false
                 this.detalheFechando = false
@@ -451,8 +692,96 @@ export default {
         selecionaMenu(menuIndex){
             this.menuSelecionado = menuIndex
         },
+        // Formulario 0 - Clientes
+        consultaCep(e, formulario){
+
+            let self = this
+            const cep = e.target.value
+            console.log(cep)
+            if(cep.length>0){
+                this.$http.get('https://viacep.com.br/ws/' + cep + '/json/').then( resposta =>{
+
+                    console.log(resposta.data)
+                    let resultado = resposta.data
+                    formulario.logradouro = resultado.logradouro
+                    formulario.bairro = resultado.bairro
+                    formulario.cidade = resultado.localidade
+                    formulario.uf = resultado.uf
+
+                }).catch(error => {
+                    console.error(error)
+                })
+            }else{
+                console.log('cep vazio')
+            }
+
+            
+
+        },
+        cadastrarCliente(){
+
+            console.log('cadastrarCliente')
+            let self = this
+            // verificando campos obrigatórios
+            if(self.novoDados.nome.length == 0 || self.novoDados.sobrenome.length == 0 || self.novoDados.email.length == 0 || self.novoDados.cpf.length == 0 || self.novoDados.rg.length == 0 || self.novoDados.nascimento.length == 0){
+
+                alert('Preencha todos os campos obrigatórios! (*)')
+
+            }else{
+
+                self.novoDados.nome = self.novoDados.nome.toUpperCase()
+                self.novoDados.sobrenome = self.novoDados.sobrenome.toUpperCase()
+                self.novoDados.data_cadastro = new Date()
+                self.novoDados.nascimento = utilitarios.stringToDate(self.novoDados.nascimento)
+                self.novoDados.cadastrado_por = self.getUsuarioLogado.uid
+                self.novoDados.email = self.novoDados.email.toLowerCase()
+                self.novoDados.instagram = self.novoDados.instagram.toLowerCase()
+
+                this.$db.collection('clientes').add(self.novoDados).then(resposta =>{
+                    console.log(resposta.id)
+                    console.log(resposta)
+
+                    let dados = {
+                        nome:'',
+                        sobrenome:'',
+                        email:'',
+                        instagram:'',
+                        cpf:'',
+                        rg:'',
+                        endereco:{
+                            logradouro:'',
+                            numero:'',
+                            complemento:'',
+                            cep:'',
+                            bairro:'',
+                            cidade:'',
+                            uf:''
+                        },
+                        telefone:{
+                            ddd:'',
+                            numero:'',
+                        },
+                        nascimento:'',
+                        observacoes:'',
+                        data_cadastro:'',
+                        contratos:[],
+                        ativo: true,
+                        cadastrado_por:''
+                    }
+
+                    self.novoDados = dados
+
+                    alert('Cadastrato com sucesso!')
+
+                }).catch(function(error) {
+                    console.error("Error adding document: ", error)
+                });
+
+            }
+            
 
 
+        },
        
 
 

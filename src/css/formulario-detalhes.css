@@ -174,8 +174,144 @@
         box-sizing: border-box;
     }
 
+.formulario-inputs{
+    position: relative;
+    display: block;
+    /*
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, 200px));
+    grid-gap: 10px;
+    */
+    padding: 10px 0 16px 0;
+    box-sizing: border-box;
+}
+    .input-container{
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        padding: 5px;
+        color: #f1f1f1;
+        min-height: 50px;
+        max-height: 100%;
+        box-sizing: border-box;
+    }
+    .input-container > label{
+        position: relative;
+        display: block;
+        font-size: 11px;
+        height: 20px;
+        line-height: 20px;
+        width: auto;
+        padding-left: 3px;
+        box-sizing: border-box;
+    }
+    .input-container > .input-button{
+        position: absolute;
+        display: block;
+        bottom: 5px;
+        
+        height: 40px;
+        line-height: 40px;
+        width:auto;
+        padding: 0 10px;
+        text-align: center;
+        background-color: #00e7fc;
+        color:#1a1a1a;
+        font-size: 18px;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        box-sizing: border-box;
 
+    }
+        .right{
+            right: 5px;
+        }
+        .left{
+            left: 5px;
+        }
+    .input-container > .input-button:hover{
+        background-color: #00bbcc;
+    }
 
+    .input-container > .input-buttons-list{
+        position: relative;
+        display: block;
+        
+        padding: 10px 5px;
+        border-radius: 5px;
+        cursor: text;
+        box-sizing: border-box;
+    }
+    .input-container > .input-buttons-list > .opc-button{
+        position: relative;
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        width:auto;
+        padding: 0 10px;
+        text-align: center;
+        background-color: transparent;
+        color:#f1f1f1;
+        border:1px solid #f1f1f1;
+        margin: 0 10px 10px 0;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 50px;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .input-container > .input-buttons-list > .opc-button:hover{
+        background-color: #1a1a1a;
+        color: #ffffff;
+        border:1px solid #ffffff;
+    }
+    .input-container > .input-buttons-list > .opc-button:active{
+        background-color: #f1f1f1;
+        color: #1a1a1a;
+        border:1px solid #ffffff;
+    }
+    .input-container > .input-buttons-list > .opc-sel{
+        background-color: #f1f1f1;
+        color: #1a1a1a;
+        border:1px solid #ffffff;
+    }
+    .input-container > .input-buttons-list > .opc-sel:hover{
+        background-color: #f1f1f1;
+        color: #1a1a1a;
+        border:1px solid #ffffff;
+    }
+    
+    .input-border{
+        position: relative;
+        display: block;
+        border: 1px solid #f1f1f1;
+        background-color:  #666666;
+        padding: 0 5px;
+        border-radius: 5px;
+        cursor: text;
+        box-sizing: border-box;
+    }
+    .input-border > input {
+        height: 100%;
+        width: 100%;
+        border: 0;
+        outline: none;
+        color: #f1f1f1;
+        background-color: #666666;
+        box-sizing: border-box;
+    }
+
+    .input-border > textarea {
+        height: 100%;
+        width: 100%;
+        border: 0;
+        outline: none;
+        color: #f1f1f1;
+        background-color: #666666;
+        box-sizing: border-box;
+    }
 
 
 @keyframes fadeInMask {

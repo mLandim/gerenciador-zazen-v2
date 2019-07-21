@@ -160,7 +160,7 @@ export default {
     .menu{
       grid-area: g-menu;
       display: grid;
-      grid-template-rows: 84px auto;
+      grid-template-rows: 95px auto;
       background-color: #ffffff;
     }
 

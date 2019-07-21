@@ -14,10 +14,11 @@
             <div class="informacao">
                 <div class="informacao-titulo">Yoga Produtos</div>
                 <div class="informacao-quantidades" v-if="tabela.length===tabelafiltro.length">
-                    <div class="q-total">({{ tabela.length }} cadastrados)</div>
+                    <div class="q-total" v-if="tabela.length > 1">{{ tabela.length }} cadastrados</div>
+                    <div class="q-total" v-else >{{ tabela.length }} cadastrado</div>
                 </div>
                 <div class="informacao-quantidades" v-else>
-                    <div class="q-filtrada"> exibindo {{ tabelafiltro.length}} </div><div class="q-total">/{{ tabela.length}} cadastrados</div>
+                    <div class="q-total"> exibindo {{ tabelafiltro.length}} /</div><div class="q-filtrada">{{ tabela.length}} cadastrados</div>
                 </div>
 
                 <div class="dock-btn dock-btn-right">
@@ -26,7 +27,7 @@
                         <font-awesome-icon :icon="['fas', 'border-all']"  class="btn-ico" />
                     </div>
                     <div class="btn" :class="{'btn-desable': exibe=='cards', 'btn-pdr' : exibe!='cards'}"  @click="exibe='cards'" >
-                        <div class="btn-label">Blocos</div>
+                        <div class="btn-label">Cartões</div>
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
                     </div>
                 </div>
@@ -39,6 +40,13 @@
                     <div class="input-filter">
                         <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
+                    </div>
+                    <!-- Comandos para manipular os dados da tabela -->
+                    <div class="dock-btn dock-btn-right">
+                        <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
+                            <div class="btn-label">Novo Produto - Yoga</div>
+                            <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                        </div>
                     </div>
                 
                 </div>
@@ -79,6 +87,13 @@
                         <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
                     </div>
+                    <!-- Comandos para manipular os dados da tabela -->
+                    <div class="dock-btn dock-btn-right">
+                        <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
+                            <div class="btn-label">Novo Produto - Yoga</div>
+                            <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                        </div>
+                    </div>
                 </div>
 
                 <div class="cd-grid-container">
@@ -89,13 +104,7 @@
 
                             <span>Clique na Linha para Selecionar...</span>
 
-                            <!-- Comandos para manipular os dados da tabela -->
-                            <div class="dock-btn dock-btn-right">
-                                <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="novo">
-                                    <div class="btn-label">Novo Produto Yoga</div>
-                                    <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
-                                </div>
-                            </div>
+                            
 
                         </div>
 
@@ -110,13 +119,13 @@
 
                                                 <!--Se a propriedade filterText não estiver disponível: não habilitar o filtro para a coluna-->
                                                 <div class="filtro">
-                                                    <input v-if="'filterText' in head" type="text"  style="width:86%;"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
+                                                    <input v-if="'filterText' in head" type="text"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
                                                 </div>
                                                 <!--Se a propriedade asc não estiver disponível: não habilitar a coluna para ordenar-->
                                                 <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="ordenar(tabelaProdutosYoga, tabelaFiltrada, $event)">
                                                         {{head.columnText.trim()}}  
-                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  v-if="head.asc" />
-                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  v-else-if="head.asc===false" />
+                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  class="head-sort-ico" v-if="head.asc" />
+                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  class="head-sort-ico" v-else-if="head.asc===false" />
                                                         <span v-else></span>
                                                 </div>
                                                 <div v-else class="ordem" :class="'head-nosort'">
@@ -174,35 +183,97 @@
             <div :class="{'mask-fechando' : detalheFechando, 'mask': detalheFechando===false}"></div>
             <div :class="{'formulario-detalhes-fechando' : detalheFechando, 'formulario-detalhes': detalheFechando===false}" >
                 
-                <div class="formulario-menu">
+                <template v-if="novoItem">
+                     <div class="formulario-menu">
 
-                    <div class="form-ico-close" @click="fechaDetalhe">
-                        <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
+                        <div class="form-ico-close" @click="fechaDetalhe">
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
+                        </div>
+
                     </div>
+                    <div class="fomulario-conteudo">
 
-                    <div class="formulario-menu-item menu-item-sel">
-                        <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Visualizar</div>
+                        <div class="formulario-conteudo-titulo">
+                            <span>Novo Produto - Yoga</span>
+                        </div>
+
+                        <div class="formulario-inputs">
+
+                            <div class="input-container" style="width:100%">
+                                <label>Modalidades</label>
+                                <div class="input-buttons-list" style="height:auto">
+                                    <div class="opc-button" :class="{'opc-sel': novoDados.modalidade === item}"  v-for="item in controles.modalidades.YOGA.modalidades" :key="item" @click="novoDados.modalidade = item">{{item}}</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%">
+                                <label>Planos</label>
+                                <div class="input-buttons-list" style="height:auto">
+                                    <div class="opc-button" :class="{'opc-sel': novoDados.plano === item}" v-for="item in controles.modalidades.YOGA.planos" :key="item" @click="novoDados.plano = item">{{item}}</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%">
+                                <label>Frequência</label>
+                                <div class="input-buttons-list" style="height:auto">
+                                    <div class="opc-button" :class="{'opc-sel': novoDados.frequencia === item}" v-for="item in controles.modalidades.YOGA.frequencia" :key="item" @click="novoDados.frequencia = item">{{item}}</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%">
+                                <label>Horários</label>
+                                <div class="input-buttons-list" style="height:auto">
+                                    <div class="opc-button" :class="{'opc-sel': novoDados.horario === item}" v-for="item in controles.modalidades.YOGA.horario" :key="item" @click="novoDados.horario = item">{{item}}h</div>
+                                    
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:20%">
+                                <label>Valor</label>
+                                <div class="input-border" style="height:30px;">
+                                    <money v-model="novoDados.valor" v-bind="money"></money>
+                                    <!--<input type="text"  v-model="novoDados.valor">-->
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="formularios-inputs">
+                            <div class="input-container" style="width:100%;">
+                                <div class="input-button left" @click="cadastrarProduto"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Cadastrar</div>
+                            </div>
+                        </div>
+
+
                     </div>
-                    <div class="formulario-menu-item">
-                        <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Vender</div>
+                </template>
+
+                <template v-else>
+                    <div class="formulario-menu">
+
+                        <div class="form-ico-close" @click="fechaDetalhe">
+                            <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
+                        </div>
+
+                        <div class="formulario-menu-item menu-item-sel">
+                            <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Visualizar</div>
+                        </div>
+                        <div class="formulario-menu-item">
+                            <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Vender</div>
+                        </div>
+                        <div class="formulario-menu-item">
+                            <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Editar</div>
+                        </div>
+                        <div class="formulario-menu-item">
+                            <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Excluir</div>
+                        </div>
+
                     </div>
-                    <div class="formulario-menu-item">
-                        <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Editar</div>
+                    <div class="fomulario-conteudo">
                     </div>
-                    <div class="formulario-menu-item">
-                        <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
-                        <div class="text-menu">Excluir</div>
-                    </div>
-
-                </div>
-
-                <div class="fomulario-conteudo">
-
-                </div>
-
+                </template>
             </div>
         </template>
         
@@ -215,11 +286,18 @@
 import { mapGetters } from 'vuex'
 import { mapActions } from 'vuex'
 import { setTimeout } from 'timers'
-import { utilitarios }  from '../utilitarios'
+import { utilitarios }  from '@/utilitarios'
+
+import {mask} from 'vue-the-mask'
+import {Money} from 'v-money'
 
 export default {
 
     name:'Yoga_Produtos',
+    directives:{
+        mask
+    },
+    components: {Money},
     data(){
         return {
 
@@ -250,7 +328,36 @@ export default {
             itemSelecionado:null,
             menuSelecionado:0,
             detalhe: false,
-            detalheFechando:false
+            detalheFechando:false,
+            novoItem:false,
+
+            controles:{
+                modalidades:{
+                    YOGA:{}
+                }
+            },
+            novoDados:{
+                categoria:'YOGA',
+                modalidade:null,
+                plano:null,
+                horario:null,
+                frequencia:null,
+                situacao:'ativo',
+                valor:0,
+                contratos:[],
+                data_cadastro:null,
+                cadastrado_por:null
+            },
+
+            // propriedades da mascara de texto para valor v-money
+            money: {
+                decimal: ',',
+                thousands: '.',
+                prefix: 'R$ ',
+                suffix: '',
+                precision: 2,
+                masked: false /* doesn't work with directive */
+            }
         }
     },
     computed:{
@@ -285,7 +392,7 @@ export default {
         console.log(this.getTabela_Produtos.tabelaYoga)
         this.tabela = this.getTabela_Produtos.tabelaYoga
         this.tabelaProdutosYoga.tabelaBody = this.getTabela_Produtos.tabelaYoga // tabelas
-        
+        this.inicalizaControles4()
     },
     watch:{
 
@@ -305,15 +412,84 @@ export default {
         abreDetalhe(item){
 
             console.log('abreDetalhe >>')
-            this.itemSelecionado = item
-            this.detalhe = true
+            if(item==='novo'){
+                this.novoItem=true
+                this.detalhe = true
+            }else{
 
+                this.itemSelecionado = item
+                this.detalhe = true
+            }
         
         },
         ordenar(tabelaProdutosYoga, tabelaFiltrada, e){
             utilitarios.ordenarTabela(tabelaProdutosYoga, tabelaFiltrada, e)
         },
+        
+        inicalizaControles4(){
+            console.log('inicalizaControles4')
 
+            let self = this
+            this.$db.collection('produtos_cartela').get().then(resultado => {
+
+                resultado.forEach(doc => {
+                    
+                    if(doc.data().categoria=='YOGA'){
+                        self.controles.modalidades.YOGA = doc.data()
+                    }else if(doc.data().categoria=='SALA'){
+                         self.controles.modalidades.SALA = doc.data()
+                    }else{
+                         self.controles.modalidades.LOJA = doc.data()
+                    }
+                    
+                })
+
+                console.log(self.controles.modalidades)
+                
+
+            }).catch( error => {
+                
+                console.log(error)
+                console.error(`${error.Message}`)
+
+            })
+
+        },
+        
+        cadastrarProduto(){
+
+            console.log('cadastrarProduto')
+            let self = this
+            //console.log(self.formularios[4].data)
+            if(self.novoDados.categoria === 'YOGA'){
+                // verificando campos obrigatórios
+                if(self.novoDados.categoria.length == 0 || self.novoDados.modalidade == null || self.novoDados.plano == null || self.novoDados.frequencia == null || self.novoDados.valor == 0){
+
+                    alert('Informe todos os campos!')
+
+                }else{
+
+                    self.novoDados.data_cadastro = new Date()
+                    self.novoDados.cadastrado_por = self.getUsuarioLogado.uid
+                    
+                    console.log(self.novoDados)
+
+                    this.$db.collection('produtos').add(self.novoDados).then(resposta =>{
+                        console.log(resposta.id)
+                        console.log(resposta)
+                        alert('Cadastrato com sucesso!')
+                    }).catch(function(error) {
+                        console.error("Error adding document: ", error)
+                    });
+
+                }
+            }else if(self.formularios[4].data.categoria === null){
+                alert('Selecione uma categoria para iniciar!')
+            }else{
+                alert('Em construção...')
+            }
+            
+        },
         // Formulário Detalhe
         fechaDetalhe(){
 
@@ -321,6 +497,7 @@ export default {
             this.detalheFechando = true
 
             setTimeout(()=>{
+                this.novoItem = false
                 this.detalhe = false
                 this.itemSelecionado = null
                 this.detalheFechando = false

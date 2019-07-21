@@ -180,6 +180,10 @@ export default {
             z-index: 10;
         }
 
+        #nav a > svg{
+            margin-right: 10px;
+        }
+
     #nav .menu-grupo{
         position: relative;
         display: block;
@@ -197,6 +201,10 @@ export default {
             color: #1a1a1a;
            
         }
+        #nav .menu-grupo > svg{
+            margin-right: 10px;
+        }
+        
     .menu-grupo-ico-arrow{
         display: block;
         position: absolute;
@@ -207,13 +215,13 @@ export default {
     }
     .menu-grupo-sub {
         padding-left: 20px;
-        
+        padding-bottom: 10px;
     }
-    .menu-grupo-sub a{
-        padding-left: 50px;
+    #nav .menu-grupo-sub > a{
+        padding-left: 6px;
         font-size:12px;
-        height: 26px;
-        line-height: 26px;
+        height: 22px;
+        line-height: 22px;
     }
 
     .menu-footer{

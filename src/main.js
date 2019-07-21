@@ -7,6 +7,9 @@ import store from './store'
 import { db } from './database/database-conf'
 Vue.prototype.$db  = db
 
+// Requisições http async Axios
+import axios from 'axios'
+Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false
 

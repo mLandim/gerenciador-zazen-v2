@@ -39,8 +39,35 @@
 }
 .tabela-formatada > thead > tr > th.th:hover{
     color: #006699;
+}
+.tabela-formatada > thead > tr > th.th > .filtro{
+    border:1px solid #6e6e6e;
+    border-radius: 4px;
+    text-align: center;
+    cursor: text;
+    box-sizing: border-box;
+}
+.tabela-formatada > thead > tr > th.th > .filtro > input{
+    width: 100%;
+    border: 0;
+    outline: none;
+    padding-left: 3px;
+    box-sizing: border-box;
 
 }
+.head-sort-ico{
+    position: absolute;
+    display: block;
+    bottom: 0;
+    right: 6px;
+    height: 24px;
+    line-height: 24px;
+    background-color: #ffffff;
+    padding: 0 2px;
+    width: auto;
+
+}
+
 .tabela-formatada thead tr {
     display: table;
     width: calc(100% - 1.4em);
