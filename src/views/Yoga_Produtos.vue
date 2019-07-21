@@ -258,13 +258,14 @@
                             <div class="text-menu">Visualizar</div>
                         </div>
                         <div class="formulario-menu-item">
-                            <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
-                            <div class="text-menu">Vender</div>
-                        </div>
-                        <div class="formulario-menu-item">
                             <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Editar</div>
                         </div>
+                        <div class="formulario-menu-item">
+                            <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
+                            <div class="text-menu">Vender</div>
+                        </div>
+                        
                         <div class="formulario-menu-item">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Excluir</div>

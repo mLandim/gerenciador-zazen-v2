@@ -75,13 +75,13 @@
                             <div class="thunb-none"><font-awesome-icon :icon="['fas', 'user']" fixed-width /></div>
                         </div>
                         <div class="item-info">
-                            <span class="info-linha1">{{ item.nome }}</span>
+                            <span class="info-linha1">{{ item.nome_completo }}</span>
                             <span class="info-linha2"><font-awesome-icon :icon="['far', 'envelope']" size="lg" fixed-width /> {{ item.email }}</span>
                             <span class="info-linha2" v-if="item.instagram"><font-awesome-icon :icon="['fab', 'instagram']" size="lg" fixed-width /> {{ item.instagram }}</span>
                             
                         </div>
                         <div class="item-bar">
-                            <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone }} </span>
+                            <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone_completo }} </span>
                             <span><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width />{{ item.data_nascimento }}</span>
                             <span v-if="item.contratos" class="item-bar-contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos }} Contr. </span>
                         </div>
@@ -200,7 +200,7 @@
                             <div class="cd-lista">
                                 <div class="cd-lista-item" v-for="item in aniversariantes" :key="item.id">
                                     <span style="width:70%;" >
-                                        <span style="position:relative; display:block; width:100%;height:30px;line-height:40px; font-weight:700;">{{item.nome}}</span>
+                                        <span style="position:relative; display:block; width:100%;height:30px;line-height:40px; font-weight:700;">{{item.nome_completo}}</span>
                                         <span style="position:relative; display:block; width:100%;height:20px;line-height:10px;font-size:10px">{{item.email}}</span>
                                     </span>
                                     <span style="width:29%; font-weight:700; line-height:40px;">{{item.data_nascimento}}</span>
@@ -245,38 +245,44 @@
 
                             <div class="input-container" style="width:30%">
                                 <label>Nome *</label>
-                                <div class="input-border" style="height:30px">
+                                <div class="input-border-context regular-context" style="height:30px">
                                     <input type="text" v-model="novoDados.nome">
+                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
                                 </div>
                             </div>
                             <div class="input-container" style="width:70%">
                                 <label>Sobrenome *</label>
-                                <div class="input-border" style="height:30px">
+                                <div class="input-border-context regular-context" style="height:30px">
                                     <input type="text" v-model="novoDados.sobrenome">
+                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
                                 </div>
                             </div>
                             <div class="input-container" style="width:20%">
                                 <label>Cpf *</label>
-                                <div class="input-border" style="height:30px">
+                                <div class="input-border-context regular-context" style="height:30px">
                                     <input type="text" v-mask="'###.###.###-##'"  v-model="novoDados.cpf">
+                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
                                 </div>
                             </div>
                             <div class="input-container" style="width:20%">
                                 <label>Rg</label>
                                 <div class="input-border" style="height:30px">
                                     <input type="text"  v-model="novoDados.rg">
+
                                 </div>
                             </div>
                             <div class="input-container" style="width:60%">
                                 <label>Data de Nascimento *</label>
-                                <div class="input-border" style="height:30px;width:30%">
+                                <div class="input-border-context regular-context" style="height:30px;width:30%">
                                     <input type="text" v-mask="'##/##/####'"  v-model="novoDados.nascimento">
+                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
                                 </div>
                             </div>
                             <div class="input-container" style="width:60%">
                                 <label>Email *</label>
-                                <div class="input-border" style="height:30px;">
+                                <div class="input-border-context regular-context" style="height:30px;">
                                     <input type="text"  v-model="novoDados.email">
+                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
                                 </div>
                             </div>
                             <div class="input-container" style="width:40%">
@@ -354,7 +360,7 @@
                         </div>
                         <div class="formularios-inputs">
                             <div class="input-container" style="width:100%;">
-                                <div class="input-button right" @click="cadastrarCliente"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Cadastrar</div>
+                                <div class="input-button left" @click="cadastrarCliente"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Cadastrar Novo Cliente</div>
                             </div>
                         </div>
                     
@@ -374,11 +380,11 @@
                             <div class="text-menu">Visualizar</div>
                         </div>
                     
-                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==2}"  @click="menuSelecionado=1">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==1}"  @click="menuSelecionado=1">
                             <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Editar</div>
                         </div>
-                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==1}"  @click="menuSelecionado=2">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==2}"  @click="menuSelecionado=2">
                             <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Vender</div>
                         </div>
@@ -391,7 +397,7 @@
                     <!-- Conteudo do formulário -->
                     <div class="fomulario-conteudo">
                         <div class="formulario-conteudo-titulo">
-                            <span>{{itemSelecionado.nome}}</span>
+                            <span>{{itemSelecionado.nome_completo}}</span>
                         </div>
                         <!-- Visualizar -->
                         <template v-if="menuSelecionado===0">
@@ -426,7 +432,7 @@
                                         </div>
                                         <div class="formulario-conteudo-item-texto" v-if="itemSelecionado.telefone">
                                             <label for=""><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width /> Telefone</label>
-                                            <span>{{itemSelecionado.telefone}}</span>
+                                            <span>{{itemSelecionado.telefone_completo}}</span>
                                         </div>
                                         <div class="formulario-conteudo-item-texto">
                                             <label for=""><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Endereço</label>
@@ -476,11 +482,188 @@
                         <!-- Editar -->
                         <template v-if="menuSelecionado===1">
                             
-                        </template>
-                        <!-- Vender -->
+                            <div class="formulario-inputs">
 
-                        <!-- Excluir -->
+                                <div class="input-container" style="width:30%">
+                                    <label>Nome *</label>
+                                    <div class="input-border-context regular-context" style="height:30px">
+                                        <input type="text" v-model="itemSelecionado.nome">
+                                        <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:70%">
+                                    <label>Sobrenome *</label>
+                                    <div class="input-border-context regular-context" style="height:30px">
+                                        <input type="text" v-model="itemSelecionado.sobrenome">
+                                        <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:20%">
+                                    <label>Cpf *</label>
+                                    <div class="input-border-context regular-context" style="height:30px">
+                                        <input type="text" v-mask="'###.###.###-##'"  v-model="itemSelecionado.cpf">
+                                        <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:20%">
+                                    <label>Rg</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"  v-model="itemSelecionado.rg">
+
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:60%">
+                                    <label>Data de Nascimento *</label>
+                                    <div class="input-border-context regular-context" style="height:30px;width:30%">
+                                        <input type="text" v-mask="'##/##/####'"  v-model="itemSelecionado.data_nascimento">
+                                        <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:60%">
+                                    <label>Email *</label>
+                                    <div class="input-border-context regular-context" style="height:30px;">
+                                        <input type="text"  v-model="itemSelecionado.email">
+                                        <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:40%">
+                                    <label>Instagram</label>
+                                    <div class="input-border" style="height:30px;">
+                                        <input type="text"  v-model="itemSelecionado.instagram">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="formularios-inputs">
+                                
+                                <div class="input-container" style="width:100%">
+                                    <label>Cep</label>
+                                    <div class="input-border" style="height:30px;width:20%">
+                                        <input type="text" v-mask="'#####-###'"  v-model="itemSelecionado.endereco.cep" @blur="consultaCep($event, itemSelecionado.endereco)">
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:80%">
+                                    <label>Logradouro (Rua, Avenida, Travessa...)</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.logradouro" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:20%">
+                                    <label>Número</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.numero" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:100%">
+                                    <label>Complemento (Númdero do apartamentp, casa...)</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.complemento" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:20%">
+                                    <label>Bairro</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.bairro" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:20%">
+                                    <label>Cidade</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.cidade" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:60%">
+                                    <label>UF</label>
+                                    <div class="input-border" style="height:30px;width:40px">
+                                        <input type="text"   v-model="itemSelecionado.endereco.uf" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:60px">
+                                    <label>DDD</label>
+                                    <div class="input-border" style="height:30px">
+                                        <input type="text" v-mask="'(##)'"   v-model="itemSelecionado.telefone.ddd" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:calc(100% - 60px);">
+                                    <label>Telefone</label>
+                                    <div class="input-border" style="height:30px;width:16%;">
+                                        <input type="text"  v-mask="'#####-####'" v-model="itemSelecionado.telefone.numero" >
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:100%;">
+                                    <label>Observações</label>
+                                    <div class="input-border" style="height:60px;">
+                                        <textarea v-model="itemSelecionado.observacoes" ></textarea>
+                                        
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="formularios-inputs">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="editarCliente"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Confirmar Alterações</div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- Vender -->
+                        <template v-if="menuSelecionado===2">
+
+                            <div class="formulario-inputs">
+
+                                <div class="input-container" style="width:100%">
+                                    <label>Tipo de Produto</label>
+                                    <div class="input-buttons-list" style="height:auto">
+                                        <div class="opc-button" :class="{'opc-sel': venderDados.categoria === 'YOGA'}"  @click="venderDados.categoria = 'YOGA'">
+                                            <font-awesome-icon :icon="getIconeTipoProduto['YOGA']" fixed-width /> YOGA
+                                        </div>
+                                        <div class="opc-button" :class="{'opc-sel': venderDados.categoria === 'LOJA'}"  @click="venderDados.categoria = 'LOJA'">
+                                            <font-awesome-icon :icon="getIconeTipoProduto['LOJA']" fixed-width /> LOJA
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="formulario-inputs" v-if="venderDados.categoria === 'YOGA'">
+                                <div class="input-container" style="width:100%">
+                                    <label>Produtos Disponíveis</label>
+                                    <div class="input-border-context regular-context" style="height:30px;width:30%">
+                                        <input type="text" v-model="filtroProdutos" placeholder="Filtrar...">
+                                        <font-awesome-icon :icon="['fas','search']" fixed-width class="ico-context" />
+                                    </div>
+                                    <div class="input-itens-list" style="height:320px; overflow-y:auto;">
+                                        <div class="item-list" :class="{'item-list-sel': venderDados.produto != null && venderDados.produto.id === item.id}" style="height:40px;" v-for="item in listaProdutosVender" :key="item.id" @click="venderDados.produto = item">
+                                            <div class="item-cell" style="width:20%">{{item.modalidade}}</div>
+                                            <div class="item-cell" style="width:60%">Plano {{item.plano}} - Frequência {{item.frequencia}} - Horário {{item.horario}}h</div>
+                                            <div class="item-cell" style="width:20%; font-size:22px; font-weight:700; text-align:center;">R$ {{item.valor}}</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="formularios-inputs" v-if="venderDados.produto!=null">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="cadastrarContrato"><font-awesome-icon :icon="['fas', 'check']" size="1x" /> Confirmar Venda</div>
+                                </div>
+                            </div>
+
+                        </template>
                         
+                        <!-- Excluir -->
+                        <template v-if="menuSelecionado===3">
+                            <div class="formulario-inputs" >
+                                <div class="input-container" style="width:100%">
+                                    <label><font-awesome-icon :icon="['fas', 'exclamation-triangle']" /> Tem certeza de que deseja excluir o cliente?</label>
+                                </div>
+                            </div>
+                             <div class="formularios-inputs">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="excluirCliente"><font-awesome-icon :icon="['fas', 'trash-alt']" size="1x" /> Confirmar Exclusão do Cliente</div>
+                                </div>
+                            </div>
+                        </template>
 
                     </div>
 
@@ -527,13 +710,13 @@ export default {
                 tabelaTitle:'Clientes',
                 tabelaHead: [
                     {colunaId:0, columnText:'Cpf', columnData:'cpf', type:'string', filterText:'', asc:null,  style:{}},
-                    {colunaId:1, columnText:'Nome', columnData:'nome', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
+                    {colunaId:1, columnText:'Nome', columnData:'nome_completo', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
                     {colunaId:2, columnText:'Email', columnData:'email', type:'string', filterText:'',  asc:null,  style:{width:'20%', textAlign:'left'}},
                     {colunaId:3, columnText:'Igr', columnData:'instagram', type:'string', filterText:'',  asc:null,  style:{width:'10%',textAlign:'left'}},
                     {colunaId:4, columnText:'Data Cadastro', columnData:'data_cadastro', columnOrder: 'data_cadastro_order', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:5, columnText:'Data Nascimento', columnData:'data_nascimento', columnOrder: 'data_nascimento_order', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:6, columnText:'Situação', columnData:'situacao', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
-                    {colunaId:7, columnText:'Telefone', columnData:'telefone', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
+                    {colunaId:7, columnText:'Telefone', columnData:'telefone_completo', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     {colunaId:8, columnText:'Contratos', columnData:'contratos', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     //{colunaId:9, columnText:'Selecionar', columnData:'sel', type:'checkbox', asc:null, style:{width:'6%', textAlign:'center'}},
                 ],
@@ -577,7 +760,43 @@ export default {
                 contratos:[],
                 ativo: true,
                 cadastrado_por:''
-            }
+            },
+            editarDados:{
+                nome:'',
+                sobrenome:'',
+                email:'',
+                instagram:'',
+                cpf:'',
+                rg:'',
+                endereco:{
+                    logradouro:'',
+                    numero:'',
+                    complemento:'',
+                    cep:'',
+                    bairro:'',
+                    cidade:'',
+                    uf:''
+
+                },
+                telefone:{
+                    ddd:'',
+                    numero:'',
+                },
+                        
+                nascimento:'',
+                observacoes:'',
+                data_cadastro:'',
+                contratos:[],
+                ativo: true,
+                cadastrado_por:''
+            },
+            venderDados:{
+                categoria:null,
+                produto:null,
+                cliente:null,
+                turma:null
+            },
+            filtroProdutos:''
         }
     },
     computed:{
@@ -623,7 +842,25 @@ export default {
             return resposta
 
 
+        },
+
+        listaProdutosVender:function(){
+            let self = this
+            let resultado = []
+            let filtro = this.filtroProdutos
+            let arrLen = this.getTabela_Produtos.tabelaYoga.length
+            for (let index = 0; index < arrLen; index++) {
+                const element = this.getTabela_Produtos.tabelaYoga[index];
+
+                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                    resultado.push(element)
+                }
+            }
+            //this.tabelaClientes.tabelaBody = resultado
+            return resultado
         }
+
+
     },
     created(){
         console.log('Clientes >> Criado')
@@ -658,90 +895,37 @@ export default {
 
 
         // Itens / Tabela
-        abreDetalhe(item){
-            if(item==='novo'){
-                this.novoItem=true
-                this.detalhe = true
-            }else{
-                this.itemSelecionado = item
-                this.detalhe = true
-            }
-            console.log('abreDetalhe >>')
-            
-    
-        },
-        ordenar(tabelaClientes, tabelaFiltrada, e){
-            utilitarios.ordenarTabela(tabelaClientes, tabelaFiltrada, e)
-        },
+
+            // Selecionado item e abrindo formulário
+            abreDetalhe(item){
+                if(item==='novo'){
+                    this.novoItem=true
+                    this.detalhe = true
+                }else{
+                    this.itemSelecionado = item
+                    this.detalhe = true
+                }
+                console.log('abreDetalhe >>')
+                
+        
+            },
+
+            // Tabela > Ordernar tabela
+            ordenar(tabelaClientes, tabelaFiltrada, e){
+                utilitarios.ordenarTabela(tabelaClientes, tabelaFiltrada, e)
+            },
 
         // Formulário Detalhe
-        fechaDetalhe(){
-
-            console.log('fechaDetalhe >>')
-            this.detalheFechando = true
             
+            // Fechando formulário e liberando controles
+            fechaDetalhe(){
 
-            setTimeout(()=>{
-                this.novoItem = false
-                this.itemSelecionado = null
-                this.detalhe = false
-                this.detalheFechando = false
-            },1000)
-            
-        },
-        selecionaMenu(menuIndex){
-            this.menuSelecionado = menuIndex
-        },
-        // Formulario 0 - Clientes
-        consultaCep(e, formulario){
+                console.log('fechaDetalhe >>')
+                this.detalheFechando = true
+                
 
-            let self = this
-            const cep = e.target.value
-            console.log(cep)
-            if(cep.length>0){
-                this.$http.get('https://viacep.com.br/ws/' + cep + '/json/').then( resposta =>{
-
-                    console.log(resposta.data)
-                    let resultado = resposta.data
-                    formulario.logradouro = resultado.logradouro
-                    formulario.bairro = resultado.bairro
-                    formulario.cidade = resultado.localidade
-                    formulario.uf = resultado.uf
-
-                }).catch(error => {
-                    console.error(error)
-                })
-            }else{
-                console.log('cep vazio')
-            }
-
-            
-
-        },
-        cadastrarCliente(){
-
-            console.log('cadastrarCliente')
-            let self = this
-            // verificando campos obrigatórios
-            if(self.novoDados.nome.length == 0 || self.novoDados.sobrenome.length == 0 || self.novoDados.email.length == 0 || self.novoDados.cpf.length == 0 || self.novoDados.rg.length == 0 || self.novoDados.nascimento.length == 0){
-
-                alert('Preencha todos os campos obrigatórios! (*)')
-
-            }else{
-
-                self.novoDados.nome = self.novoDados.nome.toUpperCase()
-                self.novoDados.sobrenome = self.novoDados.sobrenome.toUpperCase()
-                self.novoDados.data_cadastro = new Date()
-                self.novoDados.nascimento = utilitarios.stringToDate(self.novoDados.nascimento)
-                self.novoDados.cadastrado_por = self.getUsuarioLogado.uid
-                self.novoDados.email = self.novoDados.email.toLowerCase()
-                self.novoDados.instagram = self.novoDados.instagram.toLowerCase()
-
-                this.$db.collection('clientes').add(self.novoDados).then(resposta =>{
-                    console.log(resposta.id)
-                    console.log(resposta)
-
-                    let dados = {
+                setTimeout(()=>{
+                    let novo = {
                         nome:'',
                         sobrenome:'',
                         email:'',
@@ -756,11 +940,13 @@ export default {
                             bairro:'',
                             cidade:'',
                             uf:''
+
                         },
                         telefone:{
                             ddd:'',
                             numero:'',
                         },
+                                
                         nascimento:'',
                         observacoes:'',
                         data_cadastro:'',
@@ -768,129 +954,376 @@ export default {
                         ativo: true,
                         cadastrado_por:''
                     }
+                    let vender = {
+                        categoria:null,
+                        produto:null,
+                        cliente:null,
+                        turma:null
+                    }
+                    this.menuSelecionado = 0
+                    this.novoDados = novo
+                    this.venderDados = vender
+                    this.novoItem = false
+                    this.itemSelecionado = null
+                    this.detalhe = false
+                    this.detalheFechando = false
+                },1000)
+                
+            },
+            // Selecionando item do menu
+            selecionaMenu(menuIndex){
+                this.menuSelecionado = menuIndex
+            },
 
-                    self.novoDados = dados
+            // Consultando CEP no web service dos Correios
+            consultaCep(e, formulario){
 
-                    alert('Cadastrato com sucesso!')
+                let self = this
+                const cep = e.target.value
+                console.log(cep)
+                if(cep.length>0){
+                    this.$http.get('https://viacep.com.br/ws/' + cep + '/json/').then( resposta =>{
+
+                        console.log(resposta.data)
+                        let resultado = resposta.data
+                        formulario.logradouro = resultado.logradouro
+                        formulario.bairro = resultado.bairro
+                        formulario.cidade = resultado.localidade
+                        formulario.uf = resultado.uf
+
+                    }).catch(error => {
+                        console.error(error)
+                    })
+                }else{
+                    console.log('cep vazio')
+                }
+
+                
+
+            },
+            // Cadastrar novo Cliente
+            cadastrarCliente(){
+
+                console.log('cadastrarCliente')
+                let self = this
+                // verificando campos obrigatórios
+                if(self.novoDados.nome.length == 0 || self.novoDados.sobrenome.length == 0 || self.novoDados.email.length == 0 || self.novoDados.cpf.length == 0 || self.novoDados.nascimento.length == 0){
+
+                    alert('Preencha todos os campos obrigatórios! (*)')
+
+                }else{
+
+                    self.novoDados.nome = self.novoDados.nome.toUpperCase()
+                    self.novoDados.sobrenome = self.novoDados.sobrenome.toUpperCase()
+                    self.novoDados.data_cadastro = new Date()
+                    self.novoDados.nascimento = utilitarios.stringToDate(self.novoDados.nascimento)
+                    self.novoDados.cadastrado_por = self.getUsuarioLogado.uid
+                    self.novoDados.email = self.novoDados.email.toLowerCase()
+                    self.novoDados.instagram = self.novoDados.instagram.toLowerCase()
+
+                    this.$db.collection('clientes').add(self.novoDados).then(resposta =>{
+                        console.log(resposta.id)
+                        console.log(resposta)
+
+                        let dados = {
+                            nome:'',
+                            sobrenome:'',
+                            email:'',
+                            instagram:'',
+                            cpf:'',
+                            rg:'',
+                            endereco:{
+                                logradouro:'',
+                                numero:'',
+                                complemento:'',
+                                cep:'',
+                                bairro:'',
+                                cidade:'',
+                                uf:''
+                            },
+                            telefone:{
+                                ddd:'',
+                                numero:'',
+                            },
+                            nascimento:'',
+                            observacoes:'',
+                            data_cadastro:'',
+                            contratos:[],
+                            ativo: true,
+                            cadastrado_por:''
+                        }
+
+                        self.novoDados = dados
+
+                        alert('Cadastrato com sucesso!')
+
+                    }).catch(function(error) {
+                        console.error("Error adding document: ", error)
+                    });
+
+                }
+                
+
+
+            },
+            // Vender produto para o CLiente
+            cadastrarContrato(){
+                let self = this
+                let clienteSelecionado = this.itemSelecionado
+                // Validação temporária
+                if(this.venderDados.produto!==null && clienteSelecionado!==null){
+
+
+                    let linha = {
+                        cliente:[clienteSelecionado.id],
+                        data_inicio:new Date(),
+                        produto:[this.venderDados.produto.id],
+                        turma:[''],
+                        situacao:'ativo',
+                        valor_total:this.venderDados.produto.valor
+                    }
+
+                    //let batch = this.$db.batch()
+                    //let updateCliente = this.$db.collection("clientes").doc(this.formularios[2].clienteSelecionado.id);
+                    //batch.update(updateCliente, {"contratos": FieldValue.arrayUnion()});
+
+
+                    this.$db.collection('contratos').add(linha).then(resposta =>{
+                        console.log(resposta.id)
+                        console.log(resposta)
+
+                        // Atualizando informações do cliente com o novo contrato
+                        self.$db.collection("clientes").doc(self.clienteSelecionado.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
+                            console.log("Clientes atualizados com sucesso")
+                        }).catch(error2 =>{
+                            console.error("Error adding document: ", error)
+                        })
+                        // Atualizando informações do produto com o novo contrato
+                        self.$db.collection("produtos").doc(self.venderDados.produto.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
+                            console.log("Produtos atualizados com sucesso")
+                        }).catch(error3 =>{
+                            console.error("Error adding document: ", error)
+                        })
+
+
+                        alert('Cadastrato com sucesso!')
+
+
+                    }).catch(function(error) {
+                        console.error("Error adding document: ", error)
+                    });
+
+                }else{
+                    alert("Selecione um Cliente e um Produto.")
+                }
+
+            },
+            // Editar Cliente
+            editarCliente(){
+
+                console.log('editarCliente')
+                let self = this
+                let clienteSelecionado = this.itemSelecionado
+                let cloneCliente = Object.assign({}, clienteSelecionado)
+                delete cloneCliente.id
+                console.log(clienteSelecionado)
+                console.log(cloneCliente)
+                let _nome = cloneCliente.nome.toUpperCase()
+                let _sobrenome =  cloneCliente.sobrenome.toUpperCase()
+                
+                //let _rg
+                //let _cpf
+                //let _email = cloneCliente.email
+                //let _instagram = cloneCliente.instagram
+                let _nascimento = utilitarios.stringToDate(cloneCliente.data_nascimento)
+                //let _observacoes = cloneCliente.observacoes
+                
+                
+                this.$db.collection('clientes').doc(clienteSelecionado.id).update({
+
+                    nome: _nome,
+                    sobrenome: _sobrenome,
+                    cpf: cloneCliente.cpf,
+                    rg: cloneCliente.rg,
+                    email: cloneCliente.email,
+                    instagram: cloneCliente.instagram,
+                    nascimento: _nascimento,
+                    endereco: cloneCliente.endereco,
+                    telefone: {ddd: cloneCliente.telefone.ddd.replace('(', '').replace(')',''), numero: cloneCliente.telefone.numero.replace(/-/g, '')  },
+                    observacoes: cloneCliente.observacoes,
+
+                    /*
+                    'endereco.bairro': cloneCliente.endereco.bairro,
+                    endereco.cep,
+                    endereco.complemento,
+                    endereco.cidade,
+                    endereco.logradouro,
+                    endereco.numero,
+                    endereco.uf,
+                    telefone.ddd,
+                    telefone.numero
+                    observacoes:
+                    */
+
+
+                }).then(function(){
+                        
+                        //console.log(resposta.id)
+                        //console.log(resposta)
+                        /*
+                        let dados = {
+                            nome:'',
+                            sobrenome:'',
+                            email:'',
+                            instagram:'',
+                            cpf:'',
+                            rg:'',
+                            endereco:{
+                                logradouro:'',
+                                numero:'',
+                                complemento:'',
+                                cep:'',
+                                bairro:'',
+                                cidade:'',
+                                uf:''
+                            },
+                            telefone:{
+                                ddd:'',
+                                numero:'',
+                            },
+                            nascimento:'',
+                            observacoes:'',
+                            data_cadastro:'',
+                            contratos:[],
+                            ativo: true,
+                            cadastrado_por:''
+                        }
+
+                        self.novoDados = dados
+                        */
+                        alert('Atualizado com sucesso!')
+                        self.fechaDetalhe()
 
                 }).catch(function(error) {
-                    console.error("Error adding document: ", error)
+                        console.error("Error adding document: ", error)
                 });
-
-            }
-            
-
-
-        },
-       
-
-
-        // Abre formulário flutuante para NOVO produto
-        novo(){
-            let linhasLen = this.linhasSelecionadas.length
-            if(linhasLen==0){
-                //alert('Novo produto - Em construção...')
-
-                this.$store.dispatch('abreFormularioFlutuante', {id:0, exibe:true})
-
-
-            }
-            
-        },
-        // Recarrega a base de dados
-        recarregarTabela(){
-            let linhasLen = this.linhasSelecionadas.length
-            if(linhasLen==0){
                 
-                //this.zerarBase()
-                //this.consultaBase3()
-                this.$store.dispatch('consultaBase_Clientes', true)
 
-            }
-            
-        },
-        vender(){
-            let linhasLen = this.linhasSelecionadas.length
-            if(linhasLen>0){
-                alert('Vender - Em construção...')
-            }
-        },
-        // Abre formulário com mais detalhes
-        detalhes(){
-            alert('Exibir  - Em construção...')
-        },
-        // Abre formulário flutuante para EDITAR produto
-        editar(){
-            let linhasLen = this.linhasSelecionadas.length
-            if(linhasLen>0){
-                alert('Editar  - Em construção...')
-            }
-            
-        },
-        // EXCLUIR produto
-        excluir(){
-            let linhasLen = this.linhasSelecionadas.length
-            if(linhasLen>0){
-                alert('Excluir  - Em construção...')
-            }
-            
-        },
+            },
+            // Excluir Cliente
+            excluirCliente(){
+                let self = this
+                let clienteSelecionado = this.itemSelecionado
+                this.$db.collection('clientes').doc(clienteSelecionado.id).delete().then(function(){
+                    self.fechaDetalhe()
+                    alert(`${clienteSelecionado.nome} excluído com sucesso!`)
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                })
+                
+            },
+        
+
+        // Métodos antigos
+
+            // Abre formulário flutuante para NOVO produto
+            novoantigo(){
+                let linhasLen = this.linhasSelecionadas.length
+                if(linhasLen==0){
+                    //alert('Novo produto - Em construção...')
+
+                    this.$store.dispatch('abreFormularioFlutuante', {id:0, exibe:true})
 
 
+                }
+                
+            },
+            // Recarrega a base de dados
+            recarregarTabela(){
+                let linhasLen = this.linhasSelecionadas.length
+                if(linhasLen==0){
+                    
+                    //this.zerarBase()
+                    //this.consultaBase3()
+                    this.$store.dispatch('consultaBase_Clientes', true)
 
-
-
+                }
+                
+            },
+            vender(){
+                let linhasLen = this.linhasSelecionadas.length
+                if(linhasLen>0){
+                    alert('Vender - Em construção...')
+                }
+            },
+            // Abre formulário com mais detalhes
+            detalhes(){
+                alert('Exibir  - Em construção...')
+            },
+            // Abre formulário flutuante para EDITAR produto
+            editar(){
+                let linhasLen = this.linhasSelecionadas.length
+                if(linhasLen>0){
+                    alert('Editar  - Em construção...')
+                }
+                
+            },
+            // EXCLUIR produto
+            excluir(){
+                let linhasLen = this.linhasSelecionadas.length
+                if(linhasLen>0){
+                    alert('Excluir  - Em construção...')
+                }
+                
+            },
 
 
         // Em desuso
 
-        // Ao selecionar
-        selecionarLinha(linha){
-            linha.sel = true
-            let linhasLen = this.linhasSelecionadas.length
-            let teste = false
-            for (let index = 0; index < linhasLen; index++) {
-                const element = this.linhasSelecionadas[index];
-                if(element.id === linha.id){
-                    teste = true
-                    break
+            // Ao selecionar
+            selecionarLinha(linha){
+                linha.sel = true
+                let linhasLen = this.linhasSelecionadas.length
+                let teste = false
+                for (let index = 0; index < linhasLen; index++) {
+                    const element = this.linhasSelecionadas[index];
+                    if(element.id === linha.id){
+                        teste = true
+                        break
+                    }
                 }
-            }
-            if(!teste){
-                this.linhasSelecionadas.push(linha)
-            }
-        },
-
-        // Ao desselecionar
-        desselecionarLinha(linha){
-            linha.sel = false
-            let linhasLen = this.linhasSelecionadas.length
-            for (let index = 0; index < linhasLen; index++) {
-                const element = this.linhasSelecionadas[index];
-                if(element.id === linha.id){
-                    this.linhasSelecionadas.splice(index, 1)
-                    break
+                if(!teste){
+                    this.linhasSelecionadas.push(linha)
                 }
-            }
-        },
+            },
 
-        selecionaCategoria(item){
-
-            this.totalizadores.forEach(function(valor){
-
-                if(item.nome===valor.nome){
-                    valor.selecionado=true
-                    valor.style.opacity = 1
-                }else{
-                    valor.selecionado = false
-                    valor.style.opacity = 0.5
+            // Ao desselecionar
+            desselecionarLinha(linha){
+                linha.sel = false
+                let linhasLen = this.linhasSelecionadas.length
+                for (let index = 0; index < linhasLen; index++) {
+                    const element = this.linhasSelecionadas[index];
+                    if(element.id === linha.id){
+                        this.linhasSelecionadas.splice(index, 1)
+                        break
+                    }
                 }
-            })
+            },
 
-        },
+            selecionaCategoria(item){
 
-     
+                this.totalizadores.forEach(function(valor){
 
+                    if(item.nome===valor.nome){
+                        valor.selecionado=true
+                        valor.style.opacity = 1
+                    }else{
+                        valor.selecionado = false
+                        valor.style.opacity = 0.5
+                    }
+                })
+
+            },
 
     }
 

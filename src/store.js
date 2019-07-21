@@ -282,8 +282,11 @@ export default new Vuex.Store({
 						//console.log('Novo Cliente >>')
                         let linha = {   
                             id: change.doc.id,
-                            cpf: change.doc.data().cpf,
-                            nome: `${change.doc.data().nome} ${change.doc.data().sobrenome}`, 
+							cpf: change.doc.data().cpf,
+							rg: change.doc.data().rg,
+							nome:change.doc.data().nome,
+							sobrenome:change.doc.data().sobrenome,
+                            nome_completo: `${change.doc.data().nome} ${change.doc.data().sobrenome}`, 
                             email: change.doc.data().email.toLowerCase(), 
                             instagram: change.doc.data().instagram.toLowerCase(), 
                             data_nascimento: utilitarios.dataFormatada(change.doc.data().nascimento.toDate()) ,  //context.dispatch('dataFormatada', change.doc.data().nascimento.toDate()),
@@ -291,10 +294,12 @@ export default new Vuex.Store({
 							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
 							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
                             situacao: (change.doc.data().ativo==true) ? 'ativo' : 'inativo',
-                            telefone: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
+							telefone_completo: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
+							telefone: change.doc.data().telefone,
 							contratos: change.doc.data().contratos.length,
 							contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
 							endereco: change.doc.data().endereco,
+							observacoes: change.doc.data().observacoes,
 							tags:tags,
                             sel:false
                         }
@@ -302,12 +307,15 @@ export default new Vuex.Store({
 						context.state.tabelas.clientes.push(linha)
 						
 					}else if (change.type === "modified") {
-							console.log("Modified city: ", change.doc.data().nome);
+							console.log("Cliente Atualizado: ", change.doc.data().nome);
 							
 								let linha = {   
 									id: change.doc.id,
 									cpf: change.doc.data().cpf,
-									nome: `${change.doc.data().nome} ${change.doc.data().sobrenome}`, 
+									rg: change.doc.data().rg,
+									nome:change.doc.data().nome,
+									sobrenome:change.doc.data().sobrenome,
+									nome_completo: `${change.doc.data().nome} ${change.doc.data().sobrenome}`,  
 									email: change.doc.data().email.toLowerCase(), 
 									instagram: change.doc.data().instagram.toLowerCase(), 
 									data_nascimento: utilitarios.dataFormatada(change.doc.data().nascimento.toDate()) ,  //context.dispatch('dataFormatada', change.doc.data().nascimento.toDate()),
@@ -315,9 +323,12 @@ export default new Vuex.Store({
 									data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
 									data_cadastro_order: change.doc.data().data_cadastro.toDate(),
 									situacao: (change.doc.data().ativo==true) ? 'ativo' : 'inativo',
-									telefone: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
+									telefone_completo: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
+									telefone: change.doc.data().telefone,
 									contratos: change.doc.data().contratos.length,
 									endereco: change.doc.data().endereco,
+									contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
+									observacoes: change.doc.data().observacoes,
 									tags:tags,
 									sel:false
 								}
@@ -331,6 +342,18 @@ export default new Vuex.Store({
 								}	
 								
 							
+					}else if (change.type === "removed") {
+						
+						console.log("Cliente Removido: ", change.doc.data().nome);
+						//let tabelalen = context.state.tabelas.clientes.length	
+						for (let index = 0; index < context.state.tabelas.clientes.length; index++) {
+							const element = context.state.tabelas.clientes[index];
+							if(element.id == change.doc.id){
+								//context.state.tabelas.clientes[index] = linha
+								context.state.tabelas.clientes.splice(index, 1)
+							}
+						}	
+						
 					}else{
 						console.log(`Ocorreu uma mudança do tipo: ${change.type}`)
 					}
