@@ -13,6 +13,7 @@
                 <div class="logo-p"></div>
             </header>
             <aside class="menu">
+                <div class="logo-texto">gerenciador</div>
                 <div class="logo"></div>
                 <div class="menu-reponsivo">
                     <menu-lateral></menu-lateral>
@@ -162,9 +163,18 @@ export default {
       display: grid;
       grid-template-rows: 95px auto;
       background-color: #ffffff;
+      position: relative;
     }
-
+        .logo-texto{
+            position: absolute;
+            font-family:  'Reem Kufi';
+            top: 5px;
+            left: 13px;
+            color: black;
+            z-index:10;
+        }   
         .logo{
+            position: relative;
             background-image: url("assets/logo_preta_zazen_nome.webp");
             background-position: center;
             background-repeat: no-repeat;
@@ -173,6 +183,7 @@ export default {
             padding: 6px;
             box-sizing: border-box;
         }
+        
         
         .menu-reponsivo{
             background-color: #ffffff;    

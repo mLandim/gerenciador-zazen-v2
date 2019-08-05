@@ -296,7 +296,8 @@ export default new Vuex.Store({
                             situacao: (change.doc.data().ativo==true) ? 'ativo' : 'inativo',
 							telefone_completo: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
 							telefone: change.doc.data().telefone,
-							contratos: change.doc.data().contratos.length,
+							contratos: change.doc.data().contratos,
+							contratos_len: change.doc.data().contratos.length,
 							contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
 							endereco: change.doc.data().endereco,
 							observacoes: change.doc.data().observacoes,
@@ -325,7 +326,8 @@ export default new Vuex.Store({
 									situacao: (change.doc.data().ativo==true) ? 'ativo' : 'inativo',
 									telefone_completo: `${change.doc.data().telefone.ddd} ${change.doc.data().telefone.numero}`,
 									telefone: change.doc.data().telefone,
-									contratos: change.doc.data().contratos.length,
+									contratos: change.doc.data().contratos,
+									contratos_len: change.doc.data().contratos.length,
 									endereco: change.doc.data().endereco,
 									contratos_text: change.doc.data().contratos.length + ' Contrato(s)',
 									observacoes: change.doc.data().observacoes,
@@ -343,7 +345,7 @@ export default new Vuex.Store({
 								
 							
 					}else if (change.type === "removed") {
-						
+
 						console.log("Cliente Removido: ", change.doc.data().nome);
 						//let tabelalen = context.state.tabelas.clientes.length	
 						for (let index = 0; index < context.state.tabelas.clientes.length; index++) {
@@ -486,6 +488,7 @@ export default new Vuex.Store({
 							let clienteId = change.doc.data().cliente[0]
 							let turmaId = change.doc.data().turma[0]
 							let dataInicio = utilitarios.dataFormatada(change.doc.data().data_inicio.toDate())
+							let dataInicioOrder = change.doc.data().data_inicio.toDate()
 							let valorTotal = change.doc.data().valor_total
 							let situacao = change.doc.data().situacao
 
@@ -500,9 +503,12 @@ export default new Vuex.Store({
                                     frequencia:'',
                                     horario:'', 
 									data_inicio: dataInicio,
+									data_inicio_order: dataInicioOrder,
 									vencimento: '',
+									vencimento_order: '',
 									vencimento_pz: '',
 									cliente: null,
+									cliente_nome: '',
 									situacao: situacao,
 									turma: '',
 									valor: valorTotal,
@@ -518,6 +524,7 @@ export default new Vuex.Store({
                                 linha.frequencia = resultado2.data().frequencia
                                 linha.horario = resultado2.data().horario
 								linha.vencimento = utilitarios.dataVencimentoFormatada(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+								linha.vencimento_order = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
 								linha.vencimento_pz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
 								
 								tags += `#${resultado2.data().categoria}|#${resultado2.data().modalidade}|#${resultado2.data().plano}|#${resultado2.data().frequencia}|#${resultado2.data().horario}|`								
@@ -548,8 +555,8 @@ export default new Vuex.Store({
 								//linha.valor = resultado2.data().valor
 								firebase.firestore().collection('clientes').doc(clienteId).get().then( resultado3 =>{
 
-									linha.cliente = {id: clienteId, nome:resultado3.data().nome}
-
+									linha.cliente = resultado3.data() //{id: clienteId, nome:resultado3.data().nome}
+									linha.cliente_nome = resultado3.data().nome
 									context.state.tabelas.contratos.tabelaYoga.push(linha)
 
 								})

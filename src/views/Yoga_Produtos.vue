@@ -184,7 +184,7 @@
             <div :class="{'formulario-detalhes-fechando' : detalheFechando, 'formulario-detalhes': detalheFechando===false}" >
                 
                 <template v-if="novoItem">
-                     <div class="formulario-menu">
+                    <div class="formulario-menu">
 
                         <div class="form-ico-close" @click="fechaDetalhe">
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
@@ -291,6 +291,7 @@ import { utilitarios }  from '@/utilitarios'
 
 import {mask} from 'vue-the-mask'
 import {Money} from 'v-money'
+import firebase from 'firebase'
 
 export default {
 
@@ -383,7 +384,7 @@ export default {
             return resultado
 
         },
-         tabelaFiltrada:function(){
+        tabelaFiltrada:function(){
             return utilitarios.filtrandoTabela(this.tabelaProdutosYoga);
         },
        

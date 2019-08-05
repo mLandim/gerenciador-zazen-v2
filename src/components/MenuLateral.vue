@@ -179,6 +179,11 @@ export default {
             color: #1a1a1a;
             z-index: 10;
         }
+        #nav a:active{
+            
+            color: #00AAFF;
+            
+        }
 
         #nav a > svg{
             margin-right: 10px;

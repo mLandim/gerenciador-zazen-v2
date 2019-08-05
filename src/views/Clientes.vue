@@ -83,7 +83,7 @@
                         <div class="item-bar">
                             <span v-if="item.telefone"><font-awesome-icon :icon="['fas', 'phone']" size="lg" fixed-width />{{ item.telefone_completo }} </span>
                             <span><font-awesome-icon :icon="['fas', 'birthday-cake']" size="lg" fixed-width />{{ item.data_nascimento }}</span>
-                            <span v-if="item.contratos" class="item-bar-contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos }} Contr. </span>
+                            <span v-if="item.contratos" class="item-bar-contratos"><font-awesome-icon :icon="['fas', 'file-invoice-dollar']" size="lg" fixed-width />{{ item.contratos_len }} Contr. </span>
                         </div>
                     </div>
 
@@ -451,7 +451,7 @@
                                         </div>
                                         <div class="cliente-contratos-lista">
                                             <template v-for="item in contratos"  >
-                                                <div class="cliente-contratos-item"  :key="item.id"  v-if="item.cliente.id === itemSelecionado.id">
+                                                <div class="cliente-contratos-item"  :key="item.id"  v-if="itemSelecionado.contratos.indexOf(item.id) !=- 1"> <!--item.cliente.id === itemSelecionado.id-->
                                                     <div class="item-image">
                                                         <div class="thunb-none">
                                                             <font-awesome-icon :icon="getIconeTipoProduto[item.categoria]" fixed-width />
@@ -686,7 +686,7 @@ import { utilitarios }  from '@/utilitarios'
 
 import {mask} from 'vue-the-mask'
 import {Money} from 'v-money'
-
+import firebase from 'firebase'
 
 export default {
 
@@ -717,7 +717,7 @@ export default {
                     {colunaId:5, columnText:'Data Nascimento', columnData:'data_nascimento', columnOrder: 'data_nascimento_order', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:6, columnText:'Situação', columnData:'situacao', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     {colunaId:7, columnText:'Telefone', columnData:'telefone_completo', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
-                    {colunaId:8, columnText:'Contratos', columnData:'contratos', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
+                    {colunaId:8, columnText:'Contratos', columnData:'contratos_len', type:'string', filterText:'', asc:null, style:{textAlign:'center'}},
                     //{colunaId:9, columnText:'Selecionar', columnData:'sel', type:'checkbox', asc:null, style:{width:'6%', textAlign:'center'}},
                 ],
                 tabelaBody:[]
@@ -866,12 +866,15 @@ export default {
         console.log('Clientes >> Criado')
         console.log(this.getTabela_Clientes)
 
+        // Clientes
         this.tabela = this.getTabela_Clientes // itens
         this.tabelaClientes.tabelaBody = this.getTabela_Clientes // tabelas
-
+        
+        // Contratos
+        console.log('Clientes >> Contratos')
         console.log(this.getTabela_Contratos)
         this.contratos = [...this.getTabela_Contratos.tabelaYoga, ...this.getTabela_Contratos.tabelaSalas, ...this.getTabela_Contratos.tabelaLoja]
-        
+        console.log(this.contratos)
     },
     watch:{
 
@@ -1093,7 +1096,7 @@ export default {
                         console.log(resposta)
 
                         // Atualizando informações do cliente com o novo contrato
-                        self.$db.collection("clientes").doc(self.clienteSelecionado.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
+                        self.$db.collection("clientes").doc(clienteSelecionado.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
                             console.log("Clientes atualizados com sucesso")
                         }).catch(error2 =>{
                             console.error("Error adding document: ", error)
