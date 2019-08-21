@@ -21,8 +21,8 @@
                 <div class="menu-grupo-sub" v-if="menuGrupo.yoga">
                     <router-link to="/yoga-produtos"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Produtos</router-link>
                     <router-link to="/yoga-contratos"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Contratos</router-link>
-                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Turmas</router-link>
-                    <router-link to="/produtos-balcao"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Professoras</router-link>
+                    <router-link to="/yoga-turmas"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Turmas</router-link>
+                    <router-link to="/yoga-professoras"><font-awesome-icon :icon="['fas', 'chevron-right']" size="sm" /> Professoras</router-link>
                     
                 </div>
 
@@ -236,6 +236,7 @@ export default {
         left:0;
         width: 100%;
         height: auto;
+        border-top: 1px solid #f2f2f2;
 
     }
     .menu-footer span{

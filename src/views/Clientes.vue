@@ -35,6 +35,10 @@
                         <div class="btn-label">Estatísticas</div>
                         <font-awesome-icon :icon="['fas', 'chart-line']"  class="btn-ico" />
                     </div>
+                     <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
+                        <div class="btn-label">Novo Cliente</div>
+                        <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                    </div>
                 </div>
 
             </div>
@@ -59,13 +63,14 @@
                     </div>
 
                     <!-- Comandos para manipular os dados da tabela -->
+                    <!--
                     <div class="dock-btn dock-btn-right">
                         <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
                             <div class="btn-label">Novo Cliente</div>
                             <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                         </div>
                     </div>
-
+                    -->
                 </div>
 
                 <div class="lista-itens">
@@ -100,13 +105,14 @@
                     </div>
 
                     <!-- Comandos para manipular os dados da tabela -->
+                    <!--
                     <div class="dock-btn dock-btn-right">
                         <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
                             <div class="btn-label">Novo Cliente</div>
                             <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                         </div>
                     </div>
-
+                    -->
                 </div>
 
                 <div class="cd-grid-container">
@@ -816,9 +822,30 @@ export default {
             for (let index = 0; index < arrLen; index++) {
                 const element = this.getTabela_Clientes[index];
 
-                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
-                    resultado.push(element)
+                //if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                //   resultado.push(element)
+                //}
+
+                // Permite aplicar o filtro com múltiplos termos - separados por espaço
+                if(filtro.includes(' ')){
+                    let contaFiltros = 0
+                    let filtroArr = filtro.split(' ')
+                    for (let index2 = 0; index2 < filtroArr.length; index2++) {
+                        const element2 = filtroArr[index2];
+                        if(JSON.stringify(element).toUpperCase().includes(element2.toUpperCase()) && resultado.indexOf(element) ===-1){
+                            contaFiltros++
+                        }
+                    }
+                    if(contaFiltros===filtroArr.length){
+                        resultado.push(element)
+                    }
+                }else{
+                    if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                        resultado.push(element)
+                    }
                 }
+
+
             }
             this.tabelaClientes.tabelaBody = resultado
             return resultado

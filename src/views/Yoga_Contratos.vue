@@ -28,6 +28,10 @@
                         <div class="btn-label">Cartões</div>
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
                     </div>
+                    <div class="btn btn-green"   @click="abreDetalhe('novo')">
+                        <div class="btn-label">Novo Contrato - Yoga</div>
+                        <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
+                    </div>
                 </div>
             </div>
 
@@ -39,13 +43,14 @@
                         <input type="text" placeholder="Filtar Resultados..." v-model="filtro" >
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
                     </div>
+                    <!--
                     <div class="dock-btn dock-btn-right">
                         <div class="btn btn-green"   @click="abreDetalhe('novo')">
                             <div class="btn-label">Novo Contrato - Yoga</div>
                             <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                         </div>
                     </div>
-                    
+                    -->
                 </div>
 
                 <div class="lista-itens">
@@ -80,12 +85,14 @@
                         <font-awesome-icon :icon="['fas', 'search']" fixed-width class="input-ico" />
                     </div>
                     <!-- Comandos para manipular os dados da tabela -->
+                    <!--
                     <div class="dock-btn dock-btn-right">
                         <div class="btn btn-green"   @click="abreDetalhe('novo')">
                             <div class="btn-label">Novo Contrato - Yoga</div>
                             <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                         </div>
                     </div>
+                    -->
                 </div>
 
                 <div class="cd-grid-container">

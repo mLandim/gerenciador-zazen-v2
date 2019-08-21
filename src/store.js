@@ -44,7 +44,8 @@ export default new Vuex.Store({
 			produtos:{tabelaYoga:[], tabelaSalas:[], tabelaLoja:[]},
 			contratos:{tabelaYoga:[], tabelaSalas:[], tabelaLoja:[]},
 			turmas:[],
-			agendamentos:[]
+			agendamentos:[],
+			professoras:[]
 		},
 
 		iconeTipoProduto:{
@@ -65,7 +66,8 @@ export default new Vuex.Store({
 		getTabela_Clientes: state => state.tabelas.clientes,
 		getTabela_Produtos: state => state.tabelas.produtos,
 		getTabela_Contratos: state => state.tabelas.contratos,
-
+		getTabela_Professoras: state => state.tabelas.professoras,
+		getTabela_Turmas: state => state.tabelas.turmas,
 		getIconeTipoProduto: state => state.iconeTipoProduto,
 
 
@@ -90,7 +92,7 @@ export default new Vuex.Store({
 		},
 
 
-		// Verificando usuario logado
+		// Verificando usuario logado - dispara todas as consultas iniiais (monitoramoentos snapshot)
 		verificaUsuarioLogado: (context, payload) => {
 
 			console.log('verificaUsuarioLogado');
@@ -109,7 +111,9 @@ export default new Vuex.Store({
 					context.dispatch('consultaBase_Clientes', true)
 					context.dispatch('consultaBase_Produtos', true)
 					context.dispatch('consultaBase_Contratos', true)
-			
+					context.dispatch('consultaBase_Professoras', true)
+					context.dispatch('consultaBase_Turmas', true)
+
 				}else{
 
 					console.log('verificaUsuarioLogado >> offline');
@@ -580,7 +584,194 @@ export default new Vuex.Store({
 
 		},
 
+		consultaBase_Professoras: (context, payload) => {
+			console.log('consultaBase_Professoras >>')
+			context.dispatch('zerabase', 'professoras')
+			let self = this
+			context.state.tabelas['professoras'] = []
+			firebase.firestore().collection('professoras').orderBy("data_cadastro").onSnapshot(resposta =>{
+				
+				const changes = resposta.docChanges()
+                changes.forEach(change =>{
+					console.log(change.type)
+					//console.log(change.doc.data())
 
+					if(change.type === 'added'){
+						let linha = {   
+							id: change.doc.id,
+							nome: change.doc.data().dados_pessoais.nome + ' ' + change.doc.data().dados_pessoais.sobrenome,
+							sobrenome: change.doc.data().dados_pessoais.sobrenome,
+							data_nascimento: utilitarios.dataFormatada(change.doc.data().dados_pessoais.data_nascimento.toDate()),
+							data_nascimento_order: change.doc.data().dados_pessoais.data_nascimento.toDate(),
+							cpf: change.doc.data().dados_pessoais.cpf,
+							rg: change.doc.data().dados_pessoais.rg,
+							email: change.doc.data().dados_pessoais.email,
+							instagram: change.doc.data().dados_pessoais.instagram,
+							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
+							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
+							turmas: change.doc.data().turmas,
+							turmas_len: change.doc.data().turmas.length,
+							modalidades: change.doc.data().modalidades.join(', '),
+							modalidades_len: change.doc.data().modalidades.length,
+							categoria: change.doc.data().categoria,
+							situacao: change.doc.data().situacao,
+
+                        }
+                        //console.log(linha)
+						context.state.tabelas.professoras.push(linha)
+
+
+					}else if (change.type === "modified") {
+						console.log("Professora Atualizada: ", change.doc.data().nome);
+						let linha = {   
+							id: change.doc.id,
+							nome: change.doc.data().dados_pessoais.nome + ' ' + change.doc.data().dados_pessoais.sobrenome,
+							sobrenome: change.doc.data().dados_pessoais.sobrenome,
+							data_nascimento: utilitarios.dataFormatada(change.doc.data().dados_pessoais.data_nascimento.toDate()),
+							data_nascimento_order: change.doc.data().dados_pessoais.nascimento.toDate(),
+							cpf: change.doc.data().dados_pessoais.cpf,
+							rg: change.doc.data().dados_pessoais.rg,
+							email: change.doc.data().dados_pessoais.email,
+							instagram: change.doc.data().dados_pessoais.instagram,
+							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
+							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
+							turmas: change.doc.data().turmas,
+							turmas_len: change.doc.data().turmas.length,
+							modalidades: change.doc.data().modalidades.join(', '),
+							modalidades_len: change.doc.data().modalidades.length,
+							categoria: change.doc.data().categoria,
+							situacao: change.doc.data().situacao,
+
+                        }
+						let tabelalen = context.state.tabelas.professoras.length	
+						for (let index = 0; index < tabelalen; index++) {
+							const element = context.state.tabelas.professoras[index];
+							if(element.id == change.doc.id){
+								context.state.tabelas.professoras[index] = linha
+										
+							}
+						}	
+						
+						
+					}else if (change.type === "removed") {
+
+						console.log("Professora Removida: ", change.doc.data().nome);
+						//let tabelalen = context.state.tabelas.clientes.length	
+						for (let index = 0; index < context.state.tabelas.professoras.length; index++) {
+							const element = context.state.tabelas.professoras[index];
+							if(element.id == change.doc.id){
+								//context.state.tabelas.clientes[index] = linha
+								context.state.tabelas.professoras.splice(index, 1)
+							}
+						}	
+
+					}else{
+						console.log(`Ocorreu uma mudança (não monitorada) do tipo: ${change.type}`)
+					}
+
+
+				})
+			
+			})
+		},
+		
+		consultaBase_Turmas: (context, payload) => {
+			console.log('consultaBase_Turmas >>')
+			context.dispatch('zerabase', 'turmas')
+			let self = this
+			context.state.tabelas['turmas'] = []
+
+			firebase.firestore().collection('turmas').orderBy("modalidade").onSnapshot(resposta =>{
+				
+				const changes = resposta.docChanges()
+                changes.forEach(change =>{
+
+					console.log(change.type)
+					console.log(change.doc.data())
+
+					if(change.type === 'added'){
+
+						
+						let linha = {   
+							id: change.doc.id,
+							categoria: change.doc.data().categoria,
+							horario: change.doc.data().horario,
+							modalidade: change.doc.data().modalidade,
+							professoras: change.doc.data().professoras,
+							professoras_nome: null,
+							professoras_join: change.doc.data().professoras.join(', '),
+							professoras_len: change.doc.data().professoras.length,
+							dia_semana: change.doc.data().dia_semana,
+							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
+							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
+
+						}
+						//change.doc.data().professoras.forEach( professoraId =>{
+							let professoraId = change.doc.data().professoras[0]
+							firebase.firestore().collection('professoras').doc(professoraId).get().then( resultado2 =>{
+								linha.professoras_nome = resultado2.data().dados_pessoais.nome + ' ' + resultado2.data().dados_pessoais.sobrenome
+							})
+						//})
+						
+                        //console.log(linha)
+						context.state.tabelas.turmas.push(linha)
+
+
+					}else if (change.type === "modified") {
+						console.log("Professora Atualizada: ", change.doc.data().nome);
+						let linha = {   
+							id: change.doc.id,
+							categoria: change.doc.data().categoria,
+							horario: change.doc.data().horario,
+							modalidade: change.doc.data().modalidade,
+							professoras: change.doc.data().professoras,
+							professoras_nome: null,
+							professoras_join: change.doc.data().professoras.join(', '),
+							professoras_len: change.doc.data().professoras.length,
+							dia_semana: change.doc.data().dia_semana,
+							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
+							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
+
+						}
+							let professoraId = change.doc.data().professoras[0]
+							firebase.firestore().collection('professoras').doc(professoraId).get().then( resultado2 =>{
+								linha.professoras_nome = resultado2.data().dados_pessoais.nome + ' ' + resultado2.data().dados_pessoais.sobrenome
+							})
+
+						let tabelalen = context.state.tabelas.turmas.length	
+						for (let index = 0; index < tabelalen; index++) {
+							const element = context.state.tabelas.turmas[index];
+							if(element.id == change.doc.id){
+								context.state.tabelas.turmas[index] = linha
+										
+							}
+						}	
+						
+						
+					}else if (change.type === "removed") {
+
+						console.log("Professora Removida: ", change.doc.data().nome);
+						//let tabelalen = context.state.tabelas.clientes.length	
+						for (let index = 0; index < context.state.tabelas.turmas.length; index++) {
+							const element = context.state.tabelas.turmas[index];
+							if(element.id == change.doc.id){
+								//context.state.tabelas.clientes[index] = linha
+								context.state.tabelas.turmas.splice(index, 1)
+							}
+						}	
+
+					}else{
+						console.log(`Ocorreu uma mudança (não monitorada) do tipo: ${change.type}`)
+					}
+				})
+
+			})
+
+
+
+		},
+		
+	
 	}
 
 })

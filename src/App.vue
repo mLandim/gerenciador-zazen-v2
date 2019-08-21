@@ -129,8 +129,7 @@ export default {
 *********************************************************************/ 
 
     @import './css/fontes.css';
-    @import './css/tabelas.1.0.0.css';
-    @import './css/botoes.1.0.0.css';
+  
 
 
 
@@ -182,6 +181,7 @@ export default {
             color:#ffffff;
             padding: 6px;
             box-sizing: border-box;
+            border-bottom: 1px solid #f2f2f2;
         }
         
         
@@ -236,7 +236,8 @@ export default {
 /*********************************************************************
     IMPORTS CASCADE ORDEM DE RELEVÂNCIA
 *********************************************************************/ 
-
+    @import './css/tabelas.1.0.0.css';
+    @import './css/botoes.1.0.0.css';
     @import './css/paginas.css';
     @import './css/formulario-detalhes.css';
     @import './css/elements.css';

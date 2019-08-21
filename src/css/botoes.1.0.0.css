@@ -46,7 +46,7 @@
             margin: 0 6px;
             transition: 0.5s;
             transition-timing-function: ease-in;
-            
+            vertical-align: top;
         }
         .dock-btn .btn:hover {
             padding: 0 10px;

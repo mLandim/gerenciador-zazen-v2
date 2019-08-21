@@ -82,3 +82,153 @@
     padding: 10px;
     box-sizing: border-box;
 }
+
+
+
+/* estilo da grade horários  - yoga turma / agendamento salas */
+.grade-titulo{
+    display: block;
+    position: relative;
+    height:100%;
+    width: 100%;
+    padding: 10px;
+    color: #6e6e6e;
+    background-color: #ffffff;
+    font-weight: 700;
+    border-bottom: 1px solid #f2f2f2;
+    box-sizing: border-box;
+}
+.grade-titulo span{
+    vertical-align: middle;
+    display: block;
+    position: relative;
+}
+.grade-container{
+    display: grid;
+    grid-template-rows: 30px calc(100% - 30px);
+    position: relative;
+    height:100%;
+    width: 100%;
+    padding: 5px;
+    background-color: #ffffff;
+   
+    box-sizing: border-box;
+}
+.grade-conteudo-titulo{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    height: 100%;
+    box-sizing: border-box;
+}
+.grade-conteudo-titulo div{
+    display: block;
+    position: relative;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+    .novo-horario{
+        
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+    }
+
+.grade-conteudo{
+    position: relative;
+    display: grid;
+    grid-row-gap: 5px;
+    grid-template-rows: repeat(auto-fill, 60px);
+    
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.grade-conteudo-horario{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border: 1px solid #f2f2f2;
+    height: 60px;
+    box-sizing: border-box;
+}
+.grade-conteudo-horario:hover{
+    background: #f2f2f2;
+}
+.grade-conteudo-horario div{
+    display: block;
+    position: relative;
+    text-align: center;
+    height: 60px;
+    line-height: 60px;
+    box-sizing: border-box;
+
+}
+
+.grade-conteudo-novo-horario-desabled{
+    display: none;
+}
+.grade-conteudo-novo-horario-enabled{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    height: 60px;
+    background: #feffcf;
+    box-sizing: border-box;
+}
+.grade-conteudo-novo-horario-enabled > div{
+    display: block;
+    position: relative;
+    text-align: center;
+    height: 60px;
+    
+    box-sizing: border-box;
+
+}
+.novo-horario-div{
+    display: block;
+    position: relative;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.novo-horario-input-mask{
+    position: relative;
+    display: inline-block;
+    border: 1px solid #6e6e6e;
+    background-color: #ffffff;
+    padding: 0 5px 0 5px;
+    border-radius: 5px;
+    cursor: text;
+    width: 50%;
+    box-sizing: border-box;
+}
+.novo-horario-input-mask input{
+    height: 100%;
+    width: 100%;
+    border: 0;
+    outline: none;
+    color: #6e6e6e;
+    text-align: center;
+    background-color: #ffffff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.novo-horario-cancela{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.novo-horario-confirma{
+    margin-left: 5px;
+    cursor: pointer;
+}
+.nova-turma-ico{
+    cursor: pointer;
+    color: #888888;
+}
+.nova-turma-ico:hover{
+    color:#000000;
+}
