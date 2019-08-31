@@ -1,6 +1,6 @@
 export const utilitarios = {
 
-
+        diaSemana:['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
         //**************************************************************************************************************************
         // Utilitários
         mesAtual(){
@@ -129,6 +129,29 @@ export const utilitarios = {
 
         },
 
+
+        filtroMultiplo(filtro, element, resultado){
+
+            // Permite aplicar o filtro com múltiplos termos - separados por espaço
+            if(filtro.includes(' ')){
+                let contaFiltros = 0
+                let filtroArr = filtro.split(' ')
+                for (let index2 = 0; index2 < filtroArr.length; index2++) {
+                    const element2 = filtroArr[index2];
+                    if(JSON.stringify(element).toUpperCase().includes(element2.toUpperCase()) && resultado.indexOf(element) ===-1){
+                        contaFiltros++
+                    }
+                }
+                if(contaFiltros===filtroArr.length){
+                    resultado.push(element)
+                }
+            }else{
+                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                    resultado.push(element)
+                }
+            }
+
+        },
 
         //**************************************************************************************************************************
         //Ordem e Filtros 

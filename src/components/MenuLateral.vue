@@ -6,7 +6,7 @@
             <!-- caminho do roteamento pasado na prop "to" -->
             <!--<router-link to="/">Home</router-link> |-->
 
-            <router-link to="/inicio-logado"><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Início</router-link>
+            <router-link to="/inicio"><font-awesome-icon :icon="['fas', 'home']" size="lg" fixed-width /> Início</router-link>
             <router-link to="/clientes"><font-awesome-icon :icon="['fas', 'user']" size="lg" fixed-width /> Clientes</router-link> 
            
             <!--<router-link to="/contratos"><font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg" fixed-width /> Vendas</router-link>-->

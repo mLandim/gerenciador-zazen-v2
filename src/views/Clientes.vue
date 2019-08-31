@@ -457,7 +457,7 @@
                                         </div>
                                         <div class="cliente-contratos-lista">
                                             <template v-for="item in contratos"  >
-                                                <div class="cliente-contratos-item"  :key="item.id"  v-if="itemSelecionado.contratos.indexOf(item.id) !=- 1"> <!--item.cliente.id === itemSelecionado.id-->
+                                                <div class="cliente-contratos-item"  :key="item.id"  v-if="itemSelecionado.contratos.indexOf(item.id) != -1"> <!--item.cliente.id === itemSelecionado.id-->
                                                     <div class="item-image">
                                                         <div class="thunb-none">
                                                             <font-awesome-icon :icon="getIconeTipoProduto[item.categoria]" fixed-width />
@@ -623,6 +623,9 @@
                                         <div class="opc-button" :class="{'opc-sel': venderDados.categoria === 'YOGA'}"  @click="venderDados.categoria = 'YOGA'">
                                             <font-awesome-icon :icon="getIconeTipoProduto['YOGA']" fixed-width /> YOGA
                                         </div>
+                                        <div class="opc-button" :class="{'opc-sel': venderDados.categoria === 'SALAS'}"  @click="venderDados.categoria = 'SALAS'">
+                                            <font-awesome-icon :icon="getIconeTipoProduto['SALAS']" fixed-width /> SALAS
+                                        </div>
                                         <div class="opc-button" :class="{'opc-sel': venderDados.categoria === 'LOJA'}"  @click="venderDados.categoria = 'LOJA'">
                                             <font-awesome-icon :icon="getIconeTipoProduto['LOJA']" fixed-width /> LOJA
                                         </div>
@@ -632,7 +635,7 @@
                             </div>
 
                             <div class="formulario-inputs" v-if="venderDados.categoria === 'YOGA'">
-                                <div class="input-container" style="width:100%">
+                                <div class="input-container" style="width:100%" v-if="venderDados.produto === null">
                                     <label>Produtos Disponíveis</label>
                                     <div class="input-border-context regular-context" style="height:30px;width:30%">
                                         <input type="text" v-model="filtroProdutos" placeholder="Filtrar...">
@@ -647,9 +650,42 @@
 
                                     </div>
                                 </div>
+                                <div class="input-container" style="width:100%;height:120px;" v-else>
+                                    <label>Produto Selecionado</label>
+                                    <div class="input-itens-list-selected"  >
+                                        <div class="item-cell" style="width:96%;font-weight:700;">{{venderDados.produto.modalidade}} - R$ {{venderDados.produto.valor}}</div>
+                                        <div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="venderDados.produto = null; venderDados.turma = null" /></div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Plano: {{venderDados.produto.plano}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Frequência: {{venderDados.produto.frequencia}}</div>
+                                        <div class="item-cell" style="width:36%;font-size:12px;">Horário: {{venderDados.produto.horario}}h</div>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                            <!-- turmas disponíveis -->
+                            <div class="formulario-inputs" v-if="venderDados.produto!=null && venderDados.categoria === 'YOGA'" >
+                                <div class="input-container" style="width:100%" v-if="venderDados.turma === null">
+                                    <label >Turmas Disponíveis Para o Produto Selecionado</label>
+                                    <div class="input-itens-list" style="height:200px; overflow-y:auto;">
+                                        <div class="item-list" :class="{'item-list-sel': venderDados.turma != null && venderDados.turma.id === item.id}" style="height:40px;" v-for="item in listaTurmasVender" v-if="item.dia_semana.length == venderDados.produto.frequencia.replace('x','')" :key="item.id" @click="venderDados.turma = item">
+                                            <div class="item-cell" style="width:20%">{{item.horario}}</div>
+                                            <div class="item-cell" style="width:80%">Dias: {{item.dia_semana.map(i => diaSemana[i]).join(', ')}} - Professora: {{item.professoras_nome}} - Alunos: {{item.alunos.length}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-container" style="width:100%;height:120px;" v-else>
+                                    <label>Turma Selecionada</label>
+                                    <div class="input-itens-list-selected"  >
+                                        <div class="item-cell" style="width:96%;font-weight:700;">Horário: {{venderDados.turma.horario}}h</div>
+                                        <div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="venderDados.turma = null" /></div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Dias da Semana: {{venderDados.turma.dia_semana.map(i => diaSemana[i]).join(', ')}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Professora: {{venderDados.turma.professoras_nome}}</div>
+                                        <div class="item-cell" style="width:36%;font-size:12px;">Quantidade de Alunos: {{venderDados.turma.alunos.length}}</div>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="formularios-inputs" v-if="venderDados.produto!=null">
+                            <div class="formularios-inputs" v-if="venderDados.produto!=null && venderDados.turma!=null && venderDados.categoria === 'YOGA'">
                                 <div class="input-container" style="width:100%;">
                                     <div class="input-button left" @click="cadastrarContrato"><font-awesome-icon :icon="['fas', 'check']" size="1x" /> Confirmar Venda</div>
                                 </div>
@@ -705,6 +741,7 @@ export default {
 
             exibe: 'tabela',
             // Controles Itens
+            diaSemana:utilitarios.diaSemana,
             tabela:[],
             contratos:[],
             produtos:[],
@@ -811,7 +848,9 @@ export default {
             'getTabela_Clientes',
             'getTabela_Contratos',
             'getTabela_Produtos',
-            'getIconeTipoProduto'
+            'getIconeTipoProduto',
+            'getTabela_Turmas',
+            'getTabela_Professoras',
         ]),
         tabelafiltro: function(){
 
@@ -878,10 +917,22 @@ export default {
             let arrLen = this.getTabela_Produtos.tabelaYoga.length
             for (let index = 0; index < arrLen; index++) {
                 const element = this.getTabela_Produtos.tabelaYoga[index];
-
-                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
-                    resultado.push(element)
-                }
+                utilitarios.filtroMultiplo(filtro, element, resultado)
+                //if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                //    resultado.push(element)
+                //}
+            }
+            //this.tabelaClientes.tabelaBody = resultado
+            return resultado
+        },
+        listaTurmasVender:function(){
+            let self = this
+            let resultado = []
+            let filtro = `${self.venderDados.produto.modalidade} ${self.venderDados.produto.horario}` //this.filtroProdutos
+            let arrLen = this.getTabela_Turmas.length
+            for (let index = 0; index < arrLen; index++) {
+                const element = this.getTabela_Turmas[index];
+                utilitarios.filtroMultiplo(filtro, element, resultado)
             }
             //this.tabelaClientes.tabelaBody = resultado
             return resultado
@@ -890,7 +941,7 @@ export default {
 
     },
     created(){
-        console.log('Clientes >> Criado')
+        console.log('Clientes >> created >> Criado')
         console.log(this.getTabela_Clientes)
 
         // Clientes
@@ -898,7 +949,7 @@ export default {
         this.tabelaClientes.tabelaBody = this.getTabela_Clientes // tabelas
         
         // Contratos
-        console.log('Clientes >> Contratos')
+        console.log('Clientes >> created >> Contratos')
         console.log(this.getTabela_Contratos)
         this.contratos = [...this.getTabela_Contratos.tabelaYoga, ...this.getTabela_Contratos.tabelaSalas, ...this.getTabela_Contratos.tabelaLoja]
         console.log(this.contratos)
@@ -906,17 +957,17 @@ export default {
     watch:{
 
         getTabela_Clientes: function(val){
-            console.log('watch >> getTabela_Clientes')
+            console.log('Clientes >> watch >> getTabela_Clientes')
             
             this.tabela = val // itens
             this.tabelaClientes.tabelaBody = val // tabelas
 
         },
         getTabela_Contratos: function(val){
-            console.log('watch >> getTabela_Contratos')
+            console.log('Clientes >> watch >> getTabela_Contratos')
             
             this.contratos =  [...val.tabelaYoga, ...val.tabelaSalas, ...val.tabelaLoja]
-
+            console.log(this.contratos)
         }
 
     },
@@ -1101,14 +1152,14 @@ export default {
                 let self = this
                 let clienteSelecionado = this.itemSelecionado
                 // Validação temporária
-                if(this.venderDados.produto!==null && clienteSelecionado!==null){
+                if(this.venderDados.produto!==null && clienteSelecionado!==null  && this.venderDados.turma!==null){
 
 
                     let linha = {
                         cliente:[clienteSelecionado.id],
                         data_inicio:new Date(),
                         produto:[this.venderDados.produto.id],
-                        turma:[''],
+                        turma:[this.venderDados.turma.id],
                         situacao:'ativo',
                         valor_total:this.venderDados.produto.valor
                     }
@@ -1128,13 +1179,30 @@ export default {
                         }).catch(error2 =>{
                             console.error("Error adding document: ", error)
                         })
+
                         // Atualizando informações do produto com o novo contrato
                         self.$db.collection("produtos").doc(self.venderDados.produto.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
                             console.log("Produtos atualizados com sucesso")
                         }).catch(error3 =>{
                             console.error("Error adding document: ", error)
                         })
+                        
+                        // Atualizando informações do produto com o novo contrato
+                        self.$db.collection("turmas").doc(self.venderDados.turma.id).update({
+                            "contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id),
+                            "alunos":firebase.firestore.FieldValue.arrayUnion(clienteSelecionado.id)
+                        }).then(function(){
+                            console.log("Turmas atualizadas com sucesso")
+                        }).catch(error4 =>{
+                            console.error("Erro ao atualizar Turmas: ", error4)
+                        })
 
+                        self.venderDados = {
+                            cliente:null,
+                            produto:null,
+                            turma:null
+                        }
+                        self.itemSelecionado = null
 
                         alert('Cadastrato com sucesso!')
 
@@ -1253,6 +1321,11 @@ export default {
                 
             },
         
+
+
+
+
+
 
         // Métodos antigos
 

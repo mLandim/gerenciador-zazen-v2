@@ -31,7 +31,7 @@
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
                     </div>
                     <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
-                        <div class="btn-label">Novo Produto - Yoga</div>
+                        <div class="btn-label">Novo Produto</div>
                         <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                     </div>
                 </div>

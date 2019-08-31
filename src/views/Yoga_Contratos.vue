@@ -29,7 +29,7 @@
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
                     </div>
                     <div class="btn btn-green"   @click="abreDetalhe('novo')">
-                        <div class="btn-label">Novo Contrato - Yoga</div>
+                        <div class="btn-label">Novo Contrato</div>
                         <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                     </div>
                 </div>
@@ -173,56 +173,86 @@
 
                         <div class="formulario-inputs" >
                             <div class="input-container" style="width:100%" v-if="novoContrato.cliente === null">
-                                    <label>Clientes</label>
-                                    <div class="input-border-context regular-context" style="height:30px;width:30%">
-                                        <input type="text" v-model="filtroClientes" placeholder="Filtrar...">
-                                        <font-awesome-icon :icon="['fas','search']" fixed-width class="ico-context" />
+                                <label>Clientes</label>
+                                <div class="input-border-context regular-context" style="height:30px;width:30%">
+                                    <input type="text" v-model="filtroClientes" placeholder="Filtrar...">
+                                    <font-awesome-icon :icon="['fas','search']" fixed-width class="ico-context" />
+                                </div>
+                                <div class="input-itens-list" style="height:200px; overflow-y:auto;">
+                                    <div class="item-list" :class="{'item-list-sel': novoContrato.cliente != null && novoContrato.cliente.id === item.id}" style="height:40px;" v-for="item in listaClientesVender" :key="item.id" @click="novoContrato.cliente = item">
+                                        <div class="item-cell" style="width:45%;font-weight:700;">{{item.nome}} {{item.sobrenome}}</div>
+                                        <div class="item-cell" style="width:35%">{{item.email}}</div>
+                                        <div class="item-cell" style="width:20%;">CPF {{item.cpf}}</div>
                                     </div>
-                                    <div class="input-itens-list" style="height:200px; overflow-y:auto;">
-                                        <div class="item-list" :class="{'item-list-sel': novoContrato.cliente != null && novoContrato.cliente.id === item.id}" style="height:40px;" v-for="item in listaClientesVender" :key="item.id" @click="novoContrato.cliente = item">
-                                            <div class="item-cell" style="width:45%;font-weight:700;">{{item.nome}} {{item.sobrenome}}</div>
-                                            <div class="item-cell" style="width:35%">{{item.email}}</div>
-                                            <div class="item-cell" style="width:20%;">CPF {{item.cpf}}</div>
-                                        </div>
 
-                                    </div>
+                                </div>
                             </div>
                             <div class="input-container" style="width:100%;height:120px;" v-else>
-                                <label>Clientes</label>
-                                <div class="input-itens-list-selected" style="height:30px;" >
+                                <label>Cliente Selecionado</label>
+                                <div class="input-itens-list-selected"  >
                                     <div class="item-cell" style="width:96%;font-weight:700;">{{novoContrato.cliente.nome}} {{novoContrato.cliente.sobrenome}}</div>
                                     <div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.cliente = null" /></div>
-                                    
                                     <div class="item-cell" style="width:100%;font-size:12px;">Email: {{novoContrato.cliente.email}}</div>
                                     <div class="item-cell" style="width:100%;font-size:12px;">Instagram: {{novoContrato.cliente.instagram}}</div>
                                     <div class="item-cell" style="width:36%;font-size:12px;">CPF: {{novoContrato.cliente.cpf}}</div>
-                                
                                 </div>
                             </div>
                         </div>
+                        <!-- seleção de produtos -->
                         <div class="formulario-inputs" >
-                            <div class="input-container" style="width:100%">
-                                    <label>Produtos Disponíveis</label>
-                                    <div class="input-border-context regular-context" style="height:30px;width:30%">
-                                        <input type="text" v-model="filtroProdutos" placeholder="Filtrar...">
-                                        <font-awesome-icon :icon="['fas','search']" fixed-width class="ico-context" />
+                            <div class="input-container" style="width:100%" v-if="novoContrato.produto === null">
+                                <label>Produtos Disponíveis</label>
+                                <div class="input-border-context regular-context" style="height:30px;width:30%">
+                                    <input type="text" v-model="filtroProdutos" placeholder="Filtrar...">
+                                    <font-awesome-icon :icon="['fas','search']" fixed-width class="ico-context" />
+                                </div>
+                                <div class="input-itens-list" style="height:200px; overflow-y:auto;">
+                                    <div class="item-list" :class="{'item-list-sel': novoContrato.produto != null && novoContrato.produto.id === item.id}" style="height:40px;" v-for="item in listaProdutosVender" :key="item.id" @click="novoContrato.produto = item">
+                                        <div class="item-cell" style="width:20%">{{item.modalidade}}</div>
+                                        <div class="item-cell" style="width:60%">Plano {{item.plano}} - Frequência {{item.frequencia}} - Horário {{item.horario}}h</div>
+                                        <div class="item-cell" style="width:20%; font-size:22px; font-weight:700; text-align:center;">R$ {{item.valor}}</div>
                                     </div>
-                                    <div class="input-itens-list" style="height:200px; overflow-y:auto;">
-                                        <div class="item-list" :class="{'item-list-sel': novoContrato.produto != null && novoContrato.produto.id === item.id}" style="height:40px;" v-for="item in listaProdutosVender" :key="item.id" @click="novoContrato.produto = item">
-                                             <div class="item-cell" style="width:20%">{{item.modalidade}}</div>
-                                            <div class="item-cell" style="width:60%">Plano {{item.plano}} - Frequência {{item.frequencia}} - Horário {{item.horario}}h</div>
-                                            <div class="item-cell" style="width:20%; font-size:22px; font-weight:700; text-align:center;">R$ {{item.valor}}</div>
-                                        </div>
-
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%;height:120px;" v-else>
+                                <label>Produto Selecionado</label>
+                                <div class="input-itens-list-selected"  >
+                                    <div class="item-cell" style="width:96%;font-weight:700;">{{novoContrato.produto.modalidade}} - R$ {{novoContrato.produto.valor}}</div>
+                                    <div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.produto = null" /></div>
+                                    <div class="item-cell" style="width:100%;font-size:12px;">Plano: {{novoContrato.produto.plano}}</div>
+                                    <div class="item-cell" style="width:100%;font-size:12px;">Frequência: {{novoContrato.produto.frequencia}}</div>
+                                    <div class="item-cell" style="width:36%;font-size:12px;">Horário: {{novoContrato.produto.horario}}h</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- turmas disponíveis -->
+                        <div class="formulario-inputs" v-if="novoContrato.produto!=null && novoContrato.cliente!=null" >
+                            <div class="input-container" style="width:100%" v-if="novoContrato.turma === null">
+                                <label >Turmas Disponíveis Para o Produto Selecionado</label>
+                                <div class="input-itens-list" style="height:200px; overflow-y:auto;">
+                                    <div class="item-list" :class="{'item-list-sel': novoContrato.turma != null && novoContrato.turma.id === item.id}" style="height:40px;" v-for="item in listaTurmasVender" v-if="item.dia_semana.length == novoContrato.produto.frequencia.replace('x','')" :key="item.id" @click="novoContrato.turma = item">
+                                        <div class="item-cell" style="width:20%">{{item.horario}}h</div>
+                                        <div class="item-cell" style="width:80%">Dias: {{item.dia_semana.map(i => diaSemana[i]).join(', ')}} - Professora: {{item.professoras_nome}} - Alunos: {{item.alunos.length}}</div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="input-container" style="width:100%;height:120px;" v-else>
+                                <label>Turma Selecionada</label>
+                                <div class="input-itens-list-selected"  >
+                                    <div class="item-cell" style="width:96%;font-weight:700;">Horário: {{novoContrato.turma.horario}}h</div>
+                                    <div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.turma = null" /></div>
+                                    <div class="item-cell" style="width:100%;font-size:12px;">Dias da Semana: {{novoContrato.turma.dia_semana.map(i => diaSemana[i]).join(', ')}}</div>
+                                    <div class="item-cell" style="width:100%;font-size:12px;">Professora: {{novoContrato.turma.professoras_nome}}</div>
+                                    <div class="item-cell" style="width:36%;font-size:12px;">Quantidade de Alunos: {{novoContrato.turma.alunos.length}}</div>
+                                </div>
                             </div>
                         </div>
 
-                         <div class="formularios-inputs" v-if="novoContrato.produto!=null && novoContrato.cliente!=null">
-                                <div class="input-container" style="width:100%;">
-                                    <div class="input-button left" @click="cadastrarContrato"><font-awesome-icon :icon="['fas', 'check']" size="1x" /> Confirmar Venda</div>
-                                </div>
+                         <div class="formularios-inputs" v-if="novoContrato.produto!=null && novoContrato.cliente!=null && novoContrato.turma!=null">
+                            <div class="input-container" style="width:100%;">
+                                <div class="input-button left" @click="cadastrarContrato"><font-awesome-icon :icon="['fas', 'check']" size="1x" /> Confirmar Venda</div>
                             </div>
+                        </div>
 
                     </div>
 
@@ -236,7 +266,7 @@
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
                         </div>
 
-                        <div class="formulario-menu-item menu-item-sel">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==0}">
                             <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Visualizar</div>
                         </div>
@@ -248,7 +278,7 @@
                             <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Editar</div>
                         </div>
-                        <div class="formulario-menu-item">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Excluir</div>
                         </div>
@@ -256,7 +286,39 @@
                     </div>
 
                     <div class="fomulario-conteudo">
-
+                         <!-- Excluir -->
+                        <template v-if="menuSelecionado===3">
+                             <!-- seleção de produtos -->
+                            <div class="formulario-inputs" >
+                                
+                                <div class="input-container" style="width:100%;height:120px;">
+                                    <label>Contrato Selecionado</label>
+                                    <div class="input-itens-list-selected"  >
+                                        <div class="item-cell" style="width:80%;font-weight:700;">{{itemSelecionado.cliente.nome}} {{itemSelecionado.cliente.sobrenome}} </div>
+                                        <div class="item-cell" style="width:20%;font-weight:700;">R$ {{itemSelecionado.valor}}</div>
+                                        <!--<div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.produto = null" /></div>-->
+                                        <div class="item-cell" style="width:30%;font-size:12px;">Modalidade: {{itemSelecionado.modalidade}}</div>
+                                        <div class="item-cell" style="width:30%;font-size:12px;">Plano: {{itemSelecionado.plano}}</div>
+                                        <div class="item-cell" style="width:20%;font-size:12px;">Frequência: {{itemSelecionado.frequencia}}</div>
+                                        <div class="item-cell" style="width:20%;font-size:12px;">Horário: {{itemSelecionado.horario}}h</div>
+                                        <div class="item-cell" style="width:30%;font-size:12px;">Data Início: {{itemSelecionado.data_inicio}}</div>
+                                        <div class="item-cell" style="width:70%;font-size:12px;">Vencimento: {{itemSelecionado.vencimento}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Situação: {{itemSelecionado.situacao}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Id: {{itemSelecionado.id}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formulario-inputs" >
+                                <div class="input-container" style="width:100%">
+                                    <label><font-awesome-icon :icon="['fas', 'exclamation-triangle']" /> Tem certeza de que deseja excluir o contrato?</label>
+                                </div>
+                            </div>
+                             <div class="formularios-inputs">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="excluirContrato"><font-awesome-icon :icon="['fas', 'trash-alt']" size="1x" /> Confirmar Exclusão do Contrato</div>
+                                </div>
+                            </div>
+                        </template>
                     </div>
 
                 </template>
@@ -284,6 +346,7 @@ export default {
         return {
 
             exibe: 'tabela',
+            diaSemana:utilitarios.diaSemana,
             tabela:[],
             filtro:'',
 
@@ -313,9 +376,11 @@ export default {
 
             filtroProdutos:'',
             filtroClientes:'',
+            filtroTurmas:'',
             novoContrato:{
                 cliente:null,
-                produto:null
+                produto:null,
+                turma:null
             }
         }
     },
@@ -325,6 +390,8 @@ export default {
             'getTabela_Clientes',
             'getTabela_Contratos',
             'getTabela_Produtos',
+            'getTabela_Turmas',
+            'getTabela_Professoras',
         ]),
         tabelafiltro: function(){
 
@@ -354,9 +421,11 @@ export default {
             for (let index = 0; index < arrLen; index++) {
                 const element = this.getTabela_Produtos.tabelaYoga[index];
 
-                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
-                    resultado.push(element)
-                }
+                utilitarios.filtroMultiplo(filtro, element, resultado)
+                //if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
+                //    resultado.push(element)
+                //}
+
             }
             //this.tabelaClientes.tabelaBody = resultado
             return resultado
@@ -368,14 +437,23 @@ export default {
             let arrLen = this.getTabela_Clientes.length
             for (let index = 0; index < arrLen; index++) {
                 const element = this.getTabela_Clientes[index];
-
-                if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
-                    resultado.push(element)
-                }
+                utilitarios.filtroMultiplo(filtro, element, resultado)
             }
             //this.tabelaClientes.tabelaBody = resultado
             return resultado
-        }
+        },
+        listaTurmasVender:function(){
+            let self = this
+            let resultado = []
+            let filtro = `${self.novoContrato.produto.modalidade} ${self.novoContrato.produto.horario}` //this.filtroProdutos
+            let arrLen = this.getTabela_Turmas.length
+            for (let index = 0; index < arrLen; index++) {
+                const element = this.getTabela_Turmas[index];
+                utilitarios.filtroMultiplo(filtro, element, resultado)
+            }
+            //this.tabelaClientes.tabelaBody = resultado
+            return resultado
+        },
        
     },
     created(){
@@ -424,7 +502,7 @@ export default {
             this.detalheFechando = true
 
             setTimeout(()=>{
-                
+                this.menuSelecionado = 0
                 this.novoItem = false
                 this.detalhe = false
                 this.itemSelecionado = null
@@ -434,17 +512,19 @@ export default {
         },
         // Vender produto para o CLiente
         cadastrarContrato(){
+
+                console.log('cadastrarContrato')
                 let self = this
                 //let clienteSelecionado = this.itemSelecionado
                 // Validação temporária
-                if(this.novoContrato.produto!==null && this.novoContrato.cliente!==null){
+                if(this.novoContrato.produto!==null && this.novoContrato.cliente!==null  && this.novoContrato.turma!==null){
 
 
                     let linha = {
                         cliente:[this.novoContrato.cliente.id],
                         data_inicio:new Date(),
                         produto:[this.novoContrato.produto.id],
-                        turma:[''],
+                        turma:[this.novoContrato.turma.id],
                         situacao:'ativo',
                         valor_total:this.novoContrato.produto.valor
                     }
@@ -462,30 +542,77 @@ export default {
                         self.$db.collection("clientes").doc(self.novoContrato.cliente.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
                             console.log("Clientes atualizados com sucesso")
                         }).catch(error2 =>{
-                            console.error("Error adding document: ", error)
+                            console.error("Erro ao atualizar Clientes: ", error2)
                         })
+
                         // Atualizando informações do produto com o novo contrato
                         self.$db.collection("produtos").doc(self.novoContrato.produto.id).update({"contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id)}).then(function(){
                             console.log("Produtos atualizados com sucesso")
                         }).catch(error3 =>{
-                            console.error("Error adding document: ", error)
+                            console.error("Erro ao atualizar Produtos: ", error3)
+                        })
+
+                        // Atualizando informações da turma com o novo contrato e aluno
+                        self.$db.collection("turmas").doc(self.novoContrato.turma.id).update({
+                            "contratos": firebase.firestore.FieldValue.arrayUnion(resposta.id),
+                            "alunos":firebase.firestore.FieldValue.arrayUnion(self.novoContrato.cliente.id)
+                        }).then(function(){
+                            console.log("Turmas atualizadas com sucesso")
+                        }).catch(error4 =>{
+                            console.error("Erro ao atualizar Turmas: ", error4)
                         })
 
 
                         alert('Cadastrato com sucesso!')
 
+                        // Reiniciando formulário
+                        self.novoContrato = {
+                            cliente:null,
+                            produto:null,
+                            turma:null
+                        }
+                        self.itemSelecionado = null
+
 
                     }).catch(function(error) {
-                        console.error("Error adding document: ", error)
+                        console.error("Erro ao cadastrar Contrato: ", error)
                     });
 
                 }else{
-                    alert("Selecione um Cliente e um Produto.")
+                    alert("Selecione um Cliente, Produto e Turma.")
                 }
 
         },
 
+        async excluirContrato(){
+            let self = this
+            let contratoSelecionado = this.itemSelecionado
+            try {
+                let deletaContrato = await self.$db.collection('contratos').doc(contratoSelecionado.id).delete()
+                
+                // Atualizar Turmas
+                await self.$db.collection("turmas").doc(contratoSelecionado.turmaId).update({
+                    "contratos": firebase.firestore.FieldValue.arrayRemove(contratoSelecionado.id),
+                    "alunos": firebase.firestore.FieldValue.arrayRemove(contratoSelecionado.clienteId)
+                })
+                // Atualizar Cliente
+                await self.$db.collection("clientes").doc(contratoSelecionado.clienteId).update({
+                    "contratos": firebase.firestore.FieldValue.arrayRemove(contratoSelecionado.id)
+                })
 
+                // Atualizar Produto
+                await self.$db.collection("produtos").doc(contratoSelecionado.produtoId).update({
+                        "contratos": firebase.firestore.FieldValue.arrayRemove(contratoSelecionado.id)
+                })
+                
+
+                self.fechaDetalhe()
+                alert(`Contrato ${contratoSelecionado.id} excluído com sucesso!`)
+            } catch (error) {
+                console.error("Error removing document: ", error);
+            }
+       
+        }
 
 
 

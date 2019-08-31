@@ -68,6 +68,7 @@ export default new Vuex.Store({
 		getTabela_Contratos: state => state.tabelas.contratos,
 		getTabela_Professoras: state => state.tabelas.professoras,
 		getTabela_Turmas: state => state.tabelas.turmas,
+
 		getIconeTipoProduto: state => state.iconeTipoProduto,
 
 
@@ -108,9 +109,10 @@ export default new Vuex.Store({
 					console.log(user);
 
 					// Iniciando monitoramentos em tempo real da base de dados (onSnapShot)
+					context.dispatch('consultaBase_Contratos', true)
 					context.dispatch('consultaBase_Clientes', true)
 					context.dispatch('consultaBase_Produtos', true)
-					context.dispatch('consultaBase_Contratos', true)
+					
 					context.dispatch('consultaBase_Professoras', true)
 					context.dispatch('consultaBase_Turmas', true)
 
@@ -384,17 +386,16 @@ export default new Vuex.Store({
             //self.totalizadores[1].quantidade = 0;
             //self.totalizadores[2].quantidade = 0;
 			firebase.firestore().collection('produtos').orderBy("modalidade").orderBy("valor").onSnapshot(resposta =>{
-
                 
-                const changes = resposta.docChanges()
-                changes.forEach(change =>{
+				const changes = resposta.docChanges()
+				
+                changes.forEach(async change =>{
 					let tags = ''
                     if(change.type === 'added'){
 
                         if(change.doc.data().categoria=='YOGA'){
 							//self.totalizadores[0].quantidade++
-							
-							
+													
 							if(change.doc.data().contratos.length > 0){
 								tags += '#contratados|'
 							}	
@@ -411,16 +412,32 @@ export default new Vuex.Store({
                                     situacao: change.doc.data().situacao,
 									valor: change.doc.data().valor,
 									tags: tags,
+									turmas:[],
                                     sel:false
-                                    }
+							}
+							
+							let consultaTurmasParaHorario = await firebase.firestore().collection('turmas').where('horario', '==', linha.horario ).get()
+							consultaTurmasParaHorario.forEach( turmaDoc =>{
+								let turma = {
+									id: turmaDoc.id,
+									alunos:turmaDoc.data().alunos,
+									dia_semana:turmaDoc.data().dia_semana,
+									horario:turmaDoc.data().horario,
+									professoras:turmaDoc.data().professoras,
+									modalidade: turmaDoc.data().modalidade
+								}
+								linha.turmas.push(turma)
+							})
                             //console.log(linha)
                             context.state.tabelas.produtos.tabelaYoga.push(linha)
 
                         }else{
-                        }
+						}
+						
 					} else if (change.type === "modified") {
-						console.log("Modified city: ", change.doc.data().categoria);
-						//console.log("Modified city: ", change.doc.data());
+
+						console.log("Produto modificado: ", change.doc.data().categoria);
+						
 						if(change.doc.data().categoria=='YOGA'){
 							if(change.doc.data().contratos.length > 0){
 								tags += '#contratados|'
@@ -460,6 +477,7 @@ export default new Vuex.Store({
 
             })
 		},
+
 		// Inicia monitoramento em tempo real (onSnapShot) e atualiza tabela de controle
 		consultaBase_Contratos: (context, payload) => {
 			
@@ -501,6 +519,9 @@ export default new Vuex.Store({
                             //self.totalizadores[0].quantidade++
                             let linha = {   
 									id: change.doc.id,
+									
+									produtoId: produtoId,
+									produto: null,
 									categoria: '',
 									modalidade: '', 
                                     plano: '',
@@ -511,17 +532,24 @@ export default new Vuex.Store({
 									vencimento: '',
 									vencimento_order: '',
 									vencimento_pz: '',
+									
+									clienteId:clienteId,
 									cliente: null,
 									cliente_nome: '',
+									
+									turmaId: turmaId,
+									turma:null,
+									
 									situacao: situacao,
-									turma: '',
 									valor: valorTotal,
+
 									tags: '',
 									sel:false
 									}
+
 							firebase.firestore().collection('produtos').doc(produtoId).get().then( resultado2 =>{
 								
-								
+								linha.produto = resultado2.data()
 								linha.categoria = resultado2.data().categoria
 								linha.modalidade = resultado2.data().modalidade
                                 linha.plano = resultado2.data().plano
@@ -571,8 +599,120 @@ export default new Vuex.Store({
 
                         //}else{
                         //}
+					}else if (change.type === "modified") {
 
-                    }else{
+						let produtoId = change.doc.data().produto[0]
+						let clienteId = change.doc.data().cliente[0]
+						let turmaId = change.doc.data().turma[0]
+						let dataInicio = utilitarios.dataFormatada(change.doc.data().data_inicio.toDate())
+						let dataInicioOrder = change.doc.data().data_inicio.toDate()
+						let valorTotal = change.doc.data().valor_total
+						let situacao = change.doc.data().situacao
+
+						
+						
+						//self.totalizadores[0].quantidade++
+						let linha = {   
+								id: change.doc.id,
+								
+								produtoId: produtoId,
+								produto: null,
+								categoria: '',
+								modalidade: '', 
+								plano: '',
+								frequencia:'',
+								horario:'', 
+								data_inicio: dataInicio,
+								data_inicio_order: dataInicioOrder,
+								vencimento: '',
+								vencimento_order: '',
+								vencimento_pz: '',
+								
+								clienteId:clienteId,
+								cliente: null,
+								cliente_nome: '',
+								
+								turmaId: turmaId,
+								turma:null,
+								
+								situacao: situacao,
+								valor: valorTotal,
+
+								tags: '',
+								sel:false
+								}
+
+						firebase.firestore().collection('produtos').doc(produtoId).get().then( resultado2 =>{
+							
+							linha.produto = resultado2.data()
+							linha.categoria = resultado2.data().categoria
+							linha.modalidade = resultado2.data().modalidade
+							linha.plano = resultado2.data().plano
+							linha.frequencia = resultado2.data().frequencia
+							linha.horario = resultado2.data().horario
+							linha.vencimento = utilitarios.dataVencimentoFormatada(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+							linha.vencimento_order = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+							linha.vencimento_pz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+							
+							tags += `#${resultado2.data().categoria}|#${resultado2.data().modalidade}|#${resultado2.data().plano}|#${resultado2.data().frequencia}|#${resultado2.data().horario}|`								
+							let vencPz = utilitarios.diferencaDatas(change.doc.data().data_inicio.toDate(), resultado2.data().plano)
+							
+							if( vencPz <= 0){
+								tags +='#vencido|'
+							}else{
+
+								if( vencPz < 5){
+									tags += '#vencemenos5dias|#5oumenosdiasparavencer|'
+								}
+								if( vencPz < 1){
+									tags +='#vencendo|'
+								}
+							}
+							if(linha.vencimento.includes(utilitarios.mesAtual())){
+								tags += '#venceestemes|'
+							}
+
+							if(utilitarios.diferencaDiasHoje(change.doc.data().data_inicio.toDate()) < 5 ){
+								tags += '#novos|#recente|'
+							}
+
+							
+							linha.tags = tags
+
+							//linha.valor = resultado2.data().valor
+							firebase.firestore().collection('clientes').doc(clienteId).get().then( resultado3 =>{
+
+								linha.cliente = resultado3.data() //{id: clienteId, nome:resultado3.data().nome}
+								linha.cliente_nome = resultado3.data().nome
+								//context.state.tabelas.contratos.tabelaYoga.push(linha)
+
+							})
+							
+						})
+
+
+						let tabelalen = context.state.tabelas.contratos.tabelaYoga.length	
+						for (let index = 0; index < tabelalen; index++) {
+							const element = context.state.tabelas.contratos.tabelaYoga[index];
+							if(element.id == change.doc.id){
+								context.state.tabelas.contratos.tabelaYoga[index] = linha
+										
+							}
+						}	
+						
+                    }else if (change.type === "removed") {
+
+						console.log("Contrato Removido: ", change.doc.id);
+						//let tabelalen = context.state.tabelas.clientes.length	
+						for (let index = 0; index < context.state.tabelas.contratos.tabelaYoga.length; index++) {
+							const element = context.state.tabelas.contratos.tabelaYoga[index];
+							if(element.id == change.doc.id){
+								//context.state.tabelas.clientes[index] = linha
+								context.state.tabelas.contratos.tabelaYoga.splice(index, 1)
+							}
+						}	
+						
+					}else{
                         console.log(`Ocorreu uma mudança do tipo: ${change.type}`)
                     }
 
@@ -593,7 +733,7 @@ export default new Vuex.Store({
 				
 				const changes = resposta.docChanges()
                 changes.forEach(change =>{
-					console.log(change.type)
+					//console.log(change.type)
 					//console.log(change.doc.data())
 
 					if(change.type === 'added'){
@@ -619,6 +759,7 @@ export default new Vuex.Store({
                         }
                         //console.log(linha)
 						context.state.tabelas.professoras.push(linha)
+					
 
 
 					}else if (change.type === "modified") {
@@ -686,7 +827,7 @@ export default new Vuex.Store({
 				const changes = resposta.docChanges()
                 changes.forEach(change =>{
 
-					console.log(change.type)
+					console.log(`consultaBase_Turmas >> ${change.type}`)
 					console.log(change.doc.data())
 
 					if(change.type === 'added'){
@@ -694,6 +835,8 @@ export default new Vuex.Store({
 						
 						let linha = {   
 							id: change.doc.id,
+							alunos:change.doc.data().alunos,
+							contratos:change.doc.data().contratos,
 							categoria: change.doc.data().categoria,
 							horario: change.doc.data().horario,
 							modalidade: change.doc.data().modalidade,
@@ -718,9 +861,11 @@ export default new Vuex.Store({
 
 
 					}else if (change.type === "modified") {
-						console.log("Professora Atualizada: ", change.doc.data().nome);
+						console.log("Turma Atualizada: ", change.doc.data().nome);
 						let linha = {   
 							id: change.doc.id,
+							alunos:change.doc.data().alunos,
+							contratos:change.doc.data().contratos,
 							categoria: change.doc.data().categoria,
 							horario: change.doc.data().horario,
 							modalidade: change.doc.data().modalidade,
@@ -750,7 +895,7 @@ export default new Vuex.Store({
 						
 					}else if (change.type === "removed") {
 
-						console.log("Professora Removida: ", change.doc.data().nome);
+						console.log("Turma Removida: ", change.doc.data().nome);
 						//let tabelalen = context.state.tabelas.clientes.length	
 						for (let index = 0; index < context.state.tabelas.turmas.length; index++) {
 							const element = context.state.tabelas.turmas[index];

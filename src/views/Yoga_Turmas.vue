@@ -117,62 +117,7 @@
 
                         <div class="cd-grid-content">
                         
-                            <table class="tabela-formatada"  style="width:100%" cellspacing="0"  >
-                                <thead>
-                                    <tr>
-                                        <template  v-for="(head, key) in tabelaTurmas.tabelaHead" >
-                                                    
-                                            <th  :key="head.colunaId" class="th" :style="head.style" style="text-align:center;" > <!-- :class="{ 'th-maior': head.columnData === 'ABREVIADO'}" -->
-
-                                                <!--Se a propriedade filterText não estiver disponível: não habilitar o filtro para a coluna-->
-                                                <div class="filtro">
-                                                    <input v-if="'filterText' in head" type="text"  v-model="head.filterText" placeholder="Filtrar..." > <!--:size="head.filterSize" -->
-                                                </div>
-                                                <!--Se a propriedade asc não estiver disponível: não habilitar a coluna para ordenar-->
-                                                <div class="ordem" v-if="'asc' in head" :id="key" :class="{'head-sort': 'asc' in head}"  @click="ordenar(tabelaTurmas, tabelaFiltrada, $event)">
-                                                        {{head.columnText.trim()}}  
-                                                        <font-awesome-icon :icon="['fas', 'caret-up']"  class="head-sort-ico" v-if="head.asc" />
-                                                        <font-awesome-icon :icon="['fas', 'caret-down']"  class="head-sort-ico" v-else-if="head.asc===false" />
-                                                        <span v-else></span>
-                                                </div>
-                                                <div v-else class="ordem" :class="'head-nosort'">
-                                                    {{head.columnText.trim()}} 
-                                                </div>
-                                                    
-                                            </th>
-                                                    
-                                        </template>
-                                        <!--<th class="th"><input  id="cAnexoT" name="cAnexoT" type="checkbox"  /></th>-->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                
-
-                                    <tr v-for="(linha) in tabelaFiltrada" :key="linha.id" @click="abreDetalhe(linha)"> <!--:class="{'tr-x': linha.EXC == 'X'}" @click="clicarLinhaSubconta(linha)"-->
-                                        
-                                        <template v-for="(th) in tabelaTurmas.tabelaHead"  >
-                                            
-                                            <!--
-                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" v-if="th.type=='checkbox'" >
-                                                <font-awesome-icon :icon="['fas', 'check-square']" size="2x" v-if="linha[th.columnData]" @click="desselecionarLinha(linha)" class="tabela-chk-fw-2x" />
-                                                <font-awesome-icon :icon="['fas', 'square']" size="2x" v-else @click="selecionarLinha(linha)" class="tabela-chk-fw-2x" />
-                                            </td>
-                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" v-else >{{ linha[th.columnData] }}</td>
-                                            -->
-                                            <td :key="th.colunaId" :class="{'td-hover':th.asc!=null}" :style="th.style" >{{ linha[th.columnData] }}</td>
-                                        </template>
-                                            
-
-                                    </tr>
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Exibindo {{tabelaFiltrada.length}} de {{tabelaTurmas.tabelaBody.length}} Registros</th>
-                                    </tr>
-                                </tfoot>
-
-                            </table>
+                           <vue-table-ml :head="tabelaTurmas.tabelaHead" :body="getTabela_Turmas" @lineClick="abreDetalhe($event)"></vue-table-ml>
 
                         </div>
 
@@ -217,11 +162,11 @@
                             <div></div>
                         </div>
                         <div class="grade-conteudo-horario" v-for="item in grade" :key="item.horario">
-                            <div>{{item.horario_grade}}h</div>
+                            <div class="grade-conteudo-horario-hora" data-tool-tip="Clique para excluir o horário!" @click="excluirHorario(item)">{{item.horario_grade}}h</div>
 
                             <div  v-for="turma in item.grade"  :key="turma.indice" > <!-- :key="turma.id" :: causando aviso vue de key duplicado -->
                                 <template v-if="turma.id != null">
-                                    <div class="grade-conteudo-gorario-item"  @click="abreDetalhe(turma)" >
+                                    <div class="grade-conteudo-horario-item"  @click="abreDetalhe(turma)" >
                                         {{turma.modalidade}}
                                     </div>
                                 </template>
@@ -314,7 +259,11 @@
                                     </div>
                                 </div>
                             </div>
-                       
+                            <div class="formularios-inputs" v-if="novoDados.dia_semana.length > 0 && novoDados.modalidade != null && novoDados.professoras.length > 0">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="cadastrarTurma"><font-awesome-icon :icon="['fas', 'check']" size="lg" /> Cadastrar</div>
+                                </div>
+                            </div>
                         
 
                     </div>
@@ -348,11 +297,55 @@
                             <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Visualizar</div>
                         </div>
-                        <div class="formulario-menu-item">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Excluir</div>
                         </div>
                        
+                    </div>
+                    <div class="fomulario-conteudo">
+
+                        <!-- Excluir -->
+                        <template v-if="menuSelecionado===3">
+                            <!-- seleção de produtos -->
+                            <div class="formulario-inputs" >
+                                
+                                <div class="input-container" style="width:100%;height:120px;">
+                                    <label>Turma Selecionada</label>
+                                    <div class="input-itens-list-selected"  >
+                                        <div class="item-cell" style="width:100%;font-weight:700;">Modalidade {{itemSelecionado.modalidade}} </div>
+                                        <!--<div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.produto = null" /></div>-->
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Horário: {{itemSelecionado.horario}}h</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Dias da Semana: {{itemSelecionado.dia_semana.map(i => diaSemana[i]).join(', ')}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Professoras:
+                                            <template v-for="prof in getTabela_Professoras" >
+                                                <template v-for="turmaId in itemSelecionado.professoras">
+                                                    <span :key="prof.id" v-if="turmaId == prof.id">{{prof.nome}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Alunos:
+                                            <template v-for="cli in getTabela_Clientes" >
+                                                <template v-for="turmaId in itemSelecionado.alunos">
+                                                    <span :key="cli.id" v-if="turmaId == cli.id">{{cli.nome}}</span>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Id: {{itemSelecionado.id}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formulario-inputs" >
+                                <div class="input-container" style="width:100%">
+                                    <label><font-awesome-icon :icon="['fas', 'exclamation-triangle']" /> Tem certeza de que deseja excluir a turma?</label>
+                                </div>
+                            </div>
+                             <div class="formularios-inputs">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="excluirTurma"><font-awesome-icon :icon="['fas', 'trash-alt']" size="1x" /> Confirmar Exclusão da Turma</div>
+                                </div>
+                            </div>
+                        </template>
                     </div>
 
                 </template>
@@ -374,17 +367,23 @@ import {mask} from 'vue-the-mask'
 import {Money} from 'v-money'
 import firebase from 'firebase'
 
+import  vueTableMl from '@/components/vue-table-ml'
+
 export default {
 
     name:'Yoga_Turmas',
     directives:{
         mask
     },
-    components: {Money},
+    components: {
+        Money,
+        'vue-table-ml': vueTableMl
+    },
     data(){
         return {
 
             exibe: 'grade',
+            diaSemana:utilitarios.diaSemana,
             horariosId:'',
             horarios:[],
             novoHorario:false,
@@ -423,6 +422,8 @@ export default {
                 
             },
             novoDados:{
+                alunos:[],
+                contratos:[],
                 categoria:'YOGA',
                 horario:null,
                 dia_semana:[],
@@ -449,6 +450,8 @@ export default {
         ...mapGetters([
             'getUsuarioLogado',
             'getTabela_Turmas',
+            'getTabela_Clientes',
+            'getTabela_Professoras',
             'getTabela_Produtos'
         ]),
         tabelafiltro: function(){
@@ -642,10 +645,7 @@ export default {
             this.grade = gradeTemp
 
         },
-        
-        cadastraNovaTurma(item){
 
-        },
         cadastraNovoHorario(){
             let self = this
             let novoH = this.novoHorarioTexto
@@ -676,9 +676,101 @@ export default {
             this.novoHorario = false
 
         },
+        async excluirHorario(item){
+            let r = confirm(`Confirma a exclusão do horário ${item.horario_grade}h ?`)
+            if(r===true){
+            
+                let self = this
+                //console.log(item)
+                try {
+                    for (let index = 0; index < item.grade.length; index++) {
+                        const element = item.grade[index];
+                        if(element.id != null){
+                            throw 'Não é possível excluir.\nJá existem turmas cadastradas para este horário.\nExclua todas as turmas deste horário e tente novamente.'
+                            break
+                        }
+                    }
+
+                    console.log('continua aqui')
+                    // Remove horário
+                    await self.$db.collection("turmas_configuracoes").doc(self.horariosId).update({"horarios": firebase.firestore.FieldValue.arrayRemove(item.horario_grade)})
+                    // atualiza Grade
+                    self.getHorarios()
+                } catch (error) {
+                    alert(error)
+                }
+           
+            }else{
+                
+            }
+
+        },
+
+        async cadastrarTurma(){
+            console.log('cadastrarTurma')
+            let self = this
+            
+            if(self.novoDados.dia_semana.length == 0 || self.novoDados.modalidade == null || self.novoDados.professoras.length == 0){
+
+                 alert('Informe todos os campos obrigatórios!')
+
+            }else{
 
 
+                self.novoDados.data_cadastro = new Date()
+                self.novoDados.cadastrado_por = self.getUsuarioLogado.uid,
+                self.novoDados.horario = self.itemSelecionado.horario_grade
 
+                try {
+
+                    let resposta = await this.$db.collection('turmas').add(self.novoDados)
+                    console.log(resposta.id)
+                    console.log(resposta)
+                    
+                    // Atualizando campo turmas para cada professora selecionada
+                    self.novoDados.professoras.forEach( async prof =>{
+                        let respostaAtualizaProfessora = await self.$db.collection("professoras").doc(prof).update({"turmas": firebase.firestore.FieldValue.arrayUnion(resposta.id)})
+                    })
+                   
+                    alert('Cadastro realizado com sucesso!')
+
+                } catch (error) {
+                    console.error("Error ao cadastrar: ", error)
+                }
+          
+            }
+
+        },
+
+        async excluirTurma(){
+            
+            let self = this
+            let turmaSelecionada = this.itemSelecionado
+            try {
+                let deletaTurma = await self.$db.collection('turmas').doc(turmaSelecionada.id).delete()
+                
+                // Atualizar Turmas
+                if(turmaSelecionada.professoras.length > 0){
+                    turmaSelecionada.professoras.forEach( async professora => {
+                        await self.$db.collection("professoras").doc(professora).update({"turmas": firebase.firestore.FieldValue.arrayRemove(turmaSelecionada.id)})
+                    })
+                }
+                // Atualizar contratos
+                if(turmaSelecionada.contratos.length > 0){
+                    turmaSelecionada.contratos.forEach( async contrato => {
+                        await self.$db.collection("contratos").doc(contrato).update({"turmas": firebase.firestore.FieldValue.arrayRemove(turmaSelecionada.id)})
+                    })
+                }
+                
+                self.fechaDetalhe()
+                alert(`Contrato ${turmaSelecionada.id} excluída com sucesso!`)
+            } catch (error) {
+                console.error("Error removing document: ", error);
+            }
+
+        },
+
+       
 
 
         cadastrarProduto(){

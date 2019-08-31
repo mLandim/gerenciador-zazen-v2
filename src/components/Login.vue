@@ -118,7 +118,7 @@
                 firebase.auth().signInWithEmailAndPassword(this.email, this.senha).then(() => {
                     this.mensagem = `Olá ${this.email}!`
                     // Desencadeará um "evento persistente" que monitora estado do usuario e toma decisões com base nisso (monitora lista de ususarios // interrompe monitoramento)
-                    this.$router.push({ path: '/clientes'})
+                    this.$router.push({ path: '/inicio'})
 
                     this.$store.dispatch('verificaUsuarioLogado', this.email)
                     

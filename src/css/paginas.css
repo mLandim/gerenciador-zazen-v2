@@ -167,6 +167,43 @@
     box-sizing: border-box;
 
 }
+.grade-conteudo-horario-item{
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+.grade-conteudo-horario-item:hover{
+    color: #000000;
+    background: #feffcf;
+}
+.grade-conteudo-horario-hora{
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+.grade-conteudo-horario-hora:hover{
+    color: #000000;
+    background: #feffcf;
+}
+.grade-conteudo-horario-hora[data-tool-tip]{
+    position: relative;
+}
+.grade-conteudo-horario-hora::after{
+    content: attr(data-tool-tip);
+    display: block;
+    position: absolute;
+    width: 100%;
+    font-size: 0.75em;
+    text-align: center;
+    bottom:-12px;
+    left: 0;
+    transform: scale(0);
+    transition: transform ease-in-out 150ms;
+}
+.grade-conteudo-horario-hora:hover::after{
+    transform: scale(1);
+   
+}
 
 .grade-conteudo-novo-horario-desabled{
     display: none;

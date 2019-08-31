@@ -31,7 +31,7 @@
                         <font-awesome-icon :icon="['fas', 'th']"  class="btn-ico" />
                     </div>
                     <div class="btn" :class="{'btn-green': linhasSelecionadas.length==0, 'btn-desable' : linhasSelecionadas.length>0}"  @click="abreDetalhe('novo')">
-                        <div class="btn-label">Nova Professora - Yoga</div>
+                        <div class="btn-label">Nova Professora</div>
                         <font-awesome-icon :icon="['fas', 'plus']" size="lg" class="btn-ico" />
                     </div>
                 </div>
@@ -286,23 +286,55 @@
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
                         </div>
 
-                        <div class="formulario-menu-item menu-item-sel">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==0}">
                             <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Visualizar</div>
                         </div>
-                        <div class="formulario-menu-item">
-                            <font-awesome-icon :icon="['fas', 'pencil-alt']" size="lg"  class="ico-menu"/>
-                            <div class="text-menu">Editar</div>
-                        </div>
                         
                         
-                        <div class="formulario-menu-item">
+                        <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Excluir</div>
                         </div>
 
                     </div>
                     <div class="fomulario-conteudo">
+
+                        <!-- Excluir -->
+                        <template v-if="menuSelecionado===3">
+                            <!-- seleção de produtos -->
+                            <div class="formulario-inputs" >
+                                
+                                <div class="input-container" style="width:100%;height:120px;">
+                                    <label>Professora Selecionada</label>
+                                    <div class="input-itens-list-selected"  >
+                                        <div class="item-cell" style="width:100%;font-weight:700;">{{itemSelecionado.nome}} </div>
+                                        <!--<div class="item-cell" style="width:4%;"><font-awesome-icon :icon="['fas', 'times']" size="lg" @click="novoContrato.produto = null" /></div>-->
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Modalidades: {{itemSelecionado.modalidades}}</div>
+                                        <div class="item-cell" style="width:30%;font-size:12px;">Emal: {{itemSelecionado.email}}</div>
+                                        <div class="item-cell" style="width:70%;font-size:12px;">Instargram: {{itemSelecionado.instagram}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Turmas:
+                                            <template v-for="turma in getTabela_Turmas" >
+                                                <template v-for="turmaId in itemSelecionado.turmas">
+                                                    <span :key="turma.id" v-if="turmaId == turma.id">{{turma.horario}}h - ({{ turma.dia_semana.map(i => diaSemana[i]).join(', ') }})</span>
+                                                </template>
+                                            </template>
+                                        </div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;">Id: {{itemSelecionado.id}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="formulario-inputs" >
+                                <div class="input-container" style="width:100%">
+                                    <label><font-awesome-icon :icon="['fas', 'exclamation-triangle']" /> Tem certeza de que deseja excluir a professora?</label>
+                                </div>
+                            </div>
+                             <div class="formularios-inputs">
+                                <div class="input-container" style="width:100%;">
+                                    <div class="input-button left" @click="excluirProfessora"><font-awesome-icon :icon="['fas', 'trash-alt']" size="1x" /> Confirmar Exclusão da Professora</div>
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </template>
             </div>
@@ -334,7 +366,7 @@ export default {
         return {
 
             exibe: 'tabela',
-
+            diaSemana:utilitarios.diaSemana,// ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
             tabela:[],
             filtro:'',
 
@@ -402,7 +434,8 @@ export default {
         ...mapGetters([
             'getUsuarioLogado',
             'getTabela_Professoras',
-            'getTabela_Produtos'
+            'getTabela_Produtos',
+            'getTabela_Turmas'
         ]),
         tabelafiltro: function(){
 
@@ -412,24 +445,9 @@ export default {
             let arrLen = this.getTabela_Professoras.length
             for (let index = 0; index < arrLen; index++) {
                 const element = this.getTabela_Professoras[index];
-                // Permite aplicar o filtro com múltiplos termos - separados por espaço
-                if(filtro.includes(' ')){
-                    let contaFiltros = 0
-                    let filtroArr = filtro.split(' ')
-                    for (let index2 = 0; index2 < filtroArr.length; index2++) {
-                        const element2 = filtroArr[index2];
-                        if(JSON.stringify(element).toUpperCase().includes(element2.toUpperCase()) && resultado.indexOf(element) ===-1){
-                            contaFiltros++
-                        }
-                    }
-                    if(contaFiltros===filtroArr.length){
-                        resultado.push(element)
-                    }
-                }else{
-                    if(JSON.stringify(element).toUpperCase().includes(filtro.toUpperCase())){
-                        resultado.push(element)
-                    }
-                }
+                utilitarios.filtroMultiplo(filtro, element, resultado)
+
+                
                 
             }
             this.tabelaProfessoras.tabelaBody  = resultado
@@ -475,6 +493,20 @@ export default {
                 this.detalhe = true
             }
         
+        },
+         // Formulário Detalhe
+        fechaDetalhe(){
+
+            console.log('fechaDetalhe >>')
+            this.detalheFechando = true
+
+            setTimeout(()=>{
+                this.novoItem = false
+                this.detalhe = false
+                this.itemSelecionado = null
+                this.detalheFechando = false
+            },1000)
+            
         },
         ordenar(tabelaProfessoras, tabelaFiltrada, e){
             utilitarios.ordenarTabela(tabelaProfessoras, tabelaFiltrada, e)
@@ -544,7 +576,7 @@ export default {
                         console.log(resposta)
                         alert('Cadastro realizado com sucesso!')
                     }).catch(function(error) {
-                        console.error("Error adding document: ", error)
+                        console.error("Error ao cadastrar: ", error)
                     });
 
                 }
@@ -555,19 +587,24 @@ export default {
             }
             
         },
-        // Formulário Detalhe
-        fechaDetalhe(){
-
-            console.log('fechaDetalhe >>')
-            this.detalheFechando = true
-
-            setTimeout(()=>{
-                this.novoItem = false
-                this.detalhe = false
-                this.itemSelecionado = null
-                this.detalheFechando = false
-            },1000)
-            
+        async excluirProfessora(){
+            let self = this
+            let professoraSelecionada = this.itemSelecionado
+            try {
+                let deletaProfessora = await self.$db.collection('professoras').doc(professoraSelecionada.id).delete()
+                
+                // Atualizar Turmas
+                if(professoraSelecionada.turmas.length > 0){
+                    professoraSelecionada.turmas.forEach( async turma => {
+                        await self.$db.collection("turmas").doc(turma).update({"professoras": firebase.firestore.FieldValue.arrayRemove(professoraSelecionada.id)})
+                    })
+                }
+                
+                self.fechaDetalhe()
+                alert(`Contrato ${professoraSelecionada.nome} excluída com sucesso!`)
+            } catch (error) {
+                console.error("Error removing document: ", error);
+            }
         },
 
 
