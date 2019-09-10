@@ -845,6 +845,7 @@ export default new Vuex.Store({
 							professoras_join: change.doc.data().professoras.join(', '),
 							professoras_len: change.doc.data().professoras.length,
 							dia_semana: change.doc.data().dia_semana,
+							dia_semana_map: change.doc.data().dia_semana.map(i => utilitarios.diaSemana[i]).join(', '),
 							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
 							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
 
@@ -874,6 +875,7 @@ export default new Vuex.Store({
 							professoras_join: change.doc.data().professoras.join(', '),
 							professoras_len: change.doc.data().professoras.length,
 							dia_semana: change.doc.data().dia_semana,
+							dia_semana_map: change.doc.data().dia_semana.map(i => utilitarios.diaSemana[i]).join(', '),
 							data_cadastro: utilitarios.dataFormatada(change.doc.data().data_cadastro.toDate()),
 							data_cadastro_order: change.doc.data().data_cadastro.toDate(),
 

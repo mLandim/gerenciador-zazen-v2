@@ -120,6 +120,7 @@
     grid-template-columns: repeat(7, 1fr);
     height: 100%;
     box-sizing: border-box;
+    width: calc(100% - 16px);
 }
 .grade-conteudo-titulo div{
     display: block;
@@ -145,6 +146,7 @@
     
     height: 100%;
     box-sizing: border-box;
+    overflow-y: scroll;
 }
 
 .grade-conteudo-horario{

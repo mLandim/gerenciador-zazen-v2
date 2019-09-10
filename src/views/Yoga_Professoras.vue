@@ -285,12 +285,12 @@
                         <div class="form-ico-close" @click="fechaDetalhe">
                             <font-awesome-icon :icon="['fas', 'times']" size="lg" class="ico-close" />
                         </div>
-
+                        <!--
                         <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==0}">
                             <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Visualizar</div>
                         </div>
-                        
+                        -->
                         
                         <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
@@ -305,7 +305,7 @@
                             <!-- seleção de produtos -->
                             <div class="formulario-inputs" >
                                 
-                                <div class="input-container" style="width:100%;height:120px;">
+                                <div class="input-container" style="width:100%;height:auto;">
                                     <label>Professora Selecionada</label>
                                     <div class="input-itens-list-selected"  >
                                         <div class="item-cell" style="width:100%;font-weight:700;">{{itemSelecionado.nome}} </div>
@@ -313,14 +313,15 @@
                                         <div class="item-cell" style="width:100%;font-size:12px;">Modalidades: {{itemSelecionado.modalidades}}</div>
                                         <div class="item-cell" style="width:30%;font-size:12px;">Emal: {{itemSelecionado.email}}</div>
                                         <div class="item-cell" style="width:70%;font-size:12px;">Instargram: {{itemSelecionado.instagram}}</div>
-                                        <div class="item-cell" style="width:100%;font-size:12px;">Turmas:
+                                       
+                                        <div class="item-cell" style="width:100%;font-size:12px;"> <br/>Turmas:<br/>
                                             <template v-for="turma in getTabela_Turmas" >
-                                                <template v-for="turmaId in itemSelecionado.turmas">
-                                                    <span :key="turma.id" v-if="turmaId == turma.id">{{turma.horario}}h - ({{ turma.dia_semana.map(i => diaSemana[i]).join(', ') }})</span>
-                                                </template>
+                                                <div v-for="turmaId in itemSelecionado.turmas" >
+                                                    <span :key="turma.id" v-if="turmaId == turma.id">{{turma.modalidade}} - {{turma.horario}}h - ({{ turma.dia_semana.map(i => diaSemana[i]).join(', ') }}) <br/></span>
+                                                </div>
                                             </template>
                                         </div>
-                                        <div class="item-cell" style="width:100%;font-size:12px;">Id: {{itemSelecionado.id}}</div>
+                                        <div class="item-cell" style="width:100%;font-size:12px;"><br/>Id: {{itemSelecionado.id}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -391,7 +392,7 @@ export default {
 
             // Controles Formulário
             itemSelecionado:null,
-            menuSelecionado:0,
+            menuSelecionado:3,
             detalhe: false,
             detalheFechando:false,
             novoItem:false,

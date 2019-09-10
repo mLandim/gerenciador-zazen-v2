@@ -2,6 +2,7 @@
 node_modules
 /dist
 /src/database
+/no_git
 
 # local env files
 .env.local

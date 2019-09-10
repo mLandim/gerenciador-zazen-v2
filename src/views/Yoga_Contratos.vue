@@ -484,6 +484,11 @@ export default {
             
             console.log('abreDetalhe >>')
             if(item==='novo'){
+                this.novoContrato = {
+                    cliente:null,
+                    produto:null,
+                    turma:null
+                }
                 this.novoItem=true
                 this.detalhe = true
             }else{

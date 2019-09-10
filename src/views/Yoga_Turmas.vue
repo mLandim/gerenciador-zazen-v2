@@ -291,12 +291,13 @@
                             <font-awesome-icon :icon="['fas', 'dollar-sign']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Vender</div>
                         </div>
-                         -->
+                        
                          
                          <div class="formulario-menu-item " :class="{'menu-item-sel':menuSelecionado==0}"  @click="menuSelecionado=0">
                             <font-awesome-icon :icon="['fas', 'eye']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Visualizar</div>
                         </div>
+                         -->
                         <div class="formulario-menu-item" :class="{'menu-item-sel':menuSelecionado==3}"  @click="menuSelecionado=3">
                             <font-awesome-icon :icon="['fas', 'trash-alt']" size="lg"  class="ico-menu"/>
                             <div class="text-menu">Excluir</div>
@@ -400,7 +401,7 @@ export default {
                     {colunaId:1, columnText:'Modalidade', columnData:'modalidade', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:2, columnText:'Horário', columnData:'horario', type:'string', filterText:'',  asc:null,  style:{}},
                     {colunaId:3, columnText:'Data Cadastro', columnData:'data_cadastro', columnOrder: 'data_cadastro_order', type:'string', filterText:'',  asc:null,  style:{}},
-                    {colunaId:4, columnText:'Dia da Semana', columnData:'dia_semana', type:'string', filterText:'', asc:null, style:{}},
+                    {colunaId:4, columnText:'Dia da Semana', columnData:'dia_semana_map', type:'string', filterText:'', asc:null, style:{}},
                     {colunaId:5, columnText:'Professoras', columnData:'professoras_nome', type:'string', filterText:'', asc:null, style:{width:'20%'}},
                    
                     
@@ -412,7 +413,7 @@ export default {
 
             // Controles Formulário
             itemSelecionado:null,
-            menuSelecionado:0,
+            menuSelecionado:3,
             detalhe: false,
             detalheFechando:false,
             novoItem:false,
@@ -504,23 +505,25 @@ export default {
         abreDetalhe(item){
 
             console.log('abreDetalhe >>')
+
+            this.novoDados = {
+                categoria:'YOGA',
+                horario:null,
+                dia_semana:[],
+                modalidade:null,
+                professoras:[],
+                data_cadastro:null,
+                cadastrado_por:null
+            }
+            this.itemSelecionado = item
+            this.detalhe = true
+
+
             if(item==='novo'){
                 this.novoItem=true
                 this.detalhe = true
             }else{
-                
-                self.novoDados = {
-                    categoria:'YOGA',
-                    horario:null,
-                    dia_semana:[],
-                    modalidade:null,
-                    professoras:[],
-                    data_cadastro:null,
-                    cadastrado_por:null
-                }
-                this.itemSelecionado = item
-                this.detalhe = true
-
+             
             }
         
         },
@@ -731,7 +734,16 @@ export default {
                     self.novoDados.professoras.forEach( async prof =>{
                         let respostaAtualizaProfessora = await self.$db.collection("professoras").doc(prof).update({"turmas": firebase.firestore.FieldValue.arrayUnion(resposta.id)})
                     })
-                   
+
+                    self.novoDados = {
+                        categoria:'YOGA',
+                        horario:null,
+                        dia_semana:[],
+                        modalidade:null,
+                        professoras:[],
+                        data_cadastro:null,
+                        cadastrado_por:null
+                    }
                     alert('Cadastro realizado com sucesso!')
 
                 } catch (error) {

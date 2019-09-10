@@ -420,6 +420,18 @@ export default {
 
             console.log('abreDetalhe >>')
             if(item==='novo'){
+                this.novoDados = {
+                    categoria:'YOGA',
+                    modalidade:null,
+                    plano:null,
+                    horario:null,
+                    frequencia:null,
+                    situacao:'ativo',
+                    valor:0,
+                    contratos:[],
+                    data_cadastro:null,
+                    cadastrado_por:null
+                }
                 this.novoItem=true
                 this.detalhe = true
             }else{
@@ -485,6 +497,19 @@ export default {
                         console.log(resposta.id)
                         console.log(resposta)
                         alert('Cadastrato com sucesso!')
+
+                        self.novoDados = {
+                            categoria:'YOGA',
+                            modalidade:null,
+                            plano:null,
+                            horario:null,
+                            frequencia:null,
+                            situacao:'ativo',
+                            valor:0,
+                            contratos:[],
+                            data_cadastro:null,
+                            cadastrado_por:null
+                        }
                     }).catch(function(error) {
                         console.error("Error adding document: ", error)
                     });
