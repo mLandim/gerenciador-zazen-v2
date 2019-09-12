@@ -252,8 +252,10 @@
                                     <div class="input-buttons-list" style="height:auto">
                                         <template v-for="item in controles.modalidades">
                                             
-                                            <div v-if="novoDados.modalidade === item.texto"  class="opc-button" :class="{'opc-sel': novoDados.professoras.includes(professora.id)}"  v-for="professora in item.professoras" :key="professora.dados_pessoais.cpf" @click="(novoDados.professoras.includes(professora.id)) ? novoDados.professoras.splice(novoDados.professoras.indexOf(professora.id),1) : novoDados.professoras.push(professora.id)">{{professora.dados_pessoais.nome + ' ' + professora.dados_pessoais.sobrenome }}</div>
-                                        
+                                            <!--<div v-if="novoDados.modalidade === item.texto"  class="opc-button" :class="{'opc-sel': novoDados.professoras.includes(professora.id)}"  v-for="professora in item.professoras" :key="professora.dados_pessoais.cpf" @click="(novoDados.professoras.includes(professora.id)) ? novoDados.professoras.splice(novoDados.professoras.indexOf(professora.id),1) : novoDados.professoras.push(professora.id)">{{professora.dados_pessoais.nome + ' ' + professora.dados_pessoais.sobrenome }}</div>-->
+                                            <div v-if="novoDados.modalidade === item.texto"  class="opc-button" :class="{'opc-sel': novoDados.professoras.includes(professora.id)}"  v-for="professora in item.professoras" :key="professora.dados_pessoais.cpf" @click="selecionaProfessora(professora)">{{professora.dados_pessoais.nome + ' ' + professora.dados_pessoais.sobrenome }}</div>
+                                           
+                                            
                                         </template>
                                         
                                     </div>
@@ -474,7 +476,8 @@ export default {
         },
         tabelaFiltrada:function(){
             return utilitarios.filtrandoTabela(this.tabelaTurmas);
-        },
+        }
+       
        
     },
     created(){
@@ -490,7 +493,7 @@ export default {
     watch:{
 
         getTabela_Turmas: function(val){
-            console.log('watch >> getTabela_Produtos')
+            console.log('watch >> getTabela_Turmas')
             this.montaGrade(val)
             this.tabela = val
             this.tabelaTurmas.tabelaBody = val
@@ -512,6 +515,7 @@ export default {
                 dia_semana:[],
                 modalidade:null,
                 professoras:[],
+                contratos:[],
                 data_cadastro:null,
                 cadastrado_por:null
             }
@@ -708,7 +712,11 @@ export default {
             }
 
         },
-
+        selecionaProfessora(item){
+            this.novoDados.professoras = []
+            this.novoDados.professoras.push(item.id)
+            console.log(this.novoDados.professoras)
+        },
         async cadastrarTurma(){
             console.log('cadastrarTurma')
             let self = this
@@ -727,7 +735,7 @@ export default {
                 try {
 
                     let resposta = await this.$db.collection('turmas').add(self.novoDados)
-                    console.log(resposta.id)
+                    //console.log(resposta.id)
                     console.log(resposta)
                     
                     // Atualizando campo turmas para cada professora selecionada
@@ -762,8 +770,11 @@ export default {
                 let deletaTurma = await self.$db.collection('turmas').doc(turmaSelecionada.id).delete()
                 
                 // Atualizar Turmas
+                //console.log(turmaSelecionada)
                 if(turmaSelecionada.professoras.length > 0){
+                    //console.log(`Sim If>> ${turmaSelecionada.id}`)
                     turmaSelecionada.professoras.forEach( async professora => {
+                        //console.log(`Sim For Each>> ${professora}`)
                         await self.$db.collection("professoras").doc(professora).update({"turmas": firebase.firestore.FieldValue.arrayRemove(turmaSelecionada.id)})
                     })
                 }
@@ -775,7 +786,8 @@ export default {
                 }
                 
                 self.fechaDetalhe()
-                alert(`Contrato ${turmaSelecionada.id} excluída com sucesso!`)
+                alert(`Turma ${turmaSelecionada.id} excluída com sucesso!`)
+
             } catch (error) {
                 console.error("Error removing document: ", error);
             }
@@ -785,6 +797,9 @@ export default {
        
 
 
+
+
+        // Em desuso
         cadastrarProduto(){
 
             console.log('cadastrarProduto')

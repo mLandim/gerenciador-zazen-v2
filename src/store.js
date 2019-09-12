@@ -763,13 +763,13 @@ export default new Vuex.Store({
 
 
 					}else if (change.type === "modified") {
-						console.log("Professora Atualizada: ", change.doc.data().nome);
+						console.log("Professora Atualizada: ", change.doc.data().dados_pessoais.nome);
 						let linha = {   
 							id: change.doc.id,
 							nome: change.doc.data().dados_pessoais.nome + ' ' + change.doc.data().dados_pessoais.sobrenome,
 							sobrenome: change.doc.data().dados_pessoais.sobrenome,
 							data_nascimento: utilitarios.dataFormatada(change.doc.data().dados_pessoais.data_nascimento.toDate()),
-							data_nascimento_order: change.doc.data().dados_pessoais.nascimento.toDate(),
+							data_nascimento_order: change.doc.data().dados_pessoais.data_nascimento.toDate(),
 							cpf: change.doc.data().dados_pessoais.cpf,
 							rg: change.doc.data().dados_pessoais.rg,
 							email: change.doc.data().dados_pessoais.email,
@@ -796,7 +796,7 @@ export default new Vuex.Store({
 						
 					}else if (change.type === "removed") {
 
-						console.log("Professora Removida: ", change.doc.data().nome);
+						console.log("Professora Removida: ", change.doc.data().dados_pessoais.nome);
 						//let tabelalen = context.state.tabelas.clientes.length	
 						for (let index = 0; index < context.state.tabelas.professoras.length; index++) {
 							const element = context.state.tabelas.professoras[index];
@@ -862,7 +862,7 @@ export default new Vuex.Store({
 
 
 					}else if (change.type === "modified") {
-						console.log("Turma Atualizada: ", change.doc.data().nome);
+						console.log("Turma Atualizada: ", change.doc.id);
 						let linha = {   
 							id: change.doc.id,
 							alunos:change.doc.data().alunos,
@@ -897,7 +897,7 @@ export default new Vuex.Store({
 						
 					}else if (change.type === "removed") {
 
-						console.log("Turma Removida: ", change.doc.data().nome);
+						console.log("Turma Removida: ", change.doc.id);
 						//let tabelalen = context.state.tabelas.clientes.length	
 						for (let index = 0; index < context.state.tabelas.turmas.length; index++) {
 							const element = context.state.tabelas.turmas[index];
