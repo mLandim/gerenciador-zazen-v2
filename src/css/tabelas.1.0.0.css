@@ -12,6 +12,7 @@
     border-spacing: 0;
     font-size:11px;
     background-color: #ffffff;
+    display: block;
     
 }
 .tabela-formatada > thead {

@@ -264,14 +264,14 @@
                                 </div>
                             </div>
                             <div class="input-container" style="width:20%">
-                                <label>Cpf *</label>
+                                <label>CPF</label>
                                 <div class="input-border-context regular-context" style="height:30px">
                                     <input type="text" v-mask="'###.###.###-##'"  v-model="novoDados.cpf">
-                                    <font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />
+                                    <!--<font-awesome-icon :icon="['fas','exclamation-circle']" fixed-width class="ico-context" />-->
                                 </div>
                             </div>
                             <div class="input-container" style="width:20%">
-                                <label>Rg</label>
+                                <label>RG</label>
                                 <div class="input-border" style="height:30px">
                                     <input type="text"  v-model="novoDados.rg">
 
@@ -302,7 +302,7 @@
                         <div class="formularios-inputs">
                             
                             <div class="input-container" style="width:100%">
-                                <label>Cep</label>
+                                <label>CEP</label>
                                 <div class="input-border" style="height:30px;width:20%">
                                     <input type="text" v-mask="'#####-###'"  v-model="novoDados.endereco.cep" @blur="consultaCep($event, novoDados.endereco)">
                                 </div>
@@ -1088,7 +1088,8 @@ export default {
                 console.log('cadastrarCliente')
                 let self = this
                 // verificando campos obrigatórios
-                if(self.novoDados.nome.length == 0 || self.novoDados.sobrenome.length == 0 || self.novoDados.email.length == 0 || self.novoDados.cpf.length == 0 || self.novoDados.nascimento.length == 0){
+                // self.novoDados.cpf.length == 0 || >> cadastro de indivíduos se cpf
+                if(self.novoDados.nome.length == 0 || self.novoDados.sobrenome.length == 0 || self.novoDados.email.length == 0 ||  self.novoDados.nascimento.length == 0){
 
                     alert('Preencha todos os campos obrigatórios! (*)')
 

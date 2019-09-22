@@ -25,7 +25,7 @@
     }
     .cd-grid-30{
         display: grid;
-        grid-template-rows: 30px auto;
+        grid-template-rows: 30px calc(100% - 50px);
     }
     .cd-grid-40{
         display: grid;
@@ -71,6 +71,7 @@
         position: relative;
         padding: 10px;
         box-sizing: border-box;
+        height: 100%;
     }
 
     
