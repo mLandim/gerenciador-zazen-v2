@@ -4,9 +4,12 @@ node_modules
 /src/database
 /no_git
 
+
 # local env files
 .env.local
 .env.*.local
+/.firebase
+/database
 
 # Log files
 npm-debug.log*
