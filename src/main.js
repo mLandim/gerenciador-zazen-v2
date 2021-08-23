@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import { db } from './database/database-conf'
+import { db } from './database/database-conf' // private/database...
 Vue.prototype.$db  = db
 
 // Requisições http async Axios
